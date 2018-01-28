@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <track>
+    <path>http://localhost/rsud_soetrasno_rembang/assets/ANGKA/NOMOR_ANTRIAN.mp3</path>
+    <title>nomor antrian</title>
+  </track>
+  <track>
+    <path>http://localhost/rsud_soetrasno_rembang/assets/ANGKA/MENUJU.mp3</path>
+    <title>MENUJU</title>
+  </track>
+  <track>
+    <path>http://localhost/rsud_soetrasno_rembang/assets/ANGKA/KE.mp3</path>
+    <title>KE</title>
+  </track>
+  <track>
+    <path>http://localhost/rsud_soetrasno_rembang/assets/ANGKA/RUANG/COUNTER.mp3</path>
+    <title>RUANG/COUNTER</title>
+  </track>
+  <track>
+    <path>http://localhost/rsud_soetrasno_rembang/assets/ANGKA/stop.mp3</path>
+    <title>stop</title>
+  </track>
