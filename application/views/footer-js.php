@@ -4,9 +4,7 @@
 
     <!-- BEGIN VENDOR JS-->
     <!-- build:js app-assets/js/vendors.min.js-->
-    <script src="<?php echo base_url()?>/assets/js/jquery.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/tether.min.js" type="text/javascript"></script>
-    <script src="<?php echo base_url()?>/assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/unison.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/blockUI.min.js" type="text/javascript"></script>

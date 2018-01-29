@@ -59,9 +59,15 @@ $route['store-area'] = 'Master/store_master_area';
 
 $route['master-customer'] = 'Master/master_customer';
 $route['master-produk'] = 'Master/master_produk';
+
 $route['master-outlet'] = 'Master/master_outlet';
+$route['show-outlet-by-dist-area'] = 'Master/show_outlet_by_dist_area';
+$route['store-outlet'] = 'Master/store_master_outlet';
+
 $route['master-customer-non'] = 'Master/master_customer_non';
+
 $route['master-detailer'] = 'Master/master_detailer';
+$route['store-detailer'] = 'Master/store_master_detailer';
 
 // TRANSACTION
 $route['faktur-diskon-general'] = 'Transaction/factur_discount_general';

@@ -59,6 +59,9 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 $autoload['libraries'] = array(
+  // NUCLEUS LIBARRY -- application/libraries
+  'Nucleus_Sales_Utility' => 'nsu',
+  
   'database',
   'session',
 );
@@ -139,4 +142,10 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
   'area',
+  'outlet',
+  'detailer',
+  'user_account',
+  'jabatan',
+  'detailer_keluarga',
+  'detailer_anak',
 );

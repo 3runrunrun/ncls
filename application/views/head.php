@@ -49,6 +49,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/vertical-overlay-menu.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/palette-climacon.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/selectize.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/palette-callout.min.css">
 
     <!-- END Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/style.css">
@@ -64,4 +65,6 @@
       }
       .gm-style img { max-width: none; }
   </style>
+  <script src="<?php echo base_url()?>/assets/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="<?php echo base_url()?>/assets/js/jquery.min.js" type="text/javascript"></script>
 </head>

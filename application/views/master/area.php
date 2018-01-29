@@ -13,6 +13,29 @@
             </div>
             <div class="card-body">
               <div class="card-block">
+                <?php if ( ! is_null($this->session->flashdata())): ?>
+                <?php if ( ! is_null($this->session->flashdata('error_msg'))): ?>  
+                <div class="alert alert-danger alert-dismissible fade in mb-2" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <?php echo $this->session->flashdata('error_msg'); ?>
+                </div>
+                <?php elseif ( ! is_null($this->session->flashdata('success_msg'))): ?>
+                <div class="alert alert-success alert-dismissible fade in mb-2" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <?php echo $this->session->flashdata('success_msg'); ?>
+                </div>
+                <?php elseif ( ! is_null($this->session->flashdata('query_msg'))): ?>
+                <div class="bs-callout-danger callout-border-left mt-1 p-1">
+                  <strong>Database Error!</strong>
+                  <p><?php echo $this->session->flashdata('query_msg')['message']; ?> <strong><?php echo $this->session->flashdata('query_msg')['code']; ?></strong></p>
+                </div><br />
+                <?php endif; ?>
+                <?php endif; ?>
+                <!-- /alert -->
                 <!-- Tabel -->
                 <div id="daily-activity" class="table-responsive height-250 ps-container ps-theme-default ps-active-y border-top-red" data-ps-id="919f8169-8f2a-e62c-bd13-883a2a99a52f">
                   <table class="table table-hover mb-0">
@@ -24,13 +47,13 @@
                           </tr>
                       </thead>
                       <tbody>
-                        <?php for ($i=0; $i < 5; $i++): ?>
-                          <tr>
-                              <td class="text-truncate"><?php echo $i+1; ?></td>
-                              <td class="text-truncate">Jakarta</td>
-                              <td class="text-truncate">JKT</td>
-                          </tr>
-                          <?php endfor; ?>
+                        <?php foreach ($area['data']->result() as $value): ?>
+                        <tr>
+                            <td width="5%"><?php echo $value->id; ?></td>
+                            <td width="55%"><?php echo strtoupper($value->area); ?></td>
+                            <td width="30%"><?php echo strtoupper($value->alias_area); ?></td>
+                        </tr>
+                        <?php endforeach; ?>
                       </tbody>
                   </table>
                   <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 350px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 307px;"></div></div>
@@ -73,8 +96,8 @@
                         </div>
                       </div>
                     <div class="form-group pull-right">
-                      <input type="submit" class="btn btn-success" value="Simpan">
                       <input type="reset" class="btn btn-warning" value="Batal">
+                      <input type="submit" class="btn btn-success" value="Simpan">
                     </div>
                   </form>
                 </div>
