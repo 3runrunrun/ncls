@@ -20,11 +20,15 @@
                         <div class="col-sm-4 col-xs-12">
                           <div class="form-group row">
                             <div class="col-sm-12">
-                              <select name="distributor" id="src-distributor" class="form-control">
+                              <select name="distributor" id="src-distributor" class="form-control select2">
                                 <option value="" selected disabled>Pilih Distributor</option>
-                                <option value="all">ALL</option>
-                                <option value="ptkp">PTKP</option>
-                                <option value="ppg">PPG</option>
+                                <?php if ($master_distributor['data']->num_rows() < 1): ?>
+                                <option value="">Distributor belum tersedia</option>
+                                <?php else: ?>
+                                <?php foreach ($master_distributor['data']->result() as $value): ?>
+                                <option value="<?php echo $value->id; ?>"><?php echo strtoupper($value->alias_distributor); ?></option>
+                                <?php endforeach ?>
+                                <?php endif; ?>
                               </select>
                             </div>
                             <!-- /ALL -->
@@ -95,8 +99,8 @@
                             <th>Segmen</th>
                             <th>Alamat</th>
                             <th>Kota</th>
-                            <th>Area PTKP</th>
-                            <th>Area PPG</th>
+                            <th>Distributor</th>
+                            <th>Area Distributor</th>
                             <th>Kode Lam</th>
                             <th>Detailer</th>
                             <th>Periode</th>
@@ -107,21 +111,21 @@
                       <tbody>
                         <?php foreach ($outlet['data']->result() as $value): ?>
                         <tr>
-                          <td><?php echo $value->prefix_id.$value->id; ?></td>
+                          <td><?php echo $value->id; ?></td>
                           <td><?php echo ucwords($value->nama_outlet); ?></td>
                           <td><?php echo strtoupper($value->segmen); ?></td>
                           <td><?php echo ucwords($value->alamat); ?></td>
                           <td><?php echo ucwords($value->kota); ?></td>
-                          <td><?php echo ucwords($value->area_ptkp); ?> (<?php echo strtoupper($value->alias_area_ptkp); ?>)</td>
-                          <td><?php echo ucwords($value->area_ppg); ?> (<?php echo strtoupper($value->alias_area_ppg); ?>)</td>
-                          <td><?php $kode_lama = ( ! isset($value->kode_lama)) ? '-' : $value->kode_lama; echo $kode_lama; ?></td>
+                          <td><?php echo ucwords($value->alias_distributor); ?></td>
+                          <td><?php echo ucwords($value->alias_area); ?> (<?php echo strtoupper($value->area); ?>)</td>
+                          <td><?php $value->kode_lam; ?></td>
                           <td><?php $nama_detailer = ( ! isset($value->nama_detailer)) ? '-' : $value->nama_detailer; echo ucwords($nama_detailer); ?></td>
                           <td><?php $periode = ( ! isset($value->periode)) ? '-' : $value->periode; echo ucwords($periode); ?></td>
                           <td><?php $dispensing = ( ! isset($value->dispensing)) ? '-' : $value->dispensing; echo strtoupper($dispensing); ?></td>
                           <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                              <a href="#" class="btn btn-warning"><span class="ladda-label"><i class="fa fa-pencil"></i></span></a>
-                              <a href="#" class="btn btn-danger"><span class="ladda-label"><i class="fa fa-trash-o"></i></span></a>
+                            <div class="btn-group-vertical" role="group" >
+                              <a href="<?php echo site_url() ?>/master-outlet/<?php echo $value->id ?>" class="btn btn-warning"><span class="ladda-label"><i class="fa fa-pencil"></i></span></a>
+                              <button type="button" onclick="delete_outlet('<?php echo $value->id ?>')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
                             </div>
                           </td>
                         </tr>
@@ -187,19 +191,37 @@
                       </div>
                       <!-- /prefix-id /id -->
                       <div class="form-group row">
-                        <label class="label-control col-sm-2">Detailer</label>
+                        <label class="label-control col-sm-2">Area Distributor</label>
                         <div class="col-sm-4">
-                          <select name="id_detailer" class="form-control border-primary select2">
-                            <option value="" selected disabled>Pilih Detailer</option>
-                            <?php if ($detailer['data']->num_rows() < 1): ?>
-                              <option value="">Detailerbelum tersedia</option>
+                          <select name="id_area" class="form-control select2" onchange="show_distributor_by_area(this); show_detailer_by_area(this)">
+                            <option value="" selected disabled>Pilih Area</option>
+                            <?php if ($area['data']->num_rows() < 1): ?>
+                            <option value="">Area belum tersedia</option>
                             <?php else: ?>
-                            <?php foreach ($detailer['data']->result() as $value): ?>
-                            <option value="<?php echo $value->id; ?>">(<?php echo $value->id; ?>) - <?php echo strtoupper($value->nama); ?></option>
+                            <?php foreach ($area['data']->result() as $value): ?>
+                            <option value="<?php echo $value->id; ?>">(<?php echo strtoupper($value->alias_area); ?>) - <?php echo strtoupper($value->area); ?></option>
                             <?php endforeach ?>
                             <?php endif; ?>
                           </select>
                         </div>
+                        <label class="label-control col-sm-2">Distributor</label>
+                        <div class="col-sm-4">
+                          <select name="id_distributor" id="distributor" class="form-control border-primary select2">
+                            <option value="" selected disabled>Pilih Distributor</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- /distributor -->
+                      <div class="form-group row">
+                        <label class="label-control col-sm-2">Detailer</label>
+                        <div class="col-sm-10">
+                          <select name="id_detailer" id="detailer" class="form-control border-primary select2">
+                            <option value="" selected disabled>Pilih Detailer</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- /detailer -->
+                      <div class="form-group row">
                         <label class="label-control col-sm-2">Periode</label>
                         <div class="col-sm-4">
                           <input type="date" name="periode" class="form-control border-primary">
@@ -220,35 +242,6 @@
                         </div>
                       </div>
                       <!-- /nama -->
-                      <div class="form-group row">
-                        <label class="label-control col-sm-2">Area PTKP</label>
-                        <div class="col-sm-4">
-                          <select name="id_area_ptkp" class="form-control border-primary select2">
-                            <option value="" selected disabled>Pilih Area PTKP</option>
-                            <?php if ($area['data']->num_rows() < 1): ?>
-                              <option value="">Area PTKP belum tersedia</option>
-                            <?php else: ?>
-                            <?php foreach ($area['data']->result() as $value): ?>
-                            <option value="<?php echo $value->id; ?>">(<?php echo $value->id; ?>) - <?php echo strtoupper($value->area); ?></option>
-                            <?php endforeach ?>
-                            <?php endif; ?>
-                          </select>
-                        </div>
-                        <label class="label-control col-sm-2">Area PPG</label>
-                        <div class="col-sm-4">
-                          <select name="id_area_ppg" class="form-control border-primary select2">
-                            <option value="" selected disabled>Pilih Area PPG</option>
-                            <?php if ($area['data']->num_rows() < 1): ?>
-                              <option value="">Area PPG belum tersedia</option>
-                            <?php else: ?>
-                            <?php foreach ($area['data']->result() as $value): ?>
-                            <option value="<?php echo $value->id; ?>">(<?php echo $value->id; ?>) - <?php echo strtoupper($value->area); ?></option>
-                            <?php endforeach ?>
-                            <?php endif; ?>
-                          </select>
-                        </div>
-                      </div>
-                      <!-- /area -->
                       <div class="form-group row">
                         <label class="label-control col-sm-2">Kota</label>
                         <div class="col-sm-10">
@@ -284,8 +277,8 @@
                       </div>
                       <!-- /segmen /dispensing -->
                       <div class="form-group pull-right">
-                        <input type="submit" class="btn btn-warning" name="" value="Batal">
                         <input type="submit" class="btn btn-success" name="" value="Simpan">
+                        <input type="submit" class="btn btn-warning" name="" value="Batal">
                       </div>
                     </div>
                   </form>
@@ -298,4 +291,24 @@
     </div>
   </div>
 </div>
-<script type="text/javascript" src="<?php echo base_url() ?>/process-js/show-outlet-by-dist-area.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>/process-js/master/outlet/show-distributor-by-kind.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>/process-js/master/outlet/show-outlet-by-dist-area.js"></script>
+<script type="text/javascript">
+  function delete_outlet(id) {
+    var r = confirm("Apakah yakin menghapus outlet ini?");
+    if (r == true) {
+      $.ajax({
+        type: "POST",
+        url: "<?php echo site_url(); ?>/store-outlet/delete",
+        data: {'id': id},
+        dataType: "text",
+           success:  function(data) {
+               location.reload();
+           },
+           error: function(x, t, m) {
+
+           }
+      });
+    } else {}
+  }
+</script>

@@ -141,11 +141,21 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = array(
-  'area',
-  'outlet',
-  'detailer',
-  'user_account',
-  'jabatan',
-  'detailer_keluarga',
-  'detailer_anak',
+  'Area',
+  'Master_Distributor',
+  'Distributor',
+  'Outlet',
+  'Detailer',
+  'User_Account',
+  'Jabatan',
+  'Detailer_Keluarga',
+  'Detailer_Anak',
+  'Customer',
+  'Customer_Non',
+  // BARANG == PRODUK
+  'Produk',
+  'Barang_Masuk',
+  'Barang_Keluar',
+  'Barang_Stok',
+  'Barang_Stok_Bulanan',
 );

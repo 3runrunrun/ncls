@@ -24,4 +24,11 @@ class Nucleus_Sales_Utility
 
     return $stacks;
   }
+
+  public function date_formatter($date_string, $format)
+  {
+    $date_object = date_create($date_string);
+    $formatted_date = date_format($date_object, $format);
+    return $formatted_date;
+  }
 }

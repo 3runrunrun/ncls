@@ -37,6 +37,27 @@ class Detailer extends CI_Model {
     return $ret_val;
   }
 
+  public function get_data_by_area($id_area, $column = '*')
+  {
+    $this->db->select($column);
+    $this->db->from('detailer');
+    $this->db->where('id_area', $id_area);
+    $this->db->where('hapus', null);
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
   public function get_data_by_jabatan($id_jabatan, $column = '*')
   {
     $this->db->select($column);

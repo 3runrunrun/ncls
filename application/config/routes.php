@@ -57,14 +57,33 @@ $route['translate_uri_dashes'] = FALSE;
 $route['master-area'] = 'Master/master_area';
 $route['store-area'] = 'Master/store_master_area';
 
+$route['master-distributor'] = 'Master/master_distributor';
+$route['store-m-distributor'] = 'Master/store_core_distributor';
+$route['store-distributor'] = 'Master/store_master_distributor';
+
 $route['master-customer'] = 'Master/master_customer';
+$route['master-customer/(:any)'] = 'Master/master_customer/$1';
+$route['show-customer-by-area'] = 'Master/show_customer_by_area';
+$route['store-customer/(:any)'] = 'Master/store_master_customer/$1';
+
 $route['master-produk'] = 'Master/master_produk';
+$route['store-produk/(:any)'] = 'Master/store_master_produk/$1';
+
+$route['master-stok'] = 'Master/master_stok';
+$route['master-stok/(:any)'] = 'Master/master_stok/$1';
+$route['store-stok'] = 'Master/store_master_stok';
 
 $route['master-outlet'] = 'Master/master_outlet';
+$route['master-outlet/(:any)'] = 'Master/master_outlet/$1';
+$route['show-distributor-by-area'] = 'Master/show_distributor_by_area';
+$route['show-detailer-by-area'] = 'Master/show_detailer_by_area';
 $route['show-outlet-by-dist-area'] = 'Master/show_outlet_by_dist_area';
 $route['store-outlet'] = 'Master/store_master_outlet';
 
 $route['master-customer-non'] = 'Master/master_customer_non';
+$route['master-customer-non/(:any)'] = 'Master/master_customer_non/$1';
+$route['show-customer-non-by-area'] = 'Master/show_customer_non_by_area';
+$route['store-customer-non/(:any)'] = 'Master/store_master_customer_non/$1';
 
 $route['master-detailer'] = 'Master/master_detailer';
 $route['store-detailer'] = 'Master/store_master_detailer';

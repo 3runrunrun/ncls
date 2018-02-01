@@ -12,9 +12,10 @@ class Outlet extends CI_Model {
   {
     $this->db->select($column, FALSE);
     $this->db->from('outlet a');
-    $this->db->join('area b', 'a.id_area_ptkp = b.id', 'left');
+    $this->db->join('distributor b', 'a.id_distributor = b.id');
+    $this->db->join('master_distributor e', 'b.id_distributor = e.id');
     $this->db->join('detailer c', 'a.id_detailer = c.id', 'left');
-    $this->db->join('area d', 'a.id_area_ppg = d.id', 'left');
+    $this->db->join('area d', 'b.id_area = d.id');
     $this->db->where('a.hapus', null);
     $result = $this->db->get();
     if ( ! $result) {
@@ -28,6 +29,8 @@ class Outlet extends CI_Model {
         'data' => $result
         );
     }
+    // echo $this->db->last_query();
+    // die();
     return $ret_val;
   }
 
@@ -35,15 +38,13 @@ class Outlet extends CI_Model {
   {
     $this->db->select($column, FALSE);
     $this->db->from('outlet a');
-    $this->db->join('area b', 'a.id_area_ptkp = b.id', 'left');
+    $this->db->join('distributor b', 'a.id_distributor = b.id');
+    $this->db->join('master_distributor e', 'b.id_distributor = e.id');
     $this->db->join('detailer c', 'a.id_detailer = c.id', 'left');
-    $this->db->join('area d', 'a.id_area_ppg = d.id', 'left');
+    $this->db->join('area d', 'b.id_area = d.id');
+    $this->db->where('e.id', $distributor);
+    $this->db->where('a.id_area', $id_area);
     $this->db->where('a.hapus', null);
-    if ($distributor == 'ptkp') {
-      $this->db->where('b.id', $id_area);
-    } elseif ($distributor == 'ppg') {
-      $this->db->where('d.id', $id_area);
-    }
     $result = $this->db->get();
     if ( ! $result) {
       $ret_val = array(

@@ -41,17 +41,24 @@
                   <table class="table table-hover mb-0">
                       <thead>
                           <tr>
-                              <th>Kode</th>
-                              <th>Nama Area</th>
-                              <th>Alias Area</th>
+                              <th width="5%">Kode</th>
+                              <th width="50%">Nama Area</th>
+                              <th width="15%">Alias Area</th>
+                              <th width="20">Tools</th>
                           </tr>
                       </thead>
                       <tbody>
                         <?php foreach ($area['data']->result() as $value): ?>
                         <tr>
-                            <td width="5%"><?php echo $value->id; ?></td>
-                            <td width="55%"><?php echo strtoupper($value->area); ?></td>
-                            <td width="30%"><?php echo strtoupper($value->alias_area); ?></td>
+                          <td><?php echo $value->id; ?></td>
+                          <td><?php echo strtoupper($value->area); ?></td>
+                          <td><?php echo strtoupper($value->alias_area); ?></td>
+                          <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <a href="<?php echo site_url() ?>/Master/master_area/<?php echo $value->id; ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                              <button type="button" onclick="delete_area('<?php echo $value->id; ?>')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                          </td>
                         </tr>
                         <?php endforeach; ?>
                       </tbody>
