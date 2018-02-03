@@ -41,15 +41,17 @@
               <!-- /pencarian -->
               <div class="card-block">
                 <!-- Tabel -->
-                <div id="daily-activity" class="table-responsive height-250 ps-container ps-theme-default ps-active-y border-top-red" data-ps-id="919f8169-8f2a-e62c-bd13-883a2a99a52f">
+                <div id="daily-activity" class="table-responsive height-250 border-top-red">
                   <table class="table table-hover mb-0">
                       <thead>
                           <tr>
-                              <th width="10%">Kode</th>
-                              <th width="20%">Nama</th>
-                              <th width="30%">Alamat</th>
-                              <th width="20%">Area</th>
-                              <th width="20%">Tools</th>
+                            <th width="5%">Kode</th>
+                            <th width="20%">Nama</th>
+                            <th width="10%">Spesialis</th>
+                            <th width="20%">Nama<br />Lokasi Praktek</th>
+                            <th width="30%">Alamat</th>
+                            <th width="10%">Area</th>
+                            <th width="10%">Tools</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -57,11 +59,13 @@
                         <tr>
                           <td><?php echo strtoupper($value->id); ?></td>
                           <td><?php echo ucwords($value->nama); ?></td>
+                          <td><?php echo ucwords($value->spesialis); ?></td>
+                          <td><?php echo ucwords($value->nama_lokasi_praktik); ?></td>
                           <td><?php echo ucwords($value->alamat); ?></td>
                           <td><?php echo ucwords($value->area); ?> (<?php echo strtoupper($value->alias_area); ?>)</td>
                           <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                              <a href="<?php echo site_url() ?>/master-customer-non/<?php echo $value->id ?>" class="btn btn-warning"><span class="ladda-label"><i class="fa fa-pencil"></i></span></a>
+                            <div class="btn-group-vertical" role="group">
+                              <a href="<?php echo site_url() ?>/master-customer-non/<?php echo $value->id ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                               <button type="button" onclick="delete_customer_non('<?php echo $value->id ?>')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
                             </div>
                           </td>
@@ -69,7 +73,6 @@
                         <?php endforeach ?>
                       </tbody>
                   </table>
-                  <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 350px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 307px;"></div></div>
                 </div>
                 <!-- End of Tabel -->
               </div>
@@ -97,14 +100,44 @@
                             <input class="form-control border-primary" name="id" type="text" placeholder="Kode" maxlength="10" minlength="2">
                           </div>
                         </div>
-                        <!-- /kemasan -->
+                        <!-- /kode-customer-non -->
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Nama</label>
                           <div class="col-sm-10">
                             <input class="form-control border-primary" name="nama" type="text" placeholder="Nama Customer">
                           </div>
                         </div>
-                        <!-- /nama-detailer -->
+                        <!-- /nama-customer-non -->
+                        <div class="form-group row">
+                          <label class="label-control col-sm-2">Spesialis</label>
+                          <div class="col-sm-10">
+                            <input class="form-control border-primary" name="spesialis" type="text" placeholder="Spesialis">
+                          </div>
+                        </div>
+                        <!-- /spesialis -->
+                        <div class="form-group row">
+                          <label class="label-control col-sm-2">Nama Lokasi Praktik</label>
+                          <div class="col-sm-10">
+                            <input class="form-control border-primary" name="nama_lokasi_praktik" type="text" placeholder="Nama Lokasi Praktik">
+                          </div>
+                        </div>
+                        <!-- /nama-lokasi-praktik -->
+                        <div class="form-group row">
+                          <label class="label-control col-sm-2">RM</label>
+                          <div class="col-sm-6">
+                            <select name="id_area" class="form-control border-primary select2">
+                              <option value="" selected disabled>Pilih RM</option>
+                              <?php if ($detailer['data']->num_rows() < 1): ?>
+                                <option value="">RM belum tersedia</option>
+                              <?php else: ?>
+                              <?php foreach ($detailer['data']->result() as $value): ?>
+                              <option value="<?php echo $value->id; ?>">(<?php echo strtoupper($value->nama); ?></option>
+                              <?php endforeach ?>
+                              <?php endif; ?>
+                            </select>
+                          </div>
+                        </div>
+                        <!-- /detailer -->
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Alamat</label>
                           <div class="col-sm-10">
@@ -132,7 +165,7 @@
                     </div>
                     <div class="form-action" align="center">
                       <input type="submit" class="btn btn-success" name="" value="Simpan">
-                      <input type="button" class="btn btn-warning mr-1" name="" value="Batal">
+                      <input type="reset" class="btn btn-warning mr-1" name="" value="Batal">
                     </div>
                     <!-- /submit -->
                   </div>

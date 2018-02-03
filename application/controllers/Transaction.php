@@ -17,6 +17,69 @@ class Transaction extends CI_Controller {
     $this->load->view('footer-js');
   }
 
+  /////////////////////
+  // INTENS & EKSTEN //
+  /////////////////////
+
+  public function prospek_ineks()
+  {
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/prospek-intens-eksten/prospek-intens-eksten');
+    $this->load->view('footer-js');
+  }
+
+  //////////////////////////////
+  // EVALUASI TARGET CUSTOMER //
+  //////////////////////////////
+
+  public function evaluasi_target_customer()
+  {
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/evaluasi-target-customer/evaluasi-target-customer');
+    $this->load->view('footer-js');
+  }
+
+  /////////
+  // WPR //
+  /////////
+
+  public function wpr()
+  {
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/wpr/wpr');
+    $this->load->view('footer-js');
+  }
+
+  /////////////////
+  // PROMO TRIAL //
+  /////////////////
+
+  public function promo_trial()
+  {
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/promo-trial/promo-trial');
+    $this->load->view('footer-js');
+  }
+
+  ////////////
+  // FAKTUR //
+  ////////////
+
+  public function daftar_permohonan_factur()
+  {
+    $data['master_distributor'] = $this->Master_Distributor->get_data('id, alias_distributor');
+
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/factur/daftar-permohonan', $data);
+    $this->load->view('footer-js');
+  }
+
   /**
    * Fungsi untuk menampilkan tabel dan form permohonan faktur diskon general
    * @return void

@@ -12,12 +12,13 @@ class Detailer extends CI_Model {
   {
     $this->db->select($column, FALSE);
     $this->db->from('detailer a');
-    $this->db->join('jabatan b', 'a.id_jabatan = b.id');
-    $this->db->join('area c', 'a.id_area = c.id');
-    $this->db->join('(select id, nama from detailer where id_jabatan = \'spv\') d', 'a.kode_supervisor = d.id', 'left', FALSE);
-    $this->db->join('(select id, nama from detailer where id_jabatan = \'rm\') e', 'a.kode_rm = e.id', 'left', FALSE);
-    $this->db->join('(select id, nama from detailer where id_jabatan = \'rsm\') f', 'a.kode_rsm = f.id', 'left', FALSE);
-    $this->db->join('(select id, nama from detailer where id_jabatan = \'rm\') g', 'a.kode_rm_old = g.id', 'left', FALSE);
+    $this->db->join('detailer_field_force h', 'a.id = h.id_detailer');
+    $this->db->join('jabatan b', 'h.id_jabatan = b.id');
+    $this->db->join('area c', 'h.id_area = c.id');
+    $this->db->join('(select detailer.id, nama from detailer join detailer_field_force on detailer.id = detailer_field_force.id_detailer where detailer_field_force.id_jabatan = \'spv\') d', 'h.id_supervisor = d.id', 'left', FALSE);
+    $this->db->join('(select detailer.id, nama from detailer join detailer_field_force on detailer.id = detailer_field_force.id_detailer where detailer_field_force.id_jabatan = \'rm\') e', 'h.id_rm = e.id', 'left', FALSE);
+    $this->db->join('(select detailer.id, nama from detailer join detailer_field_force on detailer.id = detailer_field_force.id_detailer where detailer_field_force.id_jabatan = \'rsm\') f', 'h.id_rsm = f.id', 'left', FALSE);
+    $this->db->join('(select detailer.id, nama from detailer join detailer_field_force on detailer.id = detailer_field_force.id_detailer where detailer_field_force.id_jabatan = \'rm\') g', 'h.id_rm_old = g.id', 'left', FALSE);
     $this->db->where('a.status', 'on');
     $this->db->where('a.hapus', null);
     $result = $this->db->get();
@@ -62,7 +63,8 @@ class Detailer extends CI_Model {
   {
     $this->db->select($column);
     $this->db->from('detailer a');
-    $this->db->join('jabatan b', 'a.id_jabatan = b.id');
+    $this->db->join('detailer_field_force c', 'a.id = c.id_detailer');
+    $this->db->join('jabatan b', 'c.id_jabatan = b.id');
     $this->db->where('b.id', $id_jabatan);
     $this->db->where('a.hapus', null);
     $result = $this->db->get();

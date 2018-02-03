@@ -145,11 +145,12 @@ $autoload['model'] = array(
   'Master_Distributor',
   'Distributor',
   'Outlet',
-  'Detailer',
   'User_Account',
   'Jabatan',
+  'Detailer',
   'Detailer_Keluarga',
   'Detailer_Anak',
+  'Detailer_FF',
   'Customer',
   'Customer_Non',
   // BARANG == PRODUK

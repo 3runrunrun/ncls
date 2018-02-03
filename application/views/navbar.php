@@ -130,7 +130,7 @@
           <ul class="dropdown-menu">
             <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Subdist</a>
             </li>
-            <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Prospect Intensifikasi Ekstensifikasi</a>
+            <li data-menu=""><a href="<?php echo site_url() ?>/prospek-ineks" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Prospek Intensifikasi Ekstensifikasi</a>
             </li>
             <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Fixed cost field force, ratio dana, fixed cost distributor</a>
             </li>
@@ -138,7 +138,7 @@
             </li>
             <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Prospect Marketing Activity</a>
             </li>
-            <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Evaluasi Target Customer</a>
+            <li data-menu=""><a href="<?php echo site_url() ?>/evaluasi-target-customer" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Evaluasi Target Customer</a>
             </li>
             <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu ">
               <a href="#" data-toggle="dropdown" class="dropdown-item dropdown "><i class="fa fa-money"></i>Monthly call plan <i class="fa fa-chevron-right pull-right"></i></a>
@@ -153,18 +153,20 @@
                 </li>
               </ul>
             </li>
-             <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> WRP</a>
+             <li data-menu=""><a href="<?php echo site_url(); ?>/wpr" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> WPR</a>
             </li>
-             <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Promo Trial</a>
+             <li data-menu=""><a href="<?php echo site_url(); ?>/promo-trial" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Promo Trial</a>
             </li>
             <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu">
-              <a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class="fa fa-envelope"></i>Surat Permohonan Disc. On &amp; Off Faktur  <i class="fa fa-chevron-right pull-right"></i></a>
+              <a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class="fa fa-money"></i>Surat Permohonan Disc. On &amp; Off Faktur  <i class="fa fa-chevron-right pull-right"></i></a>
               <ul class="dropdown-menu">
-                <li data-menu=""><a href="<?php echo site_url(); ?>/faktur-diskon-general" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-envelope"></i>General</a>
+                <li data-menu=""><a href="<?php echo site_url(); ?>/daftar-faktur" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Daftar Permohonan Faktur</a>
                 </li>
-                <li data-menu=""><a href="<?php echo site_url(); ?>/faktur-diskon-tender" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-envelope"></i>Tender</a>
+                <li data-menu=""><a href="<?php echo site_url(); ?>/faktur-diskon-general" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>General</a>
                 </li>
-                <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-envelope"></i>per Nomor Faktur Ethical</a></li>
+                <li data-menu=""><a href="<?php echo site_url(); ?>/faktur-diskon-tender" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Tender</a>
+                </li>
+                <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>per Nomor Faktur Ethical</a></li>
               </ul>
             </li>
           </ul>

@@ -89,5 +89,11 @@ $route['master-detailer'] = 'Master/master_detailer';
 $route['store-detailer'] = 'Master/store_master_detailer';
 
 // TRANSACTION
+$route['prospek-ineks'] = 'Transaction/prospek_ineks';
+$route['evaluasi-target-customer'] = 'Transaction/evaluasi_target_customer';
+$route['wpr'] = 'Transaction/wpr';
+$route['promo-trial'] = 'Transaction/promo_trial';
+
+$route['daftar-faktur'] = 'Transaction/daftar_permohonan_factur';
 $route['faktur-diskon-general'] = 'Transaction/factur_discount_general';
 $route['faktur-diskon-tender'] = 'Transaction/factur_discount_tender';

@@ -24,8 +24,6 @@
                             <th>Harga (HNA)</th>
                             <th>Harga (H.Askes)</th>
                             <th>Harga Master</th>
-                            <th>Kode BUM</th>
-                            <th>Nama</th>
                             <th>Gol</th>
                             <th>Gol1</th>
                             <th>Antibiotik</th>
@@ -50,8 +48,6 @@
                           <td>Rp <?php echo $value->harga_hna; ?></td>
                           <td>Rp <?php echo $value->harga_h_askes; ?></td>
                           <td>Rp <?php echo $value->harga_master; ?></td>
-                          <td><?php echo strtoupper($value->kode_bum); ?></td>
-                          <td><?php echo strtoupper($value->nama_bum); ?></td>
                           <td><?php echo $value->golongan; ?></td>
                           <td><?php echo $value->golongan1; ?></td>
                           <td><?php echo strtoupper($value->antibiotik); ?></td>
@@ -131,16 +127,6 @@
                           </div>
                         </div>
                         <!-- /harga-h-askes /harga-master -->
-                        <div class="form-group row">
-                          <label class="label-control col-sm-2">Nama<br />BUM</label>
-                          <div class="col-sm-10">
-                            <select name="kode_bum" id="" class="form-control">
-                              <option value="" selected disabled>Pilih Nama BUM</option>
-                              <option value="nama bum">Nama BUM</option>
-                            </select>
-                          </div>
-                        </div>
-                        <!-- /nama-bum -->
                         <div class="form-group row">
                           <div class="col-sm-4 offset-sm-2">
                             <label class="label-control">Gol</label>

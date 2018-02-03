@@ -137,7 +137,7 @@ class Master extends CI_Controller {
    */
   public function master_produk()
   {
-    $data['produk'] = $this->Produk->get_data('a.id, a.nama, a.kemasan, a.harga_hna, a.harga_h_askes, a.harga_master, a.kode_bum, a.nama_bum, a.golongan, a.golongan1, COALESCE(a.antibiotik, \'n\') as antibiotik, COALESCE(a.barang_baru, \'N\') as barang_baru, COALESCE(a.barang_ask, \'n\') as barang_ask, coalesce(a.new_cn, \'n\') as new_cn, a.cn_new_barang, coalesce(a.start_regular, \'-\') as start_regular, coalesce(a.barang_master, \'n\') as barang_master, coalesce(a.diskon, \'0\') as diskon, b.area, coalesce(a.keterangan_region, \'-\') as keterangan_region, coalesce(a.segmen, \'-\') as segmen');
+    $data['produk'] = $this->Produk->get_data('a.id, a.nama, a.kemasan, a.harga_hna, a.harga_h_askes, a.harga_master, a.golongan, a.golongan1, COALESCE(a.antibiotik, \'n\') as antibiotik, COALESCE(a.barang_baru, \'N\') as barang_baru, COALESCE(a.barang_ask, \'n\') as barang_ask, coalesce(a.new_cn, \'n\') as new_cn, a.cn_new_barang, coalesce(a.start_regular, \'-\') as start_regular, coalesce(a.barang_master, \'n\') as barang_master, coalesce(a.diskon, \'0\') as diskon, b.area, coalesce(a.keterangan_region, \'-\') as keterangan_region, coalesce(a.segmen, \'-\') as segmen');
     $data['area'] = $this->Area->get_data();
     $data['barang_master'] = $this->Produk->get_data('a.id, a.nama');
 
@@ -354,14 +354,15 @@ class Master extends CI_Controller {
    */
   public function master_detailer()
   {
-    $data['detailer'] = $this->Detailer->get_data("a.id, a.nama, case a.tanggal_lahir when '0' then '-' else a.tanggal_lahir end as tanggal_lahir, case a.tanggal_masuk when '0' then '-' else a.tanggal_masuk end as tanggal_masuk, case a.tanggal_mutasi when '0' then '-' else a.tanggal_mutasi end as tanggal_mutasi, case a.tanggal_keluar when '0' then '-' else a.tanggal_keluar end as tanggal_keluar, a.keterangan, c.area, a.agama, a.golongan, a.subarea, d.nama as nama_spv, e.nama as nama_rm, f.nama as nama_rsm, g.nama as nama_rm_old");
+    $data['detailer'] = $this->Detailer->get_data("a.id, upper(a.nama) as nama, case h.tanggal_masuk when '0' then '-' else h.tanggal_masuk end as tanggal_masuk, case h.tanggal_mutasi when '0' then '-' else h.tanggal_mutasi end as tanggal_mutasi, case h.tanggal_keluar when '0' then '-' else h.tanggal_keluar end as tanggal_keluar, a.keterangan, upper(c.area) as area, upper(a.agama) as agama, upper(a.golongan) as golongang, upper(h.subarea) as subarea, a.status, upper(d.nama) as nama_spv, upper(e.nama) as nama_rm, upper(f.nama) as nama_rsm, upper(g.nama) as nama_rm_old");
     // die();
     $data['area'] = $this->Area->get_data();
     $data['jabatan'] = $this->Jabatan->get_data();
-    $data['supervisor'] = $this->Detailer->get_data_by_jabatan('spv', 'a.id, a.nama, a.id_jabatan');
-    $data['rm'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama, a.id_jabatan');
-    $data['rsm'] = $this->Detailer->get_data_by_jabatan('rsm', 'a.id, a.nama, a.id_jabatan');
-    $data['rm_lama'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama, a.id_jabatan');
+    $data['supervisor'] = $this->Detailer->get_data_by_jabatan('spv', 'a.id, a.nama, c.id_jabatan');
+    $data['rm'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama, c.id_jabatan');
+    $data['rsm'] = $this->Detailer->get_data_by_jabatan('rsm', 'a.id, a.nama, c.id_jabatan');
+    $data['rm_lama'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama, c.id_jabatan');
+    $data['detailer_exchange'] = $this->Detailer->get_data('a.id, a.nama');
 
     if ($data['detailer']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['detailer']['data']);
@@ -378,6 +379,7 @@ class Master extends CI_Controller {
     // init variable
     $input_var = $this->input->post();
     $detailer_var = array();
+    $detailerff_var = array();
     $detailer_keluarga_var = array();
     $detailer_anak_var = array();
     $user_account_var = array();
@@ -389,34 +391,54 @@ class Master extends CI_Controller {
     $user_account_var['jenis'] = $input_var['id_jabatan'];
 
     $detailer_var['id'] = $input_var['id'];
-    $detailer_var['id_area'] = $input_var['id_area'];
-    $detailer_var['id_jabatan'] = $input_var['id_jabatan'];
-    $detailer_var['nama'] = $input_var['nama'];
-    $detailer_var['tanggal_lahir'] = $input_var['tanggal_lahir'];
-    $detailer_var['tanggal_masuk'] = $input_var['tanggal_masuk'];
-    $detailer_var['tanggal_mutasi'] = $input_var['tanggal_mutasi'];
-    $detailer_var['tanggal_keluar'] = $input_var['tanggal_keluar'];
-    $detailer_var['agama'] = $input_var['agama'];
-    $detailer_var['golongan'] = $input_var['golongan'];
-    $detailer_var['subarea'] = $input_var['subarea'];
-    $detailer_var['kode_supervisor'] = $input_var['kode_supervisor'];
-    $detailer_var['kode_rm'] = $input_var['kode_rm'];
-    $detailer_var['kode_rsm'] = $input_var['kode_rsm'];
-    $detailer_var['kode_rm_old'] = $input_var['kode_rm_old'];
-    $detailer_var['status'] = 'on';
     $detailer_var['ktp'] = $input_var['ktp'];
-    $detailer_var['jenis_kelamin'] = $input_var['jenis_kelamin'];
+    $detailer_var['nama'] = $input_var['nama'];
+    $detailer_var['golongan'] = $input_var['golongan'];
     $detailer_var['tempat_lahir'] = $input_var['tempat_lahir'];
+    $detailer_var['tanggal_lahir'] = $input_var['tanggal_lahir'];
+    $detailer_var['jenis_kelamin'] = $input_var['jenis_kelamin'];
+    $detailer_var['agama'] = $input_var['agama'];
     $detailer_var['kewarganegaraan'] = $input_var['kewarganegaraan'];
     $detailer_var['pendidikan_terakhir'] = $input_var['pendidikan_terakhir'];
     $detailer_var['status_perkawinan'] = $input_var['status_perkawinan'];
+    $detailer_var['status'] = 'on';
+    $detailer_var['keterangan'] = $input_var['keterangan'];
+    // var_dump($detailer_var);
+
+    $detailerff_var['id_detailer'] = $input_var['id'];
+    $detailerff_var['id_area'] = $input_var['id_area'];
+    $detailerff_var['subarea'] = $input_var['subarea'];
+    $detailerff_var['id_jabatan'] = $input_var['id_jabatan'];
+    $detailerff_var['tanggal_masuk'] = $input_var['tanggal_masuk'];
+    $detailerff_var['tanggal_mutasi'] = $input_var['tanggal_mutasi'];
+    $detailerff_var['tanggal_keluar'] = $input_var['tanggal_keluar'];
+    $detailerff_var['id_rm'] = $input_var['id_rm'];
+    $detailerff_var['id_rsm'] = $input_var['id_rsm'];
+    $detailerff_var['id_rm_old'] = $input_var['id_rm_old'];
+    $detailerff_var['id_supervisor'] = $input_var['id_supervisor'];
+    $detailerff_var['telp_rumah'] = $input_var['telp_rumah'];
+    $detailerff_var['no_hp'] = $input_var['no_hp'];
+    $detailerff_var['net_salary'] = $input_var['net_salary'];
+    $detailerff_var['housing'] = $input_var['housing'];
+    $detailerff_var['tunjangan'] = $input_var['tunjangan'];
+    $detailerff_var['sewa_kendaraan'] = $input_var['sewa_kendaraan'];
+    $detailerff_var['bank'] = $input_var['bank'];
+    $detailerff_var['akun'] = $input_var['akun'];
+    $detailerff_var['id_detailer_exchange'] = $input_var['id_detailer_exchange'];
+    $detailerff_var['status'] = 'new';
+    $detailerff_var['keterangan'] = $input_var['keterangan'];
+    // var_dump($detailerff_var);
 
     $detailer_keluarga_var['id_detailer'] = $detailer_var['id'];
     $detailer_keluarga_var['istri'] = $input_var['istri'];
+    // var_dump($detailer_keluarga_var);
+
+    // die();
 
     // trans begin
     $this->db->trans_begin();
     $this->Detailer->store($detailer_var);
+    $this->Detailer_FF->store($detailerff_var);
     $this->User_Account->store($user_account_var);
     // jika tidak punya istri, tidak input data istri
     if ( ! empty($input_var['istri']) && ! empty($input_var['status_perkawinan'])) {
@@ -435,15 +457,12 @@ class Master extends CI_Controller {
     if ($this->db->trans_status() === FALSE) {
       $this->db->trans_rollback();
       $this->session->set_flashdata('error_msg', 'Penambahan data detailer <strong>gagal</strong>.');
-      $url = site_url() . '/master-detailer';
-      header("Location: $url");
     } else {
       // $this->db->trans_rollback();
       $this->db->trans_commit();
       $this->session->set_flashdata('success_msg', 'Data detailer baru <strong>berhasil</strong> disimpan.');
-      $url = site_url() . '/master-detailer';
-      header("Location: $url");
     }
+    redirect('master-detailer');
   }
 
   //////////////
@@ -456,8 +475,9 @@ class Master extends CI_Controller {
    */
   public function master_customer($kode_customer = null)
   {
-    $data['customer'] = $this->Customer->get_data('a.id, a.nama, a.alamat, b.alias_area, b.area');
+    $data['customer'] = $this->Customer->get_data('a.id, a.nama, a.spesialis, a.nama_lokasi_praktik, a.alamat, b.alias_area, b.area');
     $data['area'] = $this->Area->get_data();
+    $data['detailer'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama');
 
     if ($data['customer']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['customer']['data']);
@@ -473,7 +493,7 @@ class Master extends CI_Controller {
   {
     // $_POST['id_area'] = '03';
     $input_var = $this->input->post();
-    $data['customer'] = $this->Customer->show_by_area($input_var['id_area'], 'upper(a.id) as id, upper(a.nama) as nama, upper(alamat) as alamat, concat(upper(b.area), \' \', concat(\'(\', upper(b.alias_area),\')\')) as area');
+    $data['customer'] = $this->Customer->show_by_area($input_var['id_area'], 'upper(a.id) as id, upper(a.nama) as nama, upper(a.spesialis) as spesialis, upper(a.nama_lokasi_praktik) as nama_lokasi_praktik, upper(alamat) as alamat, concat(upper(b.area), \' \', concat(\'(\', upper(b.alias_area),\')\')) as area');
     echo json_encode($data['customer']['data']->result_array());
   }
 
@@ -519,8 +539,9 @@ class Master extends CI_Controller {
    */
   public function master_customer_non()
   {
-    $data['customer_non'] = $this->Customer_Non->get_data('a.id, a.nama, a.alamat, b.alias_area, b.area');
+    $data['customer_non'] = $this->Customer_Non->get_data('a.id, a.nama, a.spesialis, a.nama_lokasi_praktik, a.alamat, b.alias_area, b.area');
     $data['area'] = $this->Area->get_data();
+    $data['detailer'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama');
 
     if ($data['customer_non']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['customer_non']['data']);
@@ -535,7 +556,7 @@ class Master extends CI_Controller {
   public function show_customer_non_by_area()
   {
     $input_var = $this->input->post();
-    $data['customer_non'] = $this->Customer_Non->show_by_area($input_var['id_area'], 'upper(a.id) as id, upper(a.nama) as nama, upper(alamat) as alamat, concat(upper(b.area), \' \', concat(\'(\', upper(b.alias_area),\')\')) as area');
+    $data['customer_non'] = $this->Customer_Non->show_by_area($input_var['id_area'], 'upper(a.id) as id, upper(a.nama) as nama, upper(a.spesialis) as spesialis, upper(a.nama_lokasi_praktik) as nama_lokasi_praktik, upper(alamat) as alamat, concat(upper(b.area), \' \', concat(\'(\', upper(b.alias_area),\')\')) as area');
     echo json_encode($data['customer_non']['data']->result_array());
   }
 

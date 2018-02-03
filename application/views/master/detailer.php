@@ -37,50 +37,57 @@
                 <?php endif; ?>
                 <!-- /alert -->
                 <!-- Tabel -->
-                <div id="daily-activity" class="table-responsive height-250 ps-container ps-theme-default ps-active-y border-top-red" data-ps-id="919f8169-8f2a-e62c-bd13-883a2a99a52f">
+                <div class="table-responsive height-350 border-top-red">
                   <table class="table table-hover mb-0">
                       <thead>
                         <tr>
                           <th>Kode</th>
                           <th>Nama</th>
                           <th>Tgl. Masuk</th>
-                          <th>Tgl. Keluar</th>
                           <th>Tgl. Mutasi</th>
-                          <th>Tgl. Lahir</th>
                           <th>Keterangan</th>
                           <th>Area</th>
                           <th>Agama</th>
                           <th>Gol</th>
                           <th>Subarea</th>
+                          <th>Status</th>
                           <th>Nama Spv.</th>
                           <th>Nama RM</th>
                           <th>Nama RSM</th>
                           <th>Kode RM Lama</th>
+                          <th>Tools</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php foreach ($detailer['data']->result() as $value): ?>
                         <tr>
-                          <td><?php echo $value->id; ?></td>
+                          <td><?php echo strtoupper($value->id); ?></td>
                           <td><?php echo $value->nama; ?></td>
                           <td><?php echo $value->tanggal_masuk; ?></td>
-                          <td><?php echo $value->tanggal_keluar; ?></td>
                           <td><?php echo $value->tanggal_mutas; ?></td>
-                          <td><?php echo $value->tanggal_lahir; ?></td>
                           <td><?php echo $value->keterangan; ?></td>
                           <td><?php echo $value->area; ?></td>
                           <td><?php echo $value->agama; ?></td>
                           <td><?php echo $value->golongan; ?></td>
                           <td><?php echo $value->subarea; ?></td>
+                          <td>
+                            <span class="tag tag-pill tag-success">
+                              <?php echo strtoupper($value->status); ?>
+                            </span>
+                          </td>
                           <td><?php echo $value->nama_spv; ?></td>
                           <td><?php echo $value->nama_rm; ?></td>
                           <td><?php echo $value->nama_rsm; ?></td>
                           <td><?php echo $value->nama_rm_old; ?></td>
+                          <td>
+                            <div class="btn-group-vertical">
+                              <a href="#" class="btn btn-primary">Detail</a>
+                            </div>
+                          </td>
                         </tr>
                         <?php endforeach ?>
                       </tbody>
                   </table>
-                  <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 350px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 307px;"></div></div>
                 </div>
                 <!-- End of Tabel -->
               </div>
@@ -148,9 +155,11 @@
                           <div class="col-sm-4">
                             <select name="agama" class="form-control border-primary">
                               <option value="" selected disabled>Pilih Agama</option>
-                              <option value="">Katolik</option>
-                              <option value="">Kristen</option>
-                              <option value="">Islam</option>
+                              <option value="katolik">Katolik</option>
+                              <option value="krisiten">Kristen</option>
+                              <option value="islam">Islam</option>
+                              <option value="buddha">Buddha</option>
+                              <option value="hindu">Hindu</option>
                             </select>
                           </div>
                         </div>
@@ -188,7 +197,7 @@
                       </div>
                     </div>
                     <!-- /data-pribadi -->
-                    <h4 class="form-section"><i class="fa fa-user"></i>Data Detailer</h4>
+                    <h4 class="form-section"><i class="fa fa-user"></i>Data Field Force</h4>
                     <div class="row">
                       <div class="col-sm-6 col-xs-12">
                         <div class="form-group row">
@@ -201,7 +210,7 @@
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Nama Spv.</label>
                           <div class="col-sm-10">
-                            <select name="kode_supervisor" id="" class="form-control border-primary select2">
+                            <select name="id_supervisor" id="" class="form-control border-primary select2">
                               <option value="" selected>Pilih Supervisor</option>
                               <?php if ($supervisor['data']->num_rows() < 1): ?>
                               <option value="" disabled>Supervisor belum tersedia</option>
@@ -217,7 +226,7 @@
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Nama RM</label>
                           <div class="col-sm-10">
-                            <select name="kode_rm" id="" class="form-control border-primary select2">
+                            <select name="id_rm" id="" class="form-control border-primary select2">
                               <option value="" selected>Pilih RM</option>
                               <?php if ($rm['data']->num_rows() < 1): ?>
                               <option value="" disabled>RM belum tersedia</option>
@@ -233,7 +242,7 @@
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Nama RSM</label>
                           <div class="col-sm-10">
-                            <select name="kode_rsm" id="" class="form-control border-primary select2">
+                            <select name="id_rsm" id="" class="form-control border-primary select2">
                               <option value="" selected>Pilih RSM</option>
                               <?php if ($rsm['data']->num_rows() < 1): ?>
                               <option value="" disabled>RSM belum tersedia</option>
@@ -249,7 +258,7 @@
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Nama RM Lama</label>
                           <div class="col-sm-10">
-                            <select name="kode_rm_old" id="" class="form-control border-primary select2">
+                            <select name="id_rm_old" id="" class="form-control border-primary select2">
                               <option value="" selected>Pilih RM Lama</option>
                               <?php if ($rm_lama['data']->num_rows() < 1): ?>
                               <option value="" disabled>RM belum tersedia</option>
@@ -267,22 +276,11 @@
                       <div class="col-sm-6 col-xs-12">
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Tanggal Masuk</label>
-                          <div class="col-sm-4">
+                          <div class="col-sm-10">
                             <input class="form-control border-primary" name="tanggal_masuk" type="date">
                           </div>
-                          <label class="label-control col-sm-2">Tanggal Mutasi</label>
-                          <div class="col-sm-4">
-                            <input class="form-control border-primary" name="tanggal_mutasi" type="date">
-                          </div>
                         </div>
-                        <!-- /tanggal-masuk /tanggal-keluar -->
-                        <div class="form-group row">
-                          <label class="label-control col-sm-2">Tanggal Keluar</label>
-                          <div class="col-sm-4">
-                            <input class="form-control border-primary" name="tanggal_keluar" type="date">
-                          </div>
-                        </div>
-                        <!-- /tanggal-mutasi /tanggal-lahir -->
+                        <!-- /tanggal-masuk -->
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Area</label>
                           <div class="col-sm-4">
@@ -304,13 +302,24 @@
                         </div>
                         <!-- /area /subarea -->
                         <div class="form-group row">
+                          <label class="label-control col-sm-2">Telp. Rumah</label>
+                          <div class="col-sm-4">
+                            <input type="tel" name="telp_rumah" class="form-control border-primary" placeholder="021xxxx" maxlength="13">
+                          </div>
+                          <label class="label-control col-sm-2">No. Hp</label>
+                          <div class="col-sm-4">
+                            <input type="tel" name="no_hp" class="form-control border-primary" placeholder="08xxxx" maxlength="13">
+                          </div>
+                        </div>
+                        <!-- /telp-rumah /no-hp -->
+                        <div class="form-group row">
                           <label class="label-control col-sm-2">Gol</label>
                           <div class="col-sm-4">
                             <select name="golongan" class="form-control border-primary">
                               <option value="" selected disabled>Pilih Golongan</option>
-                              <option value="">A</option>
-                              <option value="">B</option>
-                              <option value="">C</option>
+                              <option value="a">A</option>
+                              <option value="b">B</option>
+                              <option value="c">C</option>
                             </select>
                           </div>
                           <label class="label-control col-sm-2">Jabatan</label>
@@ -327,7 +336,79 @@
                             </select>
                           </div>
                         </div>
-                        <!-- /gol -->
+                        <!-- /gol /jabatan -->
+                      </div>
+                      <!-- /right-row -->
+                    </div>
+                    <!-- /data-detailer -->
+                    <h4 class="form-section"><i class="fa fa-user"></i>Data Salary &amp; Fee</h4>
+                    <div class="row">
+                      <div class="col-sm-6 col-xs-12">
+                        <div class="form-group row">
+                          <label class="label-control col-sm-2">Bank</label>
+                          <div class="col-sm-4">
+                            <input class="form-control border-primary" name="bank" type="text" placeholder="Nama Bank">
+                          </div>
+                          <label class="label-control col-sm-2">Akun</label>
+                          <div class="col-sm-4">
+                            <input class="form-control border-primary" name="sewa_kendaraan" type="text" placeholder="No. rekening">
+                          </div>
+                        </div>
+                        <!-- /bank /akun -->
+                        <div class="form-group row">
+                          <label class="label-control col-sm-2">Gaji</label>
+                          <div class="col-sm-4">
+                            <div class="input-group">
+                              <span class="input-group-addon">Rp</span>
+                              <input class="form-control border-primary" name="net_salary" type="number" placeholder="Gaji">
+                            </div>
+                          </div>
+                          <label class="label-control col-sm-2">Housing</label>
+                          <div class="col-sm-4">
+                            <div class="input-group">
+                              <span class="input-group-addon">Rp</span>
+                              <input class="form-control border-primary" name="housing" type="number" placeholder="Housing">
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /gaji /housing -->
+                        <div class="form-group row">
+                          <label class="label-control col-sm-2">Tunjangan</label>
+                          <div class="col-sm-4">
+                            <div class="input-group">
+                              <span class="input-group-addon">Rp</span>
+                              <input class="form-control border-primary" name="tunjangan" type="number" placeholder="Tunjangan">
+                            </div>
+                          </div>
+                          <label class="label-control col-sm-2">Sewa Kendaraan</label>
+                          <div class="col-sm-4">
+                            <div class="input-group">
+                              <span class="input-group-addon">Rp</span>
+                              <input class="form-control border-primary" name="sewa_kendaraan" type="number" placeholder="Sewa Kendaraan">
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /tunjangan /sewa-kendaraan -->
+                      </div>
+                      <!-- /left-row -->
+                      <div class="col-sm-6 col-xs-12">
+                        <div class="form-group row">
+                          <label class="label-control col-sm-2">Detailer Lama</label>
+                          <div class="col-sm-10">
+                            <select name="id_detailer_exchange" class="form-control border-primary select2">
+                              <option value="" selected disabled>Detailer</option>
+                              <?php if ($detailer_exchange['data']->num_rows() < 1): ?>
+                                <option value="">Detailer belum tersedia</option>
+                              <?php else: ?>
+                              <?php foreach ($detailer_exchange['data']->result() as $value): ?>
+                              <option value="<?php echo $value->id; ?>"><?php echo strtoupper($value->nama); ?></option>
+                              <?php endforeach ?>
+                              <?php endif; ?>
+                            </select>
+                            <p>*) Detailer yang akan diganti</p>
+                          </div>
+                        </div>
+                        <!-- /tanggal-masuk /tanggal-keluar -->
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Keterangan</label>
                           <div class="col-sm-10">
@@ -338,11 +419,10 @@
                       </div>
                       <!-- /right-row -->
                     </div>
-                    <!-- /data-detailer -->
                   </div>
                   <div class="form-action pull-right">
-                    <input type="button" class="btn btn-warning mr-1" name="" value="Batal">
                     <input type="submit" class="btn btn-success" name="" value="Simpan">
+                    <input type="reset" class="btn btn-warning mr-1" name="" value="Batal">
                   </div>
                   <!-- /submit -->
                 </form>
