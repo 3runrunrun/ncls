@@ -41,9 +41,10 @@ class Detailer extends CI_Model {
   public function get_data_by_area($id_area, $column = '*')
   {
     $this->db->select($column);
-    $this->db->from('detailer');
-    $this->db->where('id_area', $id_area);
-    $this->db->where('hapus', null);
+    $this->db->from('detailer a');
+    $this->db->join('detailer_field_force b', 'a.id = b.id_detailer');
+    $this->db->where('b.id_area', $id_area);
+    $this->db->where('a.hapus', null);
     $result = $this->db->get();
     if ( ! $result) {
       $ret_val = array(

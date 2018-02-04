@@ -40,7 +40,7 @@ $(document).ready(function() {
           });
           return '<tr>' + rows + '</tr>';
         });
-        // console.log(tr);
+        console.log(tr);
         $('tbody').children().remove();
         $.each(tr, function(index, val) {
            $('tbody').append('<tr>' + val + '</tr>');

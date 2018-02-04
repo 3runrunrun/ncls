@@ -156,7 +156,7 @@
                             <select name="agama" class="form-control border-primary">
                               <option value="" selected disabled>Pilih Agama</option>
                               <option value="katolik">Katolik</option>
-                              <option value="krisiten">Kristen</option>
+                              <option value="kristen">Kristen</option>
                               <option value="islam">Islam</option>
                               <option value="buddha">Buddha</option>
                               <option value="hindu">Hindu</option>

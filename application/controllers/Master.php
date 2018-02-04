@@ -18,6 +18,51 @@ class Master extends CI_Controller {
     $this->load->view('footer-js');
   }
 
+  //////////
+  // AREA //
+  //////////
+
+  /**
+   * Fungsi untuk menampilkan tabel dan form master area
+   * @return void
+   */
+  public function master_area()
+  {
+    $data['area'] = $this->Area->get_data();
+
+    if ($data['area']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['area']['data']);
+    }
+    // var_dump($this->session->flashdata('query_msg'));
+    // die();
+    
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('master/area', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function store_master_area()
+  {
+    // init variable
+    $input_var = $this->input->post();
+
+    // begin transaction
+    $this->db->trans_begin();
+    $this->Area->store($input_var);
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata('error_msg', 'Penambahan data area <strong>gagal</strong>.');
+      $url = site_url() . '/master-area';
+      header("Location: $url");
+    } else {
+      $this->db->trans_commit();
+      $this->session->set_flashdata('success_msg', 'Data area baru <strong>berhasil</strong> disimpan.');
+      $url = site_url() . '/master-area';
+      header("Location: $url");
+    }
+  }
+
   /////////////////
   // DISTRIBUTOR //
   /////////////////
@@ -80,51 +125,6 @@ class Master extends CI_Controller {
       $this->session->set_flashdata('success_msg', 'Data  distributor baru <strong>berhasil</strong> disimpan.');
     }
     redirect('master-distributor');
-  }
-
-  //////////
-  // AREA //
-  //////////
-
-  /**
-   * Fungsi untuk menampilkan tabel dan form master area
-   * @return void
-   */
-  public function master_area()
-  {
-    $data['area'] = $this->Area->get_data();
-
-    if ($data['area']['status'] == 'error') {
-      $this->session->set_flashdata('query_msg', $data['area']['data']);
-    }
-    // var_dump($this->session->flashdata('query_msg'));
-    // die();
-    
-    $this->load->view('head');
-    $this->load->view('navbar');
-    $this->load->view('master/area', $data);
-    $this->load->view('footer-js');
-  }
-
-  public function store_master_area()
-  {
-    // init variable
-    $input_var = $this->input->post();
-
-    // begin transaction
-    $this->db->trans_begin();
-    $this->Area->store($input_var);
-    if ($this->db->trans_status() === FALSE) {
-      $this->db->trans_rollback();
-      $this->session->set_flashdata('error_msg', 'Penambahan data area <strong>gagal</strong>.');
-      $url = site_url() . '/master-area';
-      header("Location: $url");
-    } else {
-      $this->db->trans_commit();
-      $this->session->set_flashdata('success_msg', 'Data area baru <strong>berhasil</strong> disimpan.');
-      $url = site_url() . '/master-area';
-      header("Location: $url");
-    }
   }
 
   ////////////
@@ -304,7 +304,7 @@ class Master extends CI_Controller {
   public function show_detailer_by_area()
   {
     $input_var = $this->input->post();
-    $data['detailer'] = $this->Detailer->get_data_by_area($input_var['id_area'], 'id, upper(nama) as nama');
+    $data['detailer'] = $this->Detailer->get_data_by_area($input_var['id_area'], 'a.id, upper(a.nama) as nama');
     echo json_encode($data['detailer']['data']->result_array());
   }
 
