@@ -17,6 +17,21 @@ class Transaction extends CI_Controller {
     $this->load->view('footer-js');
   }
 
+  /////////////
+  // SUBDIST //
+  /////////////
+
+  public function subdist()
+  {
+    $data['area'] = $this->Area->get_data('id, area, alias_area');
+    $data['distributor'] = $this->Distributor->get_data('a.id, upper(b.alias_distributor) as alias_distributor, upper(c.area) as area');
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/subdist/subdist', $data);
+    $this->load->view('footer-js');
+  }
+
   /////////////////////
   // INTENS & EKSTEN //
   /////////////////////
@@ -26,6 +41,18 @@ class Transaction extends CI_Controller {
     $this->load->view('head');
     $this->load->view('navbar');
     $this->load->view('transaction/prospek-intens-eksten/prospek-intens-eksten');
+    $this->load->view('footer-js');
+  }
+
+  ////////////////
+  // FIXED COST //
+  ////////////////
+
+  public function fixed_cost()
+  {
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/fixed-cost/fixed-cost');
     $this->load->view('footer-js');
   }
 
@@ -72,7 +99,6 @@ class Transaction extends CI_Controller {
   public function daftar_permohonan_factur()
   {
     $data['master_distributor'] = $this->Master_Distributor->get_data('id, alias_distributor');
-
 
     $this->load->view('head');
     $this->load->view('navbar');

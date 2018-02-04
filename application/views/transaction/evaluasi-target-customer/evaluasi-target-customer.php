@@ -31,11 +31,11 @@
                         <?php for ($i=0; $i < 20; $i++): ?>
                         <tr>
                           <td>Nama Detailer</td>
-                          <td>121</td>
-                          <td>45%</td>
-                          <td>30</td>
-                          <td>80%</td>
-                          <td>60%</td>
+                          <td><?php echo rand(20, 100); ?></td>
+                          <td><?php echo rand(20, 50); ?>%</td>
+                          <td><?php echo rand(10, 30); ?></td>
+                          <td><?php echo rand(60, 80) ?>%</td>
+                          <td><?php echo rand(60, 90) ?>%</td>
                           <td>
                             <div class="btn-group-vertical">
                               <a href="#" class="btn btn-primary">Detail</a>

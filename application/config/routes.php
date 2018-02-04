@@ -89,7 +89,9 @@ $route['master-detailer'] = 'Master/master_detailer';
 $route['store-detailer'] = 'Master/store_master_detailer';
 
 // TRANSACTION
+$route['subdist'] = 'Transaction/subdist';
 $route['prospek-ineks'] = 'Transaction/prospek_ineks';
+$route['fixed-cost'] = 'Transaction/fixed_cost';
 $route['evaluasi-target-customer'] = 'Transaction/evaluasi_target_customer';
 $route['wpr'] = 'Transaction/wpr';
 $route['promo-trial'] = 'Transaction/promo_trial';

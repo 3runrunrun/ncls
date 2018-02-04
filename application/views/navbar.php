@@ -128,11 +128,11 @@
         </li>
         <li data-menu="dropdown" class="dropdown nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link"><i class="fa fa-money"></i><span data-i18n="nav.layouts.temp">Transaction</span></a>
           <ul class="dropdown-menu">
-            <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Subdist</a>
+            <li data-menu=""><a href="<?php echo site_url() ?>/subdist" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Subdist</a>
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/prospek-ineks" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Prospek Intensifikasi Ekstensifikasi</a>
             </li>
-            <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Fixed cost field force, ratio dana, fixed cost distributor</a>
+            <li data-menu=""><a href="<?php echo site_url() ?>/fixed-cost" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Fixed Cost &amp; Ratio</a>
             </li>
             <li data-menu=""><a href="#" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Prospect RTD</a>
             </li>
