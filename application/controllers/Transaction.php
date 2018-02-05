@@ -129,4 +129,16 @@ class Transaction extends CI_Controller {
     $this->load->view('transaction/factur/tender');
     $this->load->view('footer-js');
   }
+
+  //////////////////////
+  // PEMINDAHAN SALES //
+  //////////////////////
+
+  public function pemindahan_sales()
+  {
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/pemindahan-sales');
+    $this->load->view('footer-js');
+  }
 }

@@ -99,3 +99,6 @@ $route['promo-trial'] = 'Transaction/promo_trial';
 $route['daftar-faktur'] = 'Transaction/daftar_permohonan_factur';
 $route['faktur-diskon-general'] = 'Transaction/factur_discount_general';
 $route['faktur-diskon-tender'] = 'Transaction/factur_discount_tender';
+
+$route['pemindahan-sales'] = 'Transaction/pemindahan_sales';
+
