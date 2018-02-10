@@ -102,3 +102,10 @@ $route['faktur-diskon-tender'] = 'Transaction/factur_discount_tender';
 
 $route['pemindahan-sales'] = 'Transaction/pemindahan_sales';
 
+// REPORT
+$route['analisis-sales-general'] = 'Report/analisis_sales_general';
+$route['detail-analisis-sales-general'] = 'Report/detail_analisis_sales_general';
+$route['analisis-sales-per-produk'] = 'Report/analisis_sales_per_produk';
+$route['detail-analisis-sales-per-produk'] = 'Report/detail_analisis_sales_per_produk';
+
+

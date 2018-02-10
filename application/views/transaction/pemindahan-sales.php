@@ -16,38 +16,38 @@
                 <!-- Tabel -->
                 <div class="table-responsive height-300 border-top-red">
                   <table class="table table-hover mb-0">
-                      <thead>
-                          <tr>
-                            <th>Nomor<br />Surat</th>
-                            <th>Dari Outlet</th>
-                            <th>Dari Detailer</th>
-                            <th>Ke Outlet</th>
-                            <th>Ke Detailer</th>
-                            <th>Periode</th>
-                            <th>Status</th>
-                            <th>Tools</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        <?php for ($i=0; $i < 8; $i++): ?>
-                        <tr>
-                          <td>CHG/SAL/<?php echo date('m/Y'); ?></td>
-                          <td>RS Jantung Harapan Kita</td>
-                          <td>Fathir Izzuddin Qisthi</td>
-                          <td>RS Siti Hajar</td>
-                          <td>Sandita</td>
-                          <td><?php echo date('d-M-Y'); ?></td>
-                          <td>
-                            <span class="tag tag-pill tag-success">Approved</span>
-                          </td>
-                          <td>
-                            <div class="btn-group-vertical">
-                              <a href="#" class="btn btn-primary">Detail</a>
-                            </div>
-                          </td>
-                        </tr>
-                        <?php endfor; ?>
-                      </tbody>
+                    <thead>
+                      <tr>
+                        <th>Nomor<br />Surat</th>
+                        <th>Dari Outlet</th>
+                        <th>Dari Detailer</th>
+                        <th>Ke Outlet</th>
+                        <th>Ke Detailer</th>
+                        <th>Periode</th>
+                        <th>Status</th>
+                        <th>Tools</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php for ($i=0; $i < 8; $i++): ?>
+                      <tr>
+                        <td>CHG/SAL/<?php echo date('m/Y'); ?></td>
+                        <td>RS Jantung Harapan Kita</td>
+                        <td>Fathir Izzuddin Qisthi</td>
+                        <td>RS Siti Hajar</td>
+                        <td>Sandita</td>
+                        <td><?php echo date('d-M-Y'); ?></td>
+                        <td>
+                          <span class="tag tag-pill tag-success">Approved</span>
+                        </td>
+                        <td>
+                          <div class="btn-group-vertical">
+                            <a href="#" class="btn btn-primary">Detail</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <?php endfor; ?>
+                    </tbody>
                   </table>
                 </div>
                 <!-- End of Tabel -->
@@ -153,7 +153,7 @@
           </div>
         </div>
       </div>
-      <!-- /tambah-wpr -->
+      <!-- /pemindahan-sales -->
     </div>
   </div>
 </div>

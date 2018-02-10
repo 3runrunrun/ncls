@@ -40,6 +40,7 @@
     <script src="<?php echo base_url()?>/assets/assets_in/form-selectize.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url()?>/assets/assets_in/form-select2.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>/assets/assets_in/breadcrumbs-with-stats.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>/assets/assets_in/date-pickers.min.js"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/dashboard-fitness.min.js" type="text/javascript"></script>
     <script id="wappalyzer" src="<?php echo base_url()?>/assets/chrome_in-extension://gppongmhjkpfnbhagpmjfkannfbllamg/js/inject.js"></script>
 </body>

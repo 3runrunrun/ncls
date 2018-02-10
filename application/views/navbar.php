@@ -187,7 +187,17 @@
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/Report/stock_produk_nucleus" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Stock Product (Nucleus ke distributor)</a>
             </li>
-            <li data-menu=""><a href="<?php echo site_url() ?>/Report/analisa_sales" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i> Entry Breakdown analisa sales</a>
+            <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu"><a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class="fa fa-file"></i>Entry Breakdown Analisa Sales <i class="fa fa-chevron-right pull-right"></i></a>
+              <ul class="dropdown-menu">
+                <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu"><a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle">per Outlet <i class="fa fa-chevron-right pull-right"></i></a>
+                  <ul class="dropdown-menu">
+                    <li data-menu=""><a href="<?php echo site_url() ?>/analisis-sales-general" data-toggle="dropdown" class="dropdown-item">General</a>
+                    </li>
+                    <li data-menu=""><a href="<?php echo site_url() ?>/analisis-sales-per-produk" data-toggle="dropdown" class="dropdown-item">per Product</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/Report/pemindahan_sales" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i> Laporan Pemindahan Sales</a>
             </li>
