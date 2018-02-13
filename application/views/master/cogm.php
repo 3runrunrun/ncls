@@ -227,7 +227,7 @@
   });
 </script>
 <script type="text/javascript">
-  function delet_cogm(id) {
+  function delete_cogm(id) {
     var r = confirm("Apakah yakin menghapus data COGM ini?");
     if (r == true) {
       $.ajax({

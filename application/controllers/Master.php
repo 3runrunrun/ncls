@@ -653,7 +653,7 @@ class Master extends CI_Controller {
   public function master_cogm()
   {
     $data['jenis_cogm'] = $this->Cogm_Jenis->get_data();
-    $data['cogm'] = $this->Cogm->get_data('a.tanggal, b.jenis, a.biaya');
+    $data['cogm'] = $this->Cogm->get_data('a.id, a.tanggal, b.jenis, a.biaya');
     /*$data['total_by_year'] = $this->Operasional->get_total_by_year(date('Y'));*/
 
     if ($data['cogm']['status'] == 'error') {
