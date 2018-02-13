@@ -79,7 +79,7 @@
                           <div class="col-sm-4">
                             <fieldset>
                               <label class="custom-control custom-radio">
-                                <input type="radio" name="jenis_prospek" class="custom-control-input">
+                                <input type="radio" name="jenis_prospek" id="radio-in" class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
                                 <span class="custom-control-description">Intensifikasi</span>
                               </label>
@@ -88,7 +88,7 @@
                           <div class="col-sm-4 pull-sm-1">
                             <fieldset>
                               <label class="custom-control custom-radio">
-                                <input type="radio" name="jenis_prospek" class="custom-control-input">
+                                <input type="radio" name="jenis_prospek" id="radio-eks" class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
                                 <span class="custom-control-description">Ekstensifikasi</span>
                               </label>
@@ -105,15 +105,15 @@
                           </div>
                         </div>
                         <!-- /detailer -->
-                        <h4 class="form-section"><i class="fa fa-list"></i>User / Customer &amp; Target Kunjungan</h4>
                         <div class="form-group row">
                           <label class="label-control col-sm-12">
                             <div class="bs-callout-info callout-border-left mt-1 p-1">
                               <strong>Perhatian!</strong><br />
-                              <p>Pastikan User / Customer <strong>telah terdaftar</strong> di dalam sistem. Pendaftaran User / Customer dapat dilakukan pada <a href="#">halaman ini</a>.</p>
+                              <p>Pastikan User / Customer <strong>telah terdaftar</strong> di dalam sistem. Pendaftaran User / Customer dapat dilakukan pada <a class="primary" href="#">halaman ini</a>.</p>
                             </div>
                           </label>
                         </div>
+                        <!-- /callout -->
                         <div class="form-group row">
                           <label class="label-control col-sm-6">User / Customer</label>
                           <label class="label-control col-sm-6">Target Kunjungan</label>
@@ -129,6 +129,54 @@
                           </div>
                         </div>
                         <!-- /user /target -->
+                        <div class="form-group row">
+                          <label class="label-control col-sm-6">Dana</label>
+                          <label class="label-control col-sm-6">Biaya</label>
+                          <div class="col-sm-6">
+                            <fieldset>
+                              <div class="input-group">
+                                <span class="input-group-addon">Rp</span>
+                                <input type="number" name="dana" class="form-control border-primary" min="0" value="0">
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="col-sm-6">
+                            <fieldset>
+                              <div class="input-group">
+                                <span class="input-group-addon">Rp</span>
+                                <input type="number" name="biaya" class="form-control border-primary" min="0" value="0">
+                              </div>
+                            </fieldset>
+                            <p>*) Biaya rata-rata per pasien</p>
+                          </div>
+                        </div>
+                        <!-- /dana /biaya -->
+                      </div>
+                      <!-- /upper-col -->
+                      <div class="col-sm-8 col-xs-12 offset-sm-2">
+                        <h4 class="form-section"><i class="fa fa-list"></i>Target Obat &amp; Biaya</h4>
+                        <div class="form-group row">
+                          <label class="label-control col-sm-4">Produk</label>
+                          <label class="label-control col-sm-4">Target Unit</label>
+                          <label class="label-control col-sm-4">Outlet</label>
+                          <div class="col-sm-4">
+                            <select name="" class="form-control select2">
+                              <option value="" selected disabled>Pilih Produk</option>
+                              <option value=""></option>
+                            </select>
+                          </div>
+                          <div class="col-sm-4">
+                            <input type="number" name="" class="form-control border-primary" min="1" placeholder="Unit">
+                            <p>*) Target per jual</p>
+                          </div>
+                          <div class="col-sm-4">
+                            <select name="" class="form-control select2">
+                              <option value="" selected disabled>Pilih Outlet</option>
+                              <option value=""></option>
+                            </select>
+                          </div>
+                        </div>
+                        <!-- /target-unit /outlet -->
                         <div id="target-out"></div>
                         <div class="form-group row">
                           <div class="col-sm-12">
@@ -137,6 +185,7 @@
                         </div>
                         <!-- /add-target -->
                       </div>
+                      <!-- /lower-col -->
                     </div>
                     <div class="form-action" align="center">
                       <input type="submit" class="btn btn-success" name="" value="Simpan">
@@ -161,22 +210,31 @@
       var target_selector = $('#target-out');
       // jangan lupa nanti tambahin nama variabelnya, pake array lho!!!
       var element = '<div class="form-group row">' +
-        '<label class="label-control col-sm-6">User / Customer</label>' +
-        '<label class="label-control col-sm-6">Target Kunjungan</label>' +
-        '<div class="col-sm-6">' +
-          '<select name="" class="form-control select2">' +
-            '<option value="" selected disabled>Pilih User / Customer</option>' +
-            '<option value=""></option>' +
-          '</select>' +
-        '</div>' +
-        '<div class="col-sm-4">' +
-          '<input type="number" name="" class="form-control border-primary" min="1" placeholder="Target Kunjungan">' +
-        '</div>' +
-        '<div class="col-sm-2">' +
-          '<button class="btn btn-danger" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></button>' +
-        '</div>' +
-      '</div>';
+          '<label class="label-control col-sm-4">Produk</label>' +
+          '<label class="label-control col-sm-4">Target Unit</label>' +
+          '<label class="label-control col-sm-4">Outlet</label>' +
+          '<div class="col-sm-4">' +
+            '<select name="" class="form-control select2-single">' +
+              '<option value="" selected disabled>Pilih Produk</option>' +
+              '<option value=""></option>' +
+            '</select>' +
+          '</div>' +
+          '<div class="col-sm-2">' +
+            '<input type="number" name="" class="form-control border-primary" min="1" placeholder="Unit">' +
+            '<p>*) Target per jual</p>' +
+          '</div>' +
+          '<div class="col-sm-4">' +
+            '<select name="" class="form-control select2-single">' +
+              '<option value="" selected disabled>Pilih Outlet</option>' +
+              '<option value=""></option>' +
+            '</select>' +
+          '</div>' +
+          '<div class="col-sm-2">' +
+            '<button type="button" class="btn btn-danger" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></button>' +
+          '</div>' +
+        '</div>';
       $(target_selector).append(element);
+      $('.select2-single').select2();
     });
   });
 </script>

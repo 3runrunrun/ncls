@@ -68,7 +68,7 @@ class Master extends CI_Controller {
   /////////////////
   public function master_distributor()
   {
-    $data['distributor'] = $this->Distributor->get_data('a.id_distributor, b.distributor, b.alias_distributor,  c.area, c.alias_area');
+    $data['distributor'] = $this->Distributor->get_data('a.id_distributor, a.nama, b.distributor, b.alias_distributor,  c.area, c.alias_area');
     $data['master_distributor'] = $this->Master_Distributor->get_data();
     $data['area'] = $this->Area->get_data('id, area');
 
@@ -590,5 +590,121 @@ class Master extends CI_Controller {
       $url = site_url() . '/master-customer';
       header("Location: $url");
     }
+  }
+
+  /////////////////
+  // OPERASIONAL //
+  /////////////////
+
+  public function master_operasional()
+  {
+    $data['detailer'] = $this->Detailer->get_data('a.id, a.nama');
+    $data['operasional'] = $this->Operasional->get_data();
+    $data['total_by_year'] = $this->Operasional->get_total_by_year(date('Y'));
+
+    if ($data['operasional']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['operasional']['data']);
+    }
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('master/operasional', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function store_master_operasional($key = NULL)
+  {
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      $id = $this->input->post('id');
+      $this->Operasional->destroy($id);
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Hapus data biaya operasional <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data biaya operasional <strong>berhasil</strong> dihapus.');
+      }
+    } elseif ($key == 'edit') {
+      # code...
+    } else {
+      // Buat masukin data baru
+      $input_var = $this->input->post();
+      $input_var['id'] = $this->nsu->time_id_generator();
+
+      $this->Operasional->store($input_var);
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Penambahan data biaya operasional <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data biaya operasional <strong>berhasil</strong> disimpan.');
+      }
+    }
+    redirect('master-operasional');
+  }
+
+  //////////
+  // COGM //
+  //////////
+
+  public function master_cogm()
+  {
+    $data['jenis_cogm'] = $this->Cogm_Jenis->get_data();
+    $data['cogm'] = $this->Cogm->get_data('a.tanggal, b.jenis, a.biaya');
+    /*$data['total_by_year'] = $this->Operasional->get_total_by_year(date('Y'));*/
+
+    if ($data['cogm']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['operasional']['data']);
+    }
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('master/cogm', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function store_master_cogm($key = null)
+  {
+    // begin transaction
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      $id = $this->input->post('id');
+      $this->Cogm->destroy($id);
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Hapus data COGM <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data COGM <strong>berhasil</strong> dihapus.');
+      }
+    } elseif ($key == 'edit') {
+      # code...
+    } else {
+      $input_var = $this->input->post();
+      $cogm = array();
+
+      // store data
+      foreach ($input_var['id_jenis_cogm'] as $key => $value) {
+        $cogm['id'] = $this->nsu->time_id_generator();
+        $cogm['id_jenis_cogm'] = $value;
+        $cogm['biaya'] = $input_var['biaya'][$key];
+        $cogm['tanggal'] = $input_var['tanggal'];
+
+        $this->Cogm->store($cogm);
+      }
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Penambahan data COGM <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data COGM <strong>berhasil</strong> disimpan.');
+      }
+    }
+    redirect('master-cogm');
   }
 }

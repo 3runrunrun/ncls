@@ -114,6 +114,10 @@
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/master-detailer" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-at"></i>Master Detailer</a>
             </li>
+            <li data-menu=""><a href="<?php echo site_url() ?>/master-operasional" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Master Operasional</a>
+            </li>
+            <li data-menu=""><a href="<?php echo site_url() ?>/master-cogm" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-stack-overflow"></i>Master COGM</a>
+            </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/master-customer" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-user"></i> Master Customer</a>
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/master-customer-non" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-users"></i>Master Customer (Non)</a>

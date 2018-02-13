@@ -51,7 +51,7 @@
                         <?php foreach ($distributor['data']->result() as $value): ?>
                         <tr>
                           <td><?php echo strtoupper($value->id_distributor); ?></td>
-                          <td><?php echo $value->distributor; ?></td>
+                          <td><?php echo strtoupper($value->nama); ?></td>
                           <td><?php echo strtoupper($value->alias_distributor); ?></td>
                           <td><?php echo strtoupper($value->area); ?> (<?php echo strtoupper($value->alias_area); ?>)</td>
                         </tr>
@@ -142,7 +142,14 @@
                           </select>
                         </div>
                       </div>
-                      <!-- kode-distributor -->
+                      <!-- /kode-distributor -->
+                      <div class="form-group row">
+                        <label class="label-control col-sm-2">Nama<br />Distributor</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="nama" class="form-control" placeholder="Nama Distributor">
+                        </div>
+                      </div>
+                      <!-- /nama -->
                       <div class="form-group row">
                         <label class="label-control col-sm-2">Area</label>
                         <div class="col-sm-10">
@@ -158,7 +165,7 @@
                           </select>
                         </div>
                       </div>
-                      <!-- kode-area -->
+                      <!-- /kode-area -->
                     </div>
                     <div class="form-group pull-right">
                       <input type="submit" class="btn btn-success" value="Simpan">

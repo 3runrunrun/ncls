@@ -223,14 +223,14 @@
                   <div class="col-sm-12">
                     <div class="table-responsive border-top-red">
                       <table class="table table-hover mb-0">
-                          <thead>
-                              <tr class="bg-table-red">
-                                <th width="80%"><h4>Total ('000)</h4></th>
-                                <th width="20%" align="right">
-                                  <h4>Rp <?php echo number_format($total, 0, ',', '.'); ?></h4>
-                                </th>
-                              </tr>
-                          </thead>
+                        <thead>
+                          <tr class="bg-table-red">
+                            <th width="80%"><h4>Total ('000)</h4></th>
+                            <th width="20%" align="right">
+                              <h4>Rp <?php echo number_format($total, 0, ',', '.'); ?></h4>
+                            </th>
+                          </tr>
+                        </thead>
                       </table>
                     </div>
                   </div>

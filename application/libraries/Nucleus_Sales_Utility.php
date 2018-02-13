@@ -31,4 +31,18 @@ class Nucleus_Sales_Utility
     $formatted_date = date_format($date_object, $format);
     return $formatted_date;
   }
+
+  public function time_id_generator($prefix = NULL)
+  {
+    $micro_time = microtime();
+    $ex_mt = explode(' ', $micro_time);
+    $sbstr_mt = substr($ex_mt[0], 5, 3);
+    $id = date('ymdHis') . '-' . $sbstr_mt;
+    
+    if ( ! is_null($prefix)) {
+      $id = $prefix . '-' . date('ymdHis') . '-' . $sbstr_mt;
+    }
+
+    return $id;
+  }
 }

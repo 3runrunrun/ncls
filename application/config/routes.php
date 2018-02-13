@@ -88,6 +88,14 @@ $route['store-customer-non/(:any)'] = 'Master/store_master_customer_non/$1';
 $route['master-detailer'] = 'Master/master_detailer';
 $route['store-detailer'] = 'Master/store_master_detailer';
 
+$route['master-operasional'] = 'Master/master_operasional';
+$route['store-operasional'] = 'Master/store_master_operasional';
+$route['store-operasional/(:any)'] = 'Master/store_master_operasional/$1';
+
+$route['master-cogm'] = 'Master/master_cogm';
+$route['store-cogm'] = 'Master/store_master_cogm';
+$route['store-cogm/(:any)'] = 'Master/store_master_cogm/$1';
+
 // TRANSACTION
 $route['subdist'] = 'Transaction/subdist';
 $route['prospek-ineks'] = 'Transaction/prospek_ineks';
