@@ -45,4 +45,18 @@ class Nucleus_Sales_Utility
 
     return $id;
   }
+
+  public function letter_number_generator($prefix = NULL)
+  {
+    $micro_time = microtime();
+    $ex_mt = explode(' ', $micro_time);
+    $sbstr_mt = substr($ex_mt[0], 5, 3);
+    $id = $sbstr_mt . '-' . date('m-Y');
+    
+    if ( ! is_null($prefix)) {
+      $id = $prefix . '-' . $sbstr_mt . '-' . date('m-Y');
+    }
+
+    return $id;
+  }
 }

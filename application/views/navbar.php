@@ -157,12 +157,14 @@
                 </li>
               </ul>
             </li>
-             <li data-menu=""><a href="<?php echo site_url(); ?>/wpr" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> WPR</a>
+             <li data-menu=""><a href="<?php echo site_url(); ?>/wpr" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>WPR</a>
             </li>
-             <li data-menu=""><a href="<?php echo site_url(); ?>/promo-trial" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i> Promo Trial</a>
+            <li data-menu=""><a href="<?php echo site_url(); ?>/promo-trial" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Promo Trial</a>
+            </li>
+            <li data-menu=""><a href="<?php echo site_url(); ?>/permohonan-barang-nucleus" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Surat Permohonan Barang</a>
             </li>
             <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu">
-              <a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class="fa fa-money"></i>Surat Permohonan Disc. On &amp; Off Faktur  <i class="fa fa-chevron-right pull-right"></i></a>
+              <a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class="fa fa-money"></i>Surat Permohonan Disc. On &amp; Off Faktur<i class="fa fa-chevron-right pull-right"></i></a>
               <ul class="dropdown-menu">
                 <li data-menu=""><a href="<?php echo site_url(); ?>/daftar-faktur" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Daftar Permohonan Faktur</a>
                 </li>

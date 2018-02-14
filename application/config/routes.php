@@ -110,6 +110,11 @@ $route['faktur-diskon-tender'] = 'Transaction/factur_discount_tender';
 
 $route['pemindahan-sales'] = 'Transaction/pemindahan_sales';
 
+$route['permohonan-barang-nucleus'] = 'Transaction/permohonan_barang_nucleus';
+$route['simpan-permohonan-barang-nucleus'] = 'Transaction/store_permohonan_barang_nucleus';
+$route['simpan-permohonan-barang-nucleus/(:any)'] = 'Transaction/store_permohonan_barang_nucleus/$1';
+
+
 // REPORT
 $route['analisis-sales-general'] = 'Report/analisis_sales_general';
 $route['detail-analisis-sales-general'] = 'Report/detail_analisis_sales_general';
