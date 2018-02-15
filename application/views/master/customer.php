@@ -121,7 +121,8 @@
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Kode Customer</label>
                           <div class="col-sm-10">
-                            <input class="form-control border-primary" name="id" type="text" placeholder="Kode" maxlength="10" minlength="2">
+                            <?php $this->session->set_flashdata('id_customer', $id_customer); ?>
+                            <span class="tag tag-warning tag-lg"><?php echo strtoupper($id_customer); ?></span>
                           </div>
                         </div>
                         <!-- /kemasan -->

@@ -480,6 +480,7 @@ class Master extends CI_Controller {
     $data['customer'] = $this->Customer->get_data('a.id, a.nama, a.spesialis, a.nama_lokasi_praktik, a.alamat, b.alias_area, b.area');
     $data['area'] = $this->Area->get_data();
     $data['detailer'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama');
+    $data['id_customer'] = $this->nsu->digit_id_generator(4, 'cc');
 
     if ($data['customer']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['customer']['data']);
@@ -511,20 +512,18 @@ class Master extends CI_Controller {
     if ($key == 'store') {
       // init var
       $input_var = $this->input->post();
+      $input_var['id'] = $this->session->flashdata('id_customer');
 
       $this->Customer->store($input_var);
       if ($this->db->trans_status() === FALSE) {
         $this->db->trans_rollback();
         $this->session->set_flashdata('error_msg', 'Penambahan data customer <strong>gagal</strong>.');
-        $url = site_url() . '/master-customer';
-        header("Location: $url");
       } else {
         // $this->db->trans_rollback();
         $this->db->trans_commit();
         $this->session->set_flashdata('success_msg', 'Data customer baru <strong>berhasil</strong> disimpan.');
-        $url = site_url() . '/master-customer';
-        header("Location: $url");
       }
+      redirect('/master-customer');
     } else {
       $url = site_url() . '/master-customer';
       header("Location: $url");
@@ -544,6 +543,7 @@ class Master extends CI_Controller {
     $data['customer_non'] = $this->Customer_Non->get_data('a.id, a.nama, a.spesialis, a.nama_lokasi_praktik, a.alamat, b.alias_area, b.area');
     $data['area'] = $this->Area->get_data();
     $data['detailer'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama');
+    $data['id_customer_non'] = $this->nsu->digit_id_generator(4, 'cn');
 
     if ($data['customer_non']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['customer_non']['data']);
@@ -574,20 +574,18 @@ class Master extends CI_Controller {
     if ($key == 'store') {
       // init var
       $input_var = $this->input->post();
+      $input_var['id'] = $this->session->flashdata('id_customer_non');
 
       $this->Customer_Non->store($input_var);
       if ($this->db->trans_status() === FALSE) {
         $this->db->trans_rollback();
         $this->session->set_flashdata('error_msg', 'Penambahan data customer (non) <strong>gagal</strong>.');
-        $url = site_url() . '/master-customer-non';
-        header("Location: $url");
       } else {
         // $this->db->trans_rollback();
         $this->db->trans_commit();
         $this->session->set_flashdata('success_msg', 'Data customer (non) baru <strong>berhasil</strong> disimpan.');
-        $url = site_url() . '/master-customer-non';
-        header("Location: $url");
       }
+      redirect('/master-customer-non');
     } else {
       $url = site_url() . '/master-customer';
       header("Location: $url");
