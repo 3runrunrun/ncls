@@ -140,6 +140,7 @@ class Master extends CI_Controller {
     $data['produk'] = $this->Produk->get_data('a.id, a.nama, a.kemasan, a.harga_hna, a.harga_h_askes, a.harga_master, a.golongan, a.golongan1, COALESCE(a.antibiotik, \'n\') as antibiotik, COALESCE(a.barang_baru, \'N\') as barang_baru, COALESCE(a.barang_ask, \'n\') as barang_ask, coalesce(a.new_cn, \'n\') as new_cn, a.cn_new_barang, coalesce(a.start_regular, \'-\') as start_regular, coalesce(a.barang_master, \'n\') as barang_master, coalesce(a.diskon, \'0\') as diskon, b.area, coalesce(a.keterangan_region, \'-\') as keterangan_region, coalesce(a.segmen, \'-\') as segmen');
     $data['area'] = $this->Area->get_data();
     $data['barang_master'] = $this->Produk->get_data('a.id, a.nama');
+    $data['id_produk'] = $this->nsu->digit_id_generator(5);
 
     if ($data['produk']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['produk']['data']);
@@ -158,6 +159,7 @@ class Master extends CI_Controller {
     if ($key == 'store') {
       // init var
       $input_var = $this->input->post();
+      $input_var['id'] = $this->session->flashdata('id_produk');
       
       // store data
       $this->Produk->store($input_var);
@@ -283,6 +285,7 @@ class Master extends CI_Controller {
     $data['master_distributor'] = $this->Master_Distributor->get_data();
     $data['area'] = $this->Area->get_data();
     $data['detailer'] = $this->Detailer->get_data('a.id, a.nama');
+    $data['id_outlet'] = $this->nsu->alphabet_generator() . $this->nsu->digit_id_generator(4);
 
     if ($data['outlet']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['outlet']['data']);
@@ -328,8 +331,10 @@ class Master extends CI_Controller {
   {
     // init variable
     $input_var = $this->input->post();
-    $input_var['id'] = $input_var['prefix_id'].$input_var['id'];
+    $id = $this->session->userdata('id_outlet');
+    $input_var['id'] = $this->session->userdata('id_outlet');
     unset($input_var['prefix_id']);
+    $this->session->unset_userdata('id_outlet');
 
     // begin transaction
     $this->db->trans_begin();
@@ -341,7 +346,7 @@ class Master extends CI_Controller {
       $this->db->trans_commit();
       $this->session->set_flashdata('success_msg', 'Data outlet baru <strong>berhasil</strong> disimpan.');
     }
-    redirect('master-outlet');
+    redirect('/master-outlet');
   }
 
   //////////////

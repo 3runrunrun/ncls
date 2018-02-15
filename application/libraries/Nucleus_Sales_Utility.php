@@ -25,6 +25,18 @@ class Nucleus_Sales_Utility
     return $stacks;
   }
 
+  public function alphabet_generator($length = 1)
+  {
+    $stacks = "";
+    $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    for ($i=0; $i < $length; $i++) { 
+      $stacks.=substr($chars, rand(0, strlen($chars)), 1);
+    }
+    
+    return $stacks;
+  }
+
   public function date_formatter($date_string, $format)
   {
     $date_object = date_create($date_string);
@@ -52,7 +64,7 @@ class Nucleus_Sales_Utility
     if (! is_null($prefix)) {
       $id = $prefix . $id;
     }
-    return $id;
+    return "$id";
   }
 
   public function letter_number_generator($prefix = NULL)

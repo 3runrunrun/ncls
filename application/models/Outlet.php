@@ -64,5 +64,7 @@ class Outlet extends CI_Model {
   {
     $query = $this->db->set($data)->get_compiled_insert('outlet');
     $this->db->query($query);
+    // echo $this->db->last_query();
+    // die();
   }
 }

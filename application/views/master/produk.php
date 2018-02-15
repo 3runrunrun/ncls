@@ -89,7 +89,8 @@
                         <div class="form-group row">
                           <label class="label-control col-sm-2">Kode Barang</label>
                           <div class="col-sm-10">
-                            <input class="form-control border-primary" name="id" type="text" placeholder="Kode Barang" maxlength="10" minlength="2">
+                            <?php $this->session->set_flashdata('id_produk', $id_produk); ?>
+                            <span class="tag tag-lg tag-warning"><?php echo $id_produk; ?></span>
                           </div>
                         </div>
                         <!-- /kemasan -->

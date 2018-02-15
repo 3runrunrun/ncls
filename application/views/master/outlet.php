@@ -90,7 +90,7 @@
                 <?php endif; ?>
                 <!-- /alert -->
                 <!-- Tabel -->
-                <div id="daily-activity" class="table-responsive height-250 ps-container ps-theme-default ps-active-y border-top-red" data-ps-id="919f8169-8f2a-e62c-bd13-883a2a99a52f">
+                <div class="table-responsive height-250 border-top-red">
                   <table class="table table-hover mb-0">
                       <thead>
                           <tr>
@@ -132,7 +132,6 @@
                         <?php endforeach ?>
                       </tbody>
                   </table>
-                  <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 350px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 307px;"></div></div>
                 </div>
                 <!-- End of Tabel -->
               </div>
@@ -155,38 +154,9 @@
                     <div class="form-body">
                       <div class="form-group row">
                         <label class="label-control col-sm-2">Kode Outlet</label>
-                        <div class="col-sm-3">
-                          <select name="prefix_id" class="form-control border-primary select2">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                            <option value="E">E</option>
-                            <option value="F">F</option>
-                            <option value="G">G</option>
-                            <option value="H">H</option>
-                            <option value="I">I</option>
-                            <option value="J">J</option>
-                            <option value="K">K</option>
-                            <option value="L">L</option>
-                            <option value="M">M</option>
-                            <option value="N">N</option>
-                            <option value="O">O</option>
-                            <option value="P">P</option>
-                            <option value="Q">Q</option>
-                            <option value="R">R</option>
-                            <option value="S">S</option>
-                            <option value="T">T</option>
-                            <option value="U">U</option>
-                            <option value="V">V</option>
-                            <option value="W">W</option>
-                            <option value="X">X</option>
-                            <option value="Y">Y</option>
-                            <option value="Z">Z</option>
-                          </select>
-                        </div>
-                        <div class="col-sm-7">
-                          <input class="form-control border-primary" name="id" type="text" placeholder="Kode Outlet" maxlength="5" minlength="2">
+                        <div class="col-sm-10">
+                          <?php $this->session->set_userdata('id_outlet', $id_outlet); ?>
+                          <span class="tag tag-warning tag-xl"><?php echo $id_outlet; ?></span>
                         </div>
                       </div>
                       <!-- /prefix-id /id -->
