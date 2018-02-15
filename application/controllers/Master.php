@@ -363,6 +363,7 @@ class Master extends CI_Controller {
     $data['rsm'] = $this->Detailer->get_data_by_jabatan('rsm', 'a.id, a.nama, c.id_jabatan');
     $data['rm_lama'] = $this->Detailer->get_data_by_jabatan('rm', 'a.id, a.nama, c.id_jabatan');
     $data['detailer_exchange'] = $this->Detailer->get_data('a.id, a.nama');
+    $data['id_detailer'] = $this->nsu->digit_id_generator(4, 'd');
 
     if ($data['detailer']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['detailer']['data']);
@@ -378,6 +379,7 @@ class Master extends CI_Controller {
   {
     // init variable
     $input_var = $this->input->post();
+    $input_var['id'] = $this->session->flashdata('id_detailer');
     $detailer_var = array();
     $detailerff_var = array();
     $detailer_keluarga_var = array();

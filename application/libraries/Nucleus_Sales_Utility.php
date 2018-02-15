@@ -46,6 +46,15 @@ class Nucleus_Sales_Utility
     return $id;
   }
 
+  public function digit_id_generator($digits = 4, $prefix = NULL)
+  {
+    $id = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+    if (! is_null($prefix)) {
+      $id = $prefix . $id;
+    }
+    return $id;
+  }
+
   public function letter_number_generator($prefix = NULL)
   {
     $micro_time = microtime();
