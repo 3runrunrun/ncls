@@ -118,6 +118,8 @@
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/master-cogm" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-stack-overflow"></i>Master COGM</a>
             </li>
+            <li data-menu=""><a href="<?php echo site_url() ?>/master-aset" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-archive"></i>Master Aset</a>
+            </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/master-customer" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-user"></i> Master Customer</a>
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/master-customer-non" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-users"></i>Master Customer (Non)</a>

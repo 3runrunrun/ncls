@@ -712,4 +712,66 @@ class Master extends CI_Controller {
     }
     redirect('master-cogm');
   }
+
+  //////////
+  // ASET //
+  //////////
+
+  public function master_aset()
+  {
+    $data['aset'] = $this->Aset->get_data();
+
+    if ($data['aset']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['aset']['data']);
+    }
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('master/aset', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function store_master_aset($key = NULL)
+  {
+    // begin transaction
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      $id = $this->input->post('id');
+      $this->Aset->destroy($id);
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Hapus data Aset <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data Aset <strong>berhasil</strong> dihapus.');
+      }
+    } elseif ($key == 'edit') {
+      # code...
+    }else {
+      $input_var = $this->input->post();
+      $aset = array();
+
+      foreach ($input_var['jenis'] as $key => $value) {
+        $aset['id'] = $this->nsu->digit_id_generator(5, 'as');
+        $aset['tanggal'] = $input_var['tanggal'];
+        $aset['jenis'] = $value;
+        $aset['nominal'] = $input_var['nominal'][$key];
+        $aset['penyusutan'] = $input_var['penyusutan'][$key];
+        $this->Aset->store($aset);
+      }
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Penambahan data Aset <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data Aset <strong>berhasil</strong> disimpan.');
+      }
+      redirect('/master-aset');
+    }
+  }
+
+
 }
+

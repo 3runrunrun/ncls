@@ -156,6 +156,7 @@ $autoload['model'] = array(
   'Operasional',
   'Cogm',
   'Cogm_Jenis',
+  'Aset',
   // BARANG == PRODUK
   'Produk',
   'Barang_Masuk',

@@ -96,6 +96,10 @@ $route['master-cogm'] = 'Master/master_cogm';
 $route['store-cogm'] = 'Master/store_master_cogm';
 $route['store-cogm/(:any)'] = 'Master/store_master_cogm/$1';
 
+$route['master-aset'] = 'Master/master_aset';
+$route['store-aset'] = 'Master/store_master_aset';
+$route['store-aset/(:any)'] = 'Master/store_master_aset/$1';
+
 // TRANSACTION
 $route['subdist'] = 'Transaction/subdist';
 $route['prospek-ineks'] = 'Transaction/prospek_ineks';
