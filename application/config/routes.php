@@ -86,7 +86,9 @@ $route['show-customer-non-by-area'] = 'Master/show_customer_non_by_area';
 $route['store-customer-non/(:any)'] = 'Master/store_master_customer_non/$1';
 
 $route['master-detailer'] = 'Master/master_detailer';
+$route['master-detailer/(:any)'] = 'Master/master_detailer/$1';
 $route['store-detailer'] = 'Master/store_master_detailer';
+$route['store-detailer/(:any)'] = 'Master/store_master_detailer/$1';
 
 $route['master-operasional'] = 'Master/master_operasional';
 $route['store-operasional'] = 'Master/store_master_operasional';

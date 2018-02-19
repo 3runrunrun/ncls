@@ -83,9 +83,48 @@ class Detailer extends CI_Model {
     return $ret_val;
   }
 
+  public function show($id, $column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('detailer a');
+    $this->db->join('detailer_field_force h', 'a.id = h.id_detailer');
+    $this->db->join('jabatan b', 'h.id_jabatan = b.id');
+    $this->db->join('area c', 'h.id_area = c.id');
+    $this->db->join('(select detailer.id, nama from detailer join detailer_field_force on detailer.id = detailer_field_force.id_detailer where detailer_field_force.id_jabatan = \'spv\') d', 'h.id_supervisor = d.id', 'left', FALSE);
+    $this->db->join('(select detailer.id, nama from detailer join detailer_field_force on detailer.id = detailer_field_force.id_detailer where detailer_field_force.id_jabatan = \'rm\') e', 'h.id_rm = e.id', 'left', FALSE);
+    $this->db->join('(select detailer.id, nama from detailer join detailer_field_force on detailer.id = detailer_field_force.id_detailer where detailer_field_force.id_jabatan = \'rsm\') f', 'h.id_rsm = f.id', 'left', FALSE);
+    $this->db->join('(select detailer.id, nama from detailer join detailer_field_force on detailer.id = detailer_field_force.id_detailer where detailer_field_force.id_jabatan = \'rm\') g', 'h.id_rm_old = g.id', 'left', FALSE);
+    $this->db->where('a.status', 'on');
+    $this->db->where('a.hapus', null);
+    $this->db->where('a.id', $id);
+    $result = $this->db->get();
+    // echo $this->db->last_query();
+    // die();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
   public function store($data = array())
   {
     $query = $this->db->set($data)->get_compiled_insert('detailer');
+    $this->db->query($query);
+  }
+
+  public function update($id, $data = array())
+  {
+    $this->db->set($data);
+    $this->db->where('id', $id);
+    $query = $this->db->get_compiled_update('detailer');
     $this->db->query($query);
   }
 }

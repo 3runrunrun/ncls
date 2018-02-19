@@ -357,7 +357,7 @@ class Master extends CI_Controller {
    * Fungsi untuk menampilkan tabel dan form master detailer
    * @return void
    */
-  public function master_detailer()
+  public function master_detailer($kode_detailer = null)
   {
     $data['detailer'] = $this->Detailer->get_data("a.id, upper(a.nama) as nama, case h.tanggal_masuk when '0' then '-' else h.tanggal_masuk end as tanggal_masuk, case h.tanggal_mutasi when '0' then '-' else h.tanggal_mutasi end as tanggal_mutasi, case h.tanggal_keluar when '0' then '-' else h.tanggal_keluar end as tanggal_keluar, a.keterangan, upper(c.area) as area, upper(a.agama) as agama, upper(a.golongan) as golongang, upper(h.subarea) as subarea, a.status, upper(d.nama) as nama_spv, upper(e.nama) as nama_rm, upper(f.nama) as nama_rsm, upper(g.nama) as nama_rm_old");
     // die();
@@ -370,6 +370,12 @@ class Master extends CI_Controller {
     $data['detailer_exchange'] = $this->Detailer->get_data('a.id, a.nama');
     $data['id_detailer'] = $this->nsu->digit_id_generator(4, 'd');
 
+    if ($kode_detailer !== null) {
+      $data['detailer_edit'] = $this->Detailer->show($kode_detailer, "a.id, a.ktp, a.kewarganegaraan, a.tempat_lahir, a.nama, a.jenis_kelamin, a.agama, a.status_perkawinan, a.pendidikan_terakhir, case a.tanggal_lahir when '0' then '-' else a.tanggal_lahir end as tanggal_lahir, case h.tanggal_masuk when '0' then '-' else h.tanggal_masuk end as tanggal_masuk, a.keterangan, h.id_area as id_area, a.agama as agama, a.golongan as golongan, h.subarea as subarea, h.telp_rumah, h.no_hp, a.status, d.id as id_spv, d.nama as nama_spv, e.id as id_rm, e.nama as nama_rm, f.id as id_rsm, f.nama as nama_rsm, g.id as id_rm_old, g.nama as nama_rm_old, h.id_jabatan, h.bank, h.akun, h.net_salary, h.housing, h.tunjangan, h.sewa_kendaraan, h.id_detailer_exchange, h.keterangan");
+      // var_dump($data['detailer_edit']['data']->result());
+      // die();
+    }
+
     if ($data['detailer']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['detailer']['data']);
     }
@@ -380,11 +386,55 @@ class Master extends CI_Controller {
     $this->load->view('footer-js');
   }
 
-  public function store_master_detailer()
+  /**
+   * Fungsi untuk operasi Create Update Delete master detailer
+   * @param  string $key jenis operasi (CUD)
+   * @return void
+   */
+  public function store_master_detailer($key = NULL)
   {
-    // init variable
-    $input_var = $this->input->post();
-    $input_var['id'] = $this->session->flashdata('id_detailer');
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      $this->update_detailer($this->input->post(), $this->session->flashdata('edit_id_detailer'));
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Pengubahan data detailer <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data detailer <strong>berhasil</strong> diubah.');
+      }
+    } else {
+      // init variable
+      // $input_var = $this->input->post();
+      // $input_var['id'] = $this->session->flashdata('id_detailer');
+      $this->store_detailer($this->input->post(), $this->session->flashdata('id_detailer'));
+      // begin transaction
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Penambahan data detailer <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data detailer baru <strong>berhasil</strong> disimpan.');
+      }
+    }
+    
+    redirect('/master-detailer');
+  }
+
+  /**
+   * Fungsi proses penyimpanan detailer baru
+   * @param  array $input_var      Array variabel input
+   * @param  string $kode_detailer kode detailer (flashdata)
+   * @return void
+   */
+  private function store_detailer($input_var, $kode_detailer)
+  {
+    $input_var['id'] = $kode_detailer;
+
     $detailer_var = array();
     $detailerff_var = array();
     $detailer_keluarga_var = array();
@@ -439,11 +489,9 @@ class Master extends CI_Controller {
     $detailer_keluarga_var['id_detailer'] = $detailer_var['id'];
     $detailer_keluarga_var['istri'] = $input_var['istri'];
     // var_dump($detailer_keluarga_var);
-
     // die();
-
+    
     // trans begin
-    $this->db->trans_begin();
     $this->Detailer->store($detailer_var);
     $this->Detailer_FF->store($detailerff_var);
     $this->User_Account->store($user_account_var);
@@ -459,17 +507,60 @@ class Master extends CI_Controller {
         $this->Detailer_Anak->store($detailer_anak_var);
       }
     }
+  }
 
-    // begin transaction
-    if ($this->db->trans_status() === FALSE) {
-      $this->db->trans_rollback();
-      $this->session->set_flashdata('error_msg', 'Penambahan data detailer <strong>gagal</strong>.');
-    } else {
-      // $this->db->trans_rollback();
-      $this->db->trans_commit();
-      $this->session->set_flashdata('success_msg', 'Data detailer baru <strong>berhasil</strong> disimpan.');
-    }
-    redirect('master-detailer');
+  /**
+   * Fungsi proses edit detailer
+   * @param  array $input_var      Variabel array input
+   * @param  string $kode_detailer kode detailer (flashdata)
+   * @return void
+   */
+  public function update_detailer($input_var, $kode_detailer)
+  {
+    $id = $kode_detailer;
+
+    $detailer_var = array();
+    $detailerff_var = array();
+
+    $detailer_var['ktp'] = $input_var['ktp'];
+    $detailer_var['nama'] = $input_var['nama'];
+    $detailer_var['golongan'] = $input_var['golongan'];
+    $detailer_var['tempat_lahir'] = $input_var['tempat_lahir'];
+    $detailer_var['tanggal_lahir'] = $input_var['tanggal_lahir'];
+    $detailer_var['jenis_kelamin'] = $input_var['jenis_kelamin'];
+    $detailer_var['agama'] = $input_var['agama'];
+    $detailer_var['kewarganegaraan'] = $input_var['kewarganegaraan'];
+    $detailer_var['pendidikan_terakhir'] = $input_var['pendidikan_terakhir'];
+    $detailer_var['status_perkawinan'] = $input_var['status_perkawinan'];
+    $detailer_var['keterangan'] = $input_var['keterangan'];
+    // var_dump($detailer_var);
+
+    $detailerff_var['id_area'] = $input_var['id_area'];
+    $detailerff_var['subarea'] = $input_var['subarea'];
+    $detailerff_var['id_jabatan'] = $input_var['id_jabatan'];
+    $detailerff_var['tanggal_masuk'] = $input_var['tanggal_masuk'];
+    $detailerff_var['tanggal_mutasi'] = $input_var['tanggal_mutasi'];
+    $detailerff_var['tanggal_keluar'] = $input_var['tanggal_keluar'];
+    $detailerff_var['id_rm'] = $input_var['id_rm'];
+    $detailerff_var['id_rsm'] = $input_var['id_rsm'];
+    $detailerff_var['id_rm_old'] = $input_var['id_rm_old'];
+    $detailerff_var['id_supervisor'] = $input_var['id_supervisor'];
+    $detailerff_var['telp_rumah'] = $input_var['telp_rumah'];
+    $detailerff_var['no_hp'] = $input_var['no_hp'];
+    $detailerff_var['net_salary'] = $input_var['net_salary'];
+    $detailerff_var['housing'] = $input_var['housing'];
+    $detailerff_var['tunjangan'] = $input_var['tunjangan'];
+    $detailerff_var['sewa_kendaraan'] = $input_var['sewa_kendaraan'];
+    $detailerff_var['bank'] = $input_var['bank'];
+    $detailerff_var['akun'] = $input_var['akun'];
+    $detailerff_var['id_detailer_exchange'] = $input_var['id_detailer_exchange'];
+    $detailerff_var['keterangan'] = $input_var['keterangan'];
+    // var_dump($detailerff_var);
+    // die();
+
+    // trans begin
+    $this->Detailer->update($id, $detailer_var);
+    $this->Detailer_FF->update_by_detailer($id, $detailerff_var);
   }
 
   //////////////
