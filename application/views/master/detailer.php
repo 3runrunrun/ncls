@@ -241,7 +241,7 @@
                       </div>
                       <label class="label-control col-sm-2">Akun</label>
                       <div class="col-sm-4">
-                        <input class="form-control border-primary" name="sewa_kendaraan" type="text" placeholder="No. rekening" value="<?php echo number_format($value->sewa_kendaraan, 0, '', ''); ?>">
+                        <input class="form-control border-primary" name="akun" type="text" placeholder="No. rekening" value="<?php echo $value->akun; ?>">
                       </div>
                     </div>
                     <!-- /bank /akun -->
@@ -697,7 +697,7 @@
                           </div>
                           <label class="label-control col-sm-2">Akun</label>
                           <div class="col-sm-4">
-                            <input class="form-control border-primary" name="sewa_kendaraan" type="text" placeholder="No. rekening">
+                            <input class="form-control border-primary" name="akun" type="text" placeholder="No. rekening">
                           </div>
                         </div>
                         <!-- /bank /akun -->

@@ -36,7 +36,7 @@ class Detailer_FF extends CI_Model {
   public function update_by_detailer($id_detailer, $data = array())
   {
     $this->db->set($data);
-    $this->db->where('id_detailer', $id);
+    $this->db->where('id_detailer', $id_detailer);
     $query = $this->db->get_compiled_update('detailer_field_force');
     $this->db->query($query);
   }

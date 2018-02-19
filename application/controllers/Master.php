@@ -407,11 +407,7 @@ class Master extends CI_Controller {
         $this->session->set_flashdata('success_msg', 'Data detailer <strong>berhasil</strong> diubah.');
       }
     } else {
-      // init variable
-      // $input_var = $this->input->post();
-      // $input_var['id'] = $this->session->flashdata('id_detailer');
       $this->store_detailer($this->input->post(), $this->session->flashdata('id_detailer'));
-      // begin transaction
       if ($this->db->trans_status() === FALSE) {
         $this->db->trans_rollback();
         $this->session->set_flashdata('error_msg', 'Penambahan data detailer <strong>gagal</strong>.');
