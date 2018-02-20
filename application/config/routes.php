@@ -109,6 +109,10 @@ $route['store-aset/(:any)'] = 'Master/store_master_aset/$1';
 
 // TRANSACTION
 $route['subdist'] = 'Transaction/subdist';
+$route['subdist-detail/(:any)'] = 'Transaction/subdist_detail/$1';
+$route['show-subdist-by-dist-month'] = 'Transaction/show_subdist_by_dist_month';
+$route['store-subdist'] = 'Transaction/store_subdist';
+
 $route['prospek-ineks'] = 'Transaction/prospek_ineks';
 $route['fixed-cost'] = 'Transaction/fixed_cost';
 $route['evaluasi-target-customer'] = 'Transaction/evaluasi_target_customer';

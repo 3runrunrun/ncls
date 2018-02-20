@@ -166,4 +166,7 @@ $autoload['model'] = array(
   'Barang_Stok_Bulanan',
   'Permohonan_Produk_Nucleus',
   'Status_Permohonan_Produk_Nucleus',
+  // TRANSACTION
+  'Subdist_Permintaan_Produk',
+  'Subdist_Permintaan_Produk_Detail',
 );

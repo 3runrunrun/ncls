@@ -42,10 +42,8 @@
                       <thead>
                           <tr>
                               <th width="5%">Kode</th>
-                              <th width="30%">Nama Subdistributor</th>
-                              <th width="30%">Distributor</th>
-                              <th width="10%">Jenis Distributor</th>
-                              <th width="10%">Area</th>
+                              <th width="50%">Nama Subdistributor</th>
+                              <th width="30%">Area</th>
                               <th width="15%">Tools</th>
                           </tr>
                       </thead>
@@ -54,8 +52,6 @@
                         <tr>
                           <td><?php echo strtoupper($value->id); ?></td>
                           <td><?php echo strtoupper($value->nama); ?></td>
-                          <td><?php echo strtoupper($value->nama_distributor); ?></td>
-                          <td><?php echo strtoupper($value->alias_distributor); ?></td>
                           <td><?php echo strtoupper($value->area); ?> (<?php echo strtoupper($value->alias_area); ?>)</td>
                           <td>
                             <div class="btn-group-vertical" role="group">
@@ -103,21 +99,21 @@
                       </div>
                       <!-- /nama -->
                       <div class="form-group row">
-                        <label class="label-control col-sm-2 col-xs-12">Distributor</label>
+                        <label class="label-control col-sm-2 col-xs-12">Area</label>
                         <div class="col-sm-10 col-xs-12">
-                          <select name="id_distributor" class="form-control select2">
-                            <option value="" selected disabled>Pilih Distributor</option>
-                            <?php if ($distributor['data']->num_rows() < 1): ?>
-                            <option value="" disabled>Distributor belum tersedia</option>
+                          <select name="id_area" class="form-control select2">
+                            <option value="" selected disabled>Pilih Area</option>
+                            <?php if ($area['data']->num_rows() < 1): ?>
+                            <option value="" disabled>Area belum tersedia</option>
                             <?php else: ?>
-                            <?php foreach ($distributor['data']->result() as $value): ?>
-                            <option value="<?php echo $value->id; ?>">(<?php echo $value->alias_area; ?>) - <?php echo $value->alias_distributor; ?> - <?php echo $value->nama; ?></option>
-                            <?php endforeach; ?>
+                            <?php foreach ($area['data']->result() as $value): ?>
+                            <option value="<?php echo $value->id; ?>">(<?php echo $value->alias_area; ?>) - <?php echo $value->area; ?></option>
+                            <?php endforeach ?>
                             <?php endif; ?>
+                            <option value=""></option>
                           </select>
                         </div>
                       </div>
-                      <!-- /distributor -->
                     </div>
                     <div class="form-actions center">
                       <input type="submit" class="btn btn-success" value="Simpan">

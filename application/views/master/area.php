@@ -37,7 +37,7 @@
                 <?php endif; ?>
                 <!-- /alert -->
                 <!-- Tabel -->
-                <div id="daily-activity" class="table-responsive height-250 ps-container ps-theme-default ps-active-y border-top-red" data-ps-id="919f8169-8f2a-e62c-bd13-883a2a99a52f">
+                <div class="table-responsive height-250 border-top-red">
                   <table class="table table-hover mb-0">
                       <thead>
                           <tr>
@@ -63,7 +63,6 @@
                         <?php endforeach; ?>
                       </tbody>
                   </table>
-                  <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 350px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 307px;"></div></div>
                 </div>
                 <!-- End of Tabel -->
               </div>

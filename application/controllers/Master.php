@@ -133,8 +133,8 @@ class Master extends CI_Controller {
 
   public function master_subdist($kode_subdist = NULL)
   {
-    $data['subdist'] = $this->Subdist->get_data('a.id, a.nama, b.nama as nama_distributor, c.alias_distributor,  d.area, d.alias_area');
-    $data['distributor'] = $this->Distributor->get_data('a.id, upper(a.nama) as nama, upper(b.alias_distributor) as alias_distributor, upper(c.alias_area) as alias_area');
+    $data['subdist'] = $this->Subdist->get_data('a.id, a.nama, upper(b.area) as area, upper(b.alias_area) as alias_area');
+    $data['area'] = $this->Area->get_data('id, upper(area) as area, upper(alias_area) as alias_area');
     $data['id_subdist'] = $this->nsu->digit_id_generator(4, 'sd');
 
     if ($data['subdist']['status'] == 'error') {
