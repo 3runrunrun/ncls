@@ -144,6 +144,7 @@ $autoload['model'] = array(
   'Area',
   'Master_Distributor',
   'Distributor',
+  'Subdist',
   'Outlet',
   'User_Account',
   'Jabatan',

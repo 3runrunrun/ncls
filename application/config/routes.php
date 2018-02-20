@@ -61,6 +61,11 @@ $route['master-distributor'] = 'Master/master_distributor';
 $route['store-m-distributor'] = 'Master/store_core_distributor';
 $route['store-distributor'] = 'Master/store_master_distributor';
 
+$route['master-subdist'] = 'Master/master_subdist';
+$route['master-subdist/(:any)'] = 'Master/master_subdist/$1';
+$route['store-subdist'] = 'Master/store_master_subdist';
+$route['store-subdist/(:any)'] = 'Master/store_master_subdist/$1';
+
 $route['master-customer'] = 'Master/master_customer';
 $route['master-customer/(:any)'] = 'Master/master_customer/$1';
 $route['show-customer-by-area'] = 'Master/show_customer_by_area';

@@ -41,16 +41,16 @@
                   <table class="table table-hover mb-0">
                     <thead>
                       <tr>
-                        <th width="10%">Tanggal</th>
-                        <th width="10%">City<br />(Rp)</th>
-                        <th width="10%">Allowance<br />(Rp)</th>
-                        <th width="10%">Tol<br />Parkir<br />(Rp)</th>
-                        <th width="10%">Bensin<br />(Rp)</th>
-                        <th width="10%">Comm<br />(Rp)</th>
-                        <th width="10%">Entertainment<br />(Rp)</th>
-                        <th width="10%">Med. Care<br />(Rp)</th>
-                        <th width="10%">Other<br />(Rp)</th>
-                        <th width="10%">Total<br />(Rp)</th>
+                        <th>Tanggal</th>
+                        <th>City<br />(Rp)</th>
+                        <th>Allowance<br />(Rp)</th>
+                        <th>Tol<br />Parkir<br />(Rp)</th>
+                        <th>Bensin<br />(Rp)</th>
+                        <th>Comm<br />(Rp)</th>
+                        <th>Entertainment<br />(Rp)</th>
+                        <th>Med. Care<br />(Rp)</th>
+                        <th>Other<br />(Rp)</th>
+                        <th>Total<br />(Rp)</th>
                         <th>Tools</th>
                       </tr>
                     </thead>

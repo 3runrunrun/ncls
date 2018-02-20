@@ -127,6 +127,53 @@ class Master extends CI_Controller {
     redirect('master-distributor');
   }
 
+  /////////////
+  // SUBDIST //
+  /////////////
+
+  public function master_subdist($kode_subdist = NULL)
+  {
+    $data['subdist'] = $this->Subdist->get_data('a.id, a.nama, b.nama as nama_distributor, c.alias_distributor,  d.area, d.alias_area');
+    $data['distributor'] = $this->Distributor->get_data('a.id, upper(a.nama) as nama, upper(b.alias_distributor) as alias_distributor, upper(c.alias_area) as alias_area');
+    $data['id_subdist'] = $this->nsu->digit_id_generator(4, 'sd');
+
+    if ($data['subdist']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['subdist']['data']);
+    }
+    // var_dump($this->session->flashdata('query_msg'));
+    // die();
+    
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('master/subdist', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function store_master_subdist($key = NULL)
+  {
+    // begin transaction
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      # code...
+    } else {
+      $input_var = $this->input->post();
+      $input_var['id'] = $this->session->flashdata('id_subdist');
+
+      $this->Subdist->store($input_var);
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Penambahan data  subdistributor <strong>gagal</strong>.');
+      } else {
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data  subdistributor baru <strong>berhasil</strong> disimpan.');
+      }
+    }
+    
+    redirect('/master-subdist');
+  }
+
   ////////////
   // PRODUK //
   ////////////
