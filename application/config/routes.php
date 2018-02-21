@@ -116,7 +116,13 @@ $route['store-subdist'] = 'Transaction/store_subdist';
 $route['prospek-ineks'] = 'Transaction/prospek_ineks';
 $route['fixed-cost'] = 'Transaction/fixed_cost';
 $route['evaluasi-target-customer'] = 'Transaction/evaluasi_target_customer';
+
 $route['wpr'] = 'Transaction/wpr';
+$route['wpr-detail/(:any)'] = 'Transaction/wpr/$1';
+$route['store-wpr'] = 'Transaction/store_wpr';
+$route['store-wpr/(:any)'] = 'Transaction/store_wpr/$1';
+
+
 $route['promo-trial'] = 'Transaction/promo_trial';
 
 $route['daftar-faktur'] = 'Transaction/daftar_permohonan_factur';

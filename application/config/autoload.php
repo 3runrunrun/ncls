@@ -169,4 +169,7 @@ $autoload['model'] = array(
   // TRANSACTION
   'Subdist_Permintaan_Produk',
   'Subdist_Permintaan_Produk_Detail',
+  'Wpr',
+  'Wpr_Status',
+  'Wpr_Detail',
 );

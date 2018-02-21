@@ -151,10 +151,131 @@ class Transaction extends CI_Controller {
 
   public function wpr()
   {
+    $data['wpr_approved'] = $this->Wpr->get_data_approved('a.id, upper(a.no_wpr) as no_wpr, upper(f.nama) as nama_detailer, sum(d.dana) as dana, a.status');
+    $data['wpr_new'] = $this->Wpr->get_data_waiting('a.id, upper(a.no_wpr) as no_wpr, upper(f.nama) as nama_detailer, sum(d.dana) as dana, a.status');
+
+    $data['user_customer'] = $this->Customer->get_data_user('a.id, upper(a.nama) as nama, upper(b.alias_area) as alias_area');
+    $data['detailer'] = $this->Detailer->get_data('a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama');
+
+    if ($data['wpr_approved']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['wpr_approved']['data']);
+    }
+    if ($data['wpr_new']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['wpr_new']['data']);
+    }
+
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('transaction/wpr/wpr');
+    $this->load->view('transaction/wpr/wpr', $data);
     $this->load->view('footer-js');
+  }
+
+  public function wpr_detail($id)
+  {
+    $data['wpr'] = $this->Wpr->get_data_approved('a.id, upper(a.no_wpr) as no_wpr, upper(b.nama) as nama_outlet, upper(c.nama) as nama_user, upper(c.spesialis) as spesialis, sum(d.dana) as dana, a.status');
+
+    if ($data['wpr']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['wpr']['data']);
+    }
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/wpr/wpr-detail', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function store_wpr($key = NULL)
+  {
+    // begin transaction
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      # code...
+    } elseif ($key == 'approve') {
+      $id = $this->input->post('id');
+      $no_wpr = $this->input->post('no_wpr');
+
+      $this->approve_wpr($id, $no_wpr);
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Proses persetujuan WPR <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'WPR <strong>disetujui</strong>.');
+      }
+    } else {
+      $input_var = $this->input->post();
+      $input_var['id'] = $this->nsu->digit_id_generator('4', 'wpr');
+      $input_var['no_wpr'] = $input_var['prefix'] . $this->session->userdata('no_wpr');
+      unset($input_var['prefix']);
+      $this->session->unset_userdata('id_outlet');
+
+      $wpr = array();
+      $wpr_status = array();
+      $wpr_detail = array();
+
+      $status = 'waiting';
+
+      // var_dump($input_var);
+      // echo $input_var['no_wpr'];
+      // die();
+
+      // insert to table wpr
+      $wpr['id'] = $input_var['id'];
+      $wpr['no_wpr'] = $input_var['no_wpr'];
+      $wpr['tahun'] = date('Y');
+      $wpr['id_detailer'] = $input_var['id_detailer'];
+      $wpr['keterangan'] = $input_var['keterangan'];
+      $wpr['status'] = $status;
+      $this->Wpr->store($wpr);
+
+      // insert to table wpr_status
+      $wpr_status['id_wpr'] = $wpr['id'];
+      $wpr_status['no_wpr'] = $wpr['no_wpr'];
+      $wpr_status['status'] = $status;
+      $wpr_status['tanggal'] = date('Y-m-d H:i:s');
+      $this->Wpr_Status->store($wpr_status);
+
+      // insert to table wpr_detail
+      foreach ($input_var['dana'] as $key => $value) {
+        $wpr_detail['id_wpr'] = $wpr['id'];
+        $wpr_detail['no_wpr'] = $wpr['no_wpr'];
+        $wpr_detail['id_user'] = $input_var['id_user'][$key];
+        $wpr_detail['bank'] = $input_var['bank'][$key];
+        $wpr_detail['no_rekening'] = $input_var['no_rekening'][$key];
+        $wpr_detail['atas_nama'] = $input_var['atas_nama'][$key];
+        $wpr_detail['dari'] = $input_var['dari'][$key];
+        $wpr_detail['sampai'] = $input_var['sampai'][$key];
+        $wpr_detail['dana'] = $value;
+        $this->Wpr_Detail->store($wpr_detail);
+      }
+
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Pengajuan WPR <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Pengajuan WPR <strong>berhasil</strong> disimpan.');
+      }
+    }
+    
+    redirect('/wpr');
+  }
+
+  public function approve_wpr($id, $no_wpr)
+  {
+    $wpr_status = array();
+
+    $wpr_status['id_wpr'] = $id;
+    $wpr_status['no_wpr'] = $no_wpr;
+    $wpr_status['status'] = 'approve';
+    $wpr_status['tanggal'] = date('Y-m-d H:i:s');
+
+    $this->Wpr_Status->store($wpr_status);
+    $this->Wpr->update($id, array('status' => $wpr_status['status']));
   }
 
   /////////////////
