@@ -29,6 +29,28 @@ class Cogm extends CI_Model {
     return $ret_val;
   }
 
+  public function get_total_cogm($column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('cogm');
+    $this->db->group_by('tahun');
+    $this->db->where('tahun', $this->session->userdata('tahun'));
+    $this->db->where('hapus', null);
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
   public function store($data = array())
   {
     $query = $this->db->set($data)->get_compiled_insert('cogm');

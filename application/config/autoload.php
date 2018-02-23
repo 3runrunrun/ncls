@@ -172,4 +172,7 @@ $autoload['model'] = array(
   'Wpr',
   'Wpr_Status',
   'Wpr_Detail',
+  'Promo_Trial',
+  'Promo_Trial_Detail',
+  'Promo_Trial_Status',
 );

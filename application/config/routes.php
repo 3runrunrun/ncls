@@ -122,8 +122,9 @@ $route['wpr-detail/(:any)'] = 'Transaction/wpr/$1';
 $route['store-wpr'] = 'Transaction/store_wpr';
 $route['store-wpr/(:any)'] = 'Transaction/store_wpr/$1';
 
-
 $route['promo-trial'] = 'Transaction/promo_trial';
+$route['store-pt'] = 'Transaction/store_pt';
+$route['store-pt/(:any)'] = 'Transaction/store_pt/$1';
 
 $route['daftar-faktur'] = 'Transaction/daftar_permohonan_factur';
 $route['faktur-diskon-general'] = 'Transaction/factur_discount_general';

@@ -4,12 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Master extends CI_Controller {
   public function  __construct(){
     parent:: __construct();
+    $this->session->set_userdata('tahun', '2018');
     date_default_timezone_set('Asia/Jakarta');
     $this->load->helper('url');
     $this->load->library('upload');
     $this->load->library('image_lib');
     error_reporting(0);
   }
+
   public function index()
   {
     $this->load->view('head');
@@ -66,6 +68,7 @@ class Master extends CI_Controller {
   /////////////////
   // DISTRIBUTOR //
   /////////////////
+
   public function master_distributor()
   {
     $data['distributor'] = $this->Distributor->get_data('a.id_distributor, a.nama, b.distributor, b.alias_distributor,  c.area, c.alias_area');
@@ -830,6 +833,7 @@ class Master extends CI_Controller {
       foreach ($input_var['id_jenis_cogm'] as $key => $value) {
         $cogm['id'] = $this->nsu->time_id_generator();
         $cogm['id_jenis_cogm'] = $value;
+        $cogm['tahun'] = date('Y');
         $cogm['biaya'] = $input_var['biaya'][$key];
         $cogm['tanggal'] = $input_var['tanggal'];
 

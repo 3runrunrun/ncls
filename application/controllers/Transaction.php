@@ -4,12 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Transaction extends CI_Controller {
   public function  __construct(){
     parent:: __construct();
+    $this->session->set_userdata('tahun', '2018');
     date_default_timezone_set('Asia/Jakarta');
     $this->load->helper('url');
     $this->load->library('upload');
     $this->load->library('image_lib');
     error_reporting(0);
   }
+
   public function index()
   {
     $this->load->view('head');
@@ -127,9 +129,12 @@ class Transaction extends CI_Controller {
 
   public function fixed_cost()
   {
+    $data['promosi'] = $this->Wpr_Detail->get_promosi('sum(a.dana) as promosi');
+    $data['cogm'] = $this->Cogm->get_total_cogm('sum(biaya) as cogm');
+
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('transaction/fixed-cost/fixed-cost');
+    $this->load->view('transaction/fixed-cost/fixed-cost', $data);
     $this->load->view('footer-js');
   }
 
@@ -210,7 +215,7 @@ class Transaction extends CI_Controller {
       $input_var['id'] = $this->nsu->digit_id_generator('4', 'wpr');
       $input_var['no_wpr'] = $input_var['prefix'] . $this->session->userdata('no_wpr');
       unset($input_var['prefix']);
-      $this->session->unset_userdata('id_outlet');
+      $this->session->unset_userdata('no_wpr');
 
       $wpr = array();
       $wpr_status = array();
@@ -284,10 +289,105 @@ class Transaction extends CI_Controller {
 
   public function promo_trial()
   {
+    $data['promo_approved'] = $this->Promo_Trial->get_data_approved('a.id, upper(a.no_promo) as no_promo, upper(b.nama) as nama_detailer, upper(c.nama) as nama_user, a.status');
+    $data['promo_waiting'] = $this->Promo_Trial->get_data_waiting('a.id, upper(a.no_promo) as no_promo, upper(b.nama) as nama_detailer, upper(c.nama) as nama_user, a.status');
+
+    $data['user_customer'] = $this->Customer->get_data_user('a.id, upper(a.nama) as nama, upper(b.alias_area) as alias_area');
+    $data['detailer'] = $this->Detailer->get_data('a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama');
+    $data['produk'] = $this->Produk->get_data('a.id, upper(a.nama) as nama');
+
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('transaction/promo-trial/promo-trial');
+    $this->load->view('transaction/promo-trial/promo-trial', $data);
     $this->load->view('footer-js');
+  }
+
+  public function store_pt($key = NULL)
+  {
+    // begin transaction
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      # code...
+    } elseif ($key == 'approve') {
+      $id = $this->input->post('id');
+      $no_promo = $this->input->post('no_promo');
+
+      $this->approve_pt($id, $no_promo);
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Proses persetujuan promo <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Promo <strong>disetujui</strong>.');
+      }
+    } else {
+      $input_var = $this->input->post();
+      $input_var['id'] = $this->nsu->digit_id_generator('4', 'fpt');
+      $input_var['no_promo'] =$this->session->userdata('no_promo');
+      $this->session->unset_userdata('no_promo');
+
+      $pt = array();
+      $pt_status = array();
+      $pt_detail = array();
+
+      $status = 'waiting';
+
+      // var_dump($input_var);
+      // echo $input_var['no_promo'];
+      // die();
+
+      // insert to table wpr
+      $pt['id'] = $input_var['id'];
+      $pt['no_promo'] = $input_var['no_promo'];
+      $pt['tahun'] = date('Y');
+      $pt['id_detailer'] = $input_var['id_detailer'];
+      $pt['id_user'] = $input_var['id_user'];
+      $pt['status'] = $status;
+      $this->Promo_Trial->store($pt);
+
+      // insert to table wpr_status
+      $pt_status['id_promo_trial'] = $pt['id'];
+      $pt_status['no_promo'] = $pt['no_promo'];
+      $pt_status['status'] = $status;
+      $pt_status['tanggal'] = date('Y-m-d H:i:s');
+      $this->Promo_Trial_Status->store($pt_status);
+
+      // insert to table wpr_detail
+      foreach ($input_var['id_produk'] as $key => $value) {
+        $pt_detail['id_promo_trial'] = $pt['id'];
+        $pt_detail['no_promo'] = $pt['no_promo'];
+        $pt_detail['id_produk'] = $value;
+        $pt_detail['jumlah'] = $input_var['jumlah'][$key];
+        $this->Promo_Trial_Detail->store($pt_detail);
+      }
+
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Pengajuan Promo Trial <strong>gagal</strong>.');
+      } else {
+        // $this->db->trans_rollback();
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Pengajuan Promo Trial <strong>berhasil</strong> disimpan.');
+      }
+    }
+    
+    redirect('/promo-trial');
+  }
+
+  public function approve_pt($id, $no_promo)
+  {
+    $pt_status = array();
+
+    $pt_status['id_promo_trial'] = $id;
+    $pt_status['no_promo'] = $no_promo;
+    $pt_status['status'] = 'approve';
+    $pt_status['tanggal'] = date('Y-m-d H:i:s');
+
+    $this->Promo_Trial_Status->store($pt_status);
+    $this->Promo_Trial->update($id, array('status' => $pt_status['status']));
   }
 
   ////////////

@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Report extends CI_Controller {
   public function  __construct(){
     parent:: __construct();
+    $this->session->set_userdata('tahun', '2018');
     date_default_timezone_set('Asia/Jakarta');
     $this->load->helper('url');
     $this->load->library('upload');

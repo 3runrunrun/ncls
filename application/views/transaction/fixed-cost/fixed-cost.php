@@ -26,6 +26,200 @@
     <div class="content-header row">
     </div>
     <div class="content-body">
+      <!-- performance -->
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="card border-top-orange">
+            <div class="card-header no-border-bottom">
+              <h4 class="card-title">Performance</h4>
+              <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+              <div class="heading-elements"></div>
+            </div>
+            <div class="card-body">
+              <!-- under-performance -->
+              <div class="card-block">
+                <div class="row">
+                  <div class="col-sm-4 border-right-blue-grey border-right-lighten-5">
+                    <div class="my-1 text-xs-center">
+                      <div class="card-header mb-2 pt-0">
+                        <span class="info">
+                          <h3 class="font-large-2 text-bold-200">Under Performance</h3>
+                        </span>
+                      </div>
+                      <div class="card-body">
+                        <div style="display:inline;width:100px;height:100px;"><input type="text" value="<?php echo number_format($persentase, 0); ?>" class="knob hide-value responsive angle-offset" data-angleoffset="40" data-thickness=".15" data-linecap="round" data-width="100" data-height="100" data-inputcolor="#e1e1e1" data-readonly="true" data-fgcolor="#00BCD4" data-knob-icon="icon-feedback2" readonly="readonly" style="width: 69px; height: 43px; position: absolute; vertical-align: middle; margin-top: 43px; border: 0px; background: none; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 26px; line-height: normal; font-family: Arial; text-align: center; color: rgb(225, 225, 225); padding: 0px; -webkit-appearance: none; margin-left: -99px; display: none;"></div>
+                        <ul class="list-inline clearfix mt-1 mb-0">
+                          <li class="border-right-grey border-right-lighten-2 pr-2">
+                            <h2 class="grey darken-1 text-bold-400"><?php echo number_format($persentase, 0); ?>%</h2>
+                            <span class="success">Completed</span>
+                          </li>
+                          <li class="pl-2">
+                            <h2 class="grey darken-1 text-bold-400"><?php echo number_format($remaining, 0); ?>%</h2>
+                            <span class="danger">Remaining</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
+                  <div class="col-sm-8">
+                    <div class="card-body">
+                      <div class="card-block">
+                        <!-- Tabel -->
+                        <div class="table-responsive height-250">
+                          <table class="table table-hover mb-0">
+                              <thead>
+                                <tr>
+                                  <th width="20%">Detailer</th>
+                                  <th width="5%">Total Sales<br />(Rp)</th>
+                                  <th width="5%">Target<br />(Rp)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php for ($i = 0; $i < 9; $i++): ?>
+                                <tr>
+                                  <td>Nama Detailer</td>
+                                  <td><?php echo rand(1000000, 2000000); ?></td>
+                                  <td><?php echo rand(3000000, 4000000); ?></td>
+                                </tr>
+                                <?php endfor; ?>
+                              </tbody>
+                          </table>
+                        </div>
+                        <!-- End of Tabel -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
+                </div>
+              </div>
+              <!-- /under-performance -->
+              
+              <!-- performance -->
+              <div class="card-block">
+                <div class="row">
+                  <div class="col-sm-4 border-right-blue-grey border-right-lighten-5">
+                    <div class="my-1 text-xs-center">
+                      <div class="card-header mb-2 pt-0">
+                        <span class="info">
+                          <h3 class="font-large-2 text-bold-200">Performance</h3>
+                        </span>
+                      </div>
+                      <div class="card-body">
+                        <div style="display:inline;width:100px;height:100px;"><input type="text" value="<?php echo number_format($persentase, 0); ?>" class="knob hide-value responsive angle-offset" data-angleoffset="40" data-thickness=".15" data-linecap="round" data-width="100" data-height="100" data-inputcolor="#e1e1e1" data-readonly="true" data-fgcolor="#00BCD4" data-knob-icon="icon-feedback2" readonly="readonly" style="width: 69px; height: 43px; position: absolute; vertical-align: middle; margin-top: 43px; border: 0px; background: none; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 26px; line-height: normal; font-family: Arial; text-align: center; color: rgb(225, 225, 225); padding: 0px; -webkit-appearance: none; margin-left: -99px; display: none;"></div>
+                        <ul class="list-inline clearfix mt-1 mb-0">
+                          <li class="border-right-grey border-right-lighten-2 pr-2">
+                            <h2 class="grey darken-1 text-bold-400"><?php echo number_format($persentase, 0); ?>%</h2>
+                            <span class="success">Completed</span>
+                          </li>
+                          <li class="pl-2">
+                            <h2 class="grey darken-1 text-bold-400"><?php echo number_format($remaining, 0); ?>%</h2>
+                            <span class="danger">Remaining</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
+                  <div class="col-sm-8">
+                    <div class="card-body">
+                      <div class="card-block">
+                        <!-- Tabel -->
+                        <div class="table-responsive height-250">
+                          <table class="table table-hover mb-0">
+                              <thead>
+                                <tr>
+                                  <th width="20%">Detailer</th>
+                                  <th width="5%">Total Sales<br />(Rp)</th>
+                                  <th width="5%">Target<br />(Rp)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php for ($i = 0; $i < 9; $i++): ?>
+                                <tr>
+                                  <td>Nama Detailer</td>
+                                  <td><?php echo rand(1000000, 2000000); ?></td>
+                                  <td><?php echo rand(3000000, 4000000); ?></td>
+                                </tr>
+                                <?php endfor; ?>
+                              </tbody>
+                          </table>
+                        </div>
+                        <!-- End of Tabel -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
+                </div>
+              </div>
+              <!-- /performance -->
+
+              <!-- the-best-detailer -->
+              <div class="card-block">
+                <div class="row">
+                  <div class="col-sm-4 border-right-blue-grey border-right-lighten-5">
+                    <div class="my-1 text-xs-center">
+                      <div class="card-header mb-2 pt-0">
+                        <span class="info">
+                          <h3 class="font-large-2 text-bold-200">Best Detailer</h3>
+                        </span>
+                      </div>
+                      <div class="card-body">
+                        <div style="display:inline;width:100px;height:100px;"><input type="text" value="<?php echo number_format($persentase, 0); ?>" class="knob hide-value responsive angle-offset" data-angleoffset="40" data-thickness=".15" data-linecap="round" data-width="100" data-height="100" data-inputcolor="#e1e1e1" data-readonly="true" data-fgcolor="#00BCD4" data-knob-icon="icon-feedback2" readonly="readonly" style="width: 69px; height: 43px; position: absolute; vertical-align: middle; margin-top: 43px; border: 0px; background: none; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 26px; line-height: normal; font-family: Arial; text-align: center; color: rgb(225, 225, 225); padding: 0px; -webkit-appearance: none; margin-left: -99px; display: none;"></div>
+                        <ul class="list-inline clearfix mt-1 mb-0">
+                          <li class="border-right-grey border-right-lighten-2 pr-2">
+                            <h2 class="grey darken-1 text-bold-400"><?php echo number_format($persentase, 0); ?>%</h2>
+                            <span class="success">Completed</span>
+                          </li>
+                          <li class="pl-2">
+                            <h2 class="grey darken-1 text-bold-400"><?php echo number_format($remaining, 0); ?>%</h2>
+                            <span class="danger">Remaining</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
+                  <div class="col-sm-8">
+                    <div class="card-body">
+                      <div class="card-block">
+                        <!-- Tabel -->
+                        <div class="table-responsive height-250">
+                          <table class="table table-hover mb-0">
+                              <thead>
+                                <tr>
+                                  <th width="20%">Detailer</th>
+                                  <th width="5%">Total Sales<br />(Rp)</th>
+                                  <th width="5%">Target<br />(Rp)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php for ($i = 0; $i < 9; $i++): ?>
+                                <tr>
+                                  <td>Nama Detailer</td>
+                                  <td><?php echo rand(1000000, 2000000); ?></td>
+                                  <td><?php echo rand(3000000, 4000000); ?></td>
+                                </tr>
+                                <?php endfor; ?>
+                              </tbody>
+                          </table>
+                        </div>
+                        <!-- End of Tabel -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
+                </div>
+              </div>
+              <!-- /the-best-detailer -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /performance -->
+
+      <!-- rasio-dana -->
       <div class="row">
         <div class="col-xs-12">
           <div class="card border-top-orange">
@@ -35,6 +229,7 @@
               <div class="heading-elements"></div>
             </div>
             <div class="card-body">
+              <!-- redflag -->
               <div class="card-block">
                 <div class="row">
                   <div class="col-sm-4 border-right-blue-grey border-right-lighten-5">
@@ -68,17 +263,17 @@
                           <table class="table table-hover mb-0">
                               <thead>
                                   <tr>
-                                    <th width="20%">Detailer</th>
-                                    <th width="5%">Achievement</th>
-                                    <th width="5%">Target</th>
+                                    <th width="20%">Customer</th>
+                                    <th width="5%">Total Sales<br />(Rp)</th>
+                                  <th width="5%">Target<br />(Rp)</th>
                                   </tr>
                               </thead>
                               <tbody>
                                 <?php for ($i = 0; $i < 9; $i++): ?>
                                 <tr>
-                                  <td>Nama Detailer</td>
-                                  <td><?php echo rand(20, 60); ?>%</td>
-                                  <td><?php echo rand(40, 80); ?>%</td>
+                                  <td>Nama Customer</td>
+                                  <td><?php echo rand(1000000, 2000000); ?></td>
+                                  <td><?php echo rand(3000000, 4000000); ?></td>
                                 </tr>
                                 <?php endfor; ?>
                               </tbody>
@@ -92,65 +287,134 @@
                 </div>
                 <!-- /redflag -->
               </div>
+              <!-- /redflag -->
+
+              <!-- mvc -->
               <div class="card-block">
-              <div class="row">
-                <div class="col-sm-4 border-right-blue-grey border-right-lighten-5">
-                  <div class="my-1 text-xs-center">
-                    <div class="card-header mb-2 pt-0">
-                      <span class="deep-orange">
-                        <h3 class="font-large-2 text-bold-200">Mvc </h3>
-                      </span>
-                    </div>
-                      <div class="card-body">
-                          <div style="display:inline;width:100px;height:100px;"><input type="text" value="70" class="knob hide-value responsive angle-offset" data-angleoffset="0" data-thickness=".15" data-linecap="round" data-width="100" data-height="100" data-inputcolor="#e1e1e1" data-readonly="true" data-fgcolor="#FF5722" data-knob-icon="icon-user2" readonly="readonly" style="width: 69px; height: 43px; position: absolute; vertical-align: middle; margin-top: 43px; border: 0px; background: none; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 26px; line-height: normal; font-family: Arial; text-align: center; color: rgb(225, 225, 225); padding: 0px; -webkit-appearance: none; margin-left: -99px; display: none;">
-                          </div>
-                          <ul class="list-inline clearfix mt-1 mb-0">
-                              <li>
-                                  <h2 class="grey darken-1 text-bold-400">10%</h2>
-                                  <span class="deep-orange"> Today's Target</span>
-                              </li>
-                          </ul>
-                      </div>  
-                  </div>
-                </div>
-                <!-- /rd-fixed-cost -->
-                <div class="col-sm-8">
-                  <div class="card-body">
-                    <div class="card-block">
-                      <!-- Tabel -->
-                      <div class="table-responsive height-250">
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                  <th width="20%">Detailer</th>
-                                  <th width="5%">Achievement</th>
-                                  <th width="5%">Target</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                              <?php for ($i = 0; $i < 9; $i++): ?>
-                              <tr>
-                                <td>Nama Detailer</td>
-                                <td><?php echo rand(20, 60); ?>%</td>
-                                <td><?php echo rand(40, 80); ?>%</td>
-                              </tr>
-                              <?php endfor; ?>
-                            </tbody>
-                        </table>
+                <div class="row">
+                  <div class="col-sm-4 border-right-blue-grey border-right-lighten-5">
+                    <div class="my-1 text-xs-center">
+                      <div class="card-header mb-2 pt-0">
+                        <span class="deep-orange">
+                          <h3 class="font-large-2 text-bold-200">Most Valuable Customer (MVC)</h3>
+                        </span>
                       </div>
-                      <!-- End of Tabel -->
+                        <div class="card-body">
+                            <div style="display:inline;width:100px;height:100px;"><input type="text" value="70" class="knob hide-value responsive angle-offset" data-angleoffset="0" data-thickness=".15" data-linecap="round" data-width="100" data-height="100" data-inputcolor="#e1e1e1" data-readonly="true" data-fgcolor="#FF5722" data-knob-icon="icon-user2" readonly="readonly" style="width: 69px; height: 43px; position: absolute; vertical-align: middle; margin-top: 43px; border: 0px; background: none; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 26px; line-height: normal; font-family: Arial; text-align: center; color: rgb(225, 225, 225); padding: 0px; -webkit-appearance: none; margin-left: -99px; display: none;">
+                            </div>
+                            <ul class="list-inline clearfix mt-1 mb-0">
+                                <li>
+                                    <h2 class="grey darken-1 text-bold-400">10%</h2>
+                                    <span class="deep-orange"> Today's Target</span>
+                                </li>
+                            </ul>
+                        </div>  
                     </div>
                   </div>
+                  <!-- /rd-fixed-cost -->
+                  <div class="col-sm-8">
+                    <div class="card-body">
+                      <div class="card-block">
+                        <!-- Tabel -->
+                        <div class="table-responsive height-250">
+                          <table class="table table-hover mb-0">
+                              <thead>
+                                  <tr>
+                                    <th width="20%">Customer</th>
+                                    <th width="5%">Total Sales<br />(Rp)</th>
+                                  <th width="5%">Target<br />(Rp)</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                <?php for ($i = 0; $i < 9; $i++): ?>
+                                <tr>
+                                  <td>Nama Customer</td>
+                                  <td><?php echo rand(1000000, 2000000); ?></td>
+                                  <td><?php echo rand(3000000, 4000000); ?></td>
+                                </tr>
+                                <?php endfor; ?>
+                              </tbody>
+                          </table>
+                        </div>
+                        <!-- End of Tabel -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
                 </div>
-                <!-- /rd-fixed-cost -->
+                <!-- /mvc -->
               </div>
               <!-- /mvc -->
+
+              <!-- balance -->
+              <div class="card-block">
+                <div class="row">
+                  <div class="col-sm-4 border-right-blue-grey border-right-lighten-5">
+                    <div class="my-1 text-xs-center">
+                      <div class="card-header mb-2 pt-0">
+                        <span class="deep-orange">
+                          <h3 class="font-large-2 text-bold-200">Balance</h3>
+                        </span>
+                      </div>
+                      <div class="card-body">
+                        <div style="display:inline;width:100px;height:100px;">
+                          <div style="display:inline;width:100px;height:100px;">
+                            
+                            <input type="text" value="75" class="knob hide-value responsive angle-offset" data-angleoffset="20" data-thickness=".15" data-linecap="round" data-width="100" data-height="100" data-inputcolor="#e1e1e1" data-readonly="true" data-fgcolor="#DA4453" data-knob-icon="icon-heart6" readonly="readonly" style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; border: 0px; background: none; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 20px; line-height: normal; font-family: Arial; text-align: center; color: rgb(225, 225, 225); padding: 0px; -webkit-appearance: none; margin-left: -77px; display: none;">
+                            <i class="knob-center-icon icon-heart6" style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; border: 0px; background: none; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 20px; line-height: normal; font-family: Arial; text-align: center; color: rgb(225, 225, 225); padding: 0px; -webkit-appearance: none; margin-left: -77px; display: none;font-size: 33px;"></i>
+                          </div>
+                        </div>
+                        <ul class="list-inline clearfix mt-1 mb-0">
+                          <li>
+                            <h2 class="grey darken-1 text-bold-400">125%</h2>
+                            <span class="danger">Over</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
+                  <div class="col-sm-8">
+                    <div class="card-body">
+                      <div class="card-block">
+                        <!-- Tabel -->
+                        <div class="table-responsive height-250">
+                          <table class="table table-hover mb-0">
+                              <thead>
+                                  <tr>
+                                    <th width="20%">Customer</th>
+                                    <th width="5%">Total Sales<br />(Rp)</th>
+                                  <th width="5%">Target<br />(Rp)</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                <?php for ($i = 0; $i < 9; $i++): ?>
+                                <tr>
+                                  <td>Nama Customer</td>
+                                  <td><?php echo rand(1000000, 2000000); ?></td>
+                                  <td><?php echo rand(3000000, 4000000); ?></td>
+                                </tr>
+                                <?php endfor; ?>
+                              </tbody>
+                          </table>
+                        </div>
+                        <!-- End of Tabel -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /rd-fixed-cost -->
+                </div>
+                <!-- /mvc -->
               </div>
+              <!-- /balance -->
             </div>
           </div>
         </div>
       </div>
       <!-- /rasio-dana -->
+
+
+      <!-- fixed-cost -->
       <div class="row">
         <div class="col-xs-12">
           <div class="card border-top-tosca">
@@ -176,13 +440,15 @@
                         <tr>
                           <td>Promosi</td>
                           <td>Rupiah (Rp)</td>
-                          <td align="right">Rp <?php echo number_format($cost[0], 0, ',', '.'); ?></td>
+                          <?php $pr = $promosi['data']->result_array()[0]['promosi']; ?>
+                          <td align="right">Rp <?php echo number_format($pr, 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                         <tr>
                           <td>COGM</td>
                           <td>Rupiah (Rp)</td>
-                          <td align="right">Rp <?php echo number_format($cost[1], 0, ',', '.'); ?></td>
+                          <?php $co = $cogm['data']->result_array()[0]['cogm']; ?>
+                          <td align="right">Rp <?php echo number_format($co, 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                         <tr>
@@ -207,12 +473,6 @@
                           <td>Insentif</td>
                           <td>Rupiah (Rp)</td>
                           <td align="right">Rp <?php echo number_format($cost[5], 0, ',', '.'); ?></td>
-                          <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td>Income Dana</td>
-                          <td>Rupiah (Rp)</td>
-                          <td align="right">Rp <?php echo number_format($cost[6], 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                       </tbody>
@@ -240,7 +500,7 @@
           </div>
         </div>
       </div>
-      <!-- /tabel-wpr -->
+      <!-- /fixed-cost -->
     </div>
   </div>
 </div>
