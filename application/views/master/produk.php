@@ -13,57 +13,76 @@
             </div>
             <div class="card-body">
               <div class="card-block">
+                <?php if ( ! is_null($this->session->flashdata())): ?>
+                <?php if ( ! is_null($this->session->flashdata('error_msg'))): ?>  
+                <div class="alert alert-danger alert-dismissible fade in mb-2" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <?php echo $this->session->flashdata('error_msg'); ?>
+                </div>
+                <?php elseif ( ! is_null($this->session->flashdata('success_msg'))): ?>
+                <div class="alert alert-success alert-dismissible fade in mb-2" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <?php echo $this->session->flashdata('success_msg'); ?>
+                </div>
+                <?php elseif ( ! is_null($this->session->flashdata('query_msg'))): ?>
+                <div class="bs-callout-danger callout-border-left mt-1 p-1">
+                  <strong>Database Error!</strong>
+                  <p><?php echo $this->session->flashdata('query_msg')['message']; ?> <strong><?php echo $this->session->flashdata('query_msg')['code']; ?></strong></p>
+                </div><br />
+                <?php endif; ?>
+                <?php endif; ?>
+                <!-- /alert -->
                 <!-- Tabel -->
                 <div class="table-responsive height-250 border-top-red">
                   <table class="table table-hover mb-0">
-                      <thead>
-                          <tr>
-                            <th>Kode</th>
-                            <th>Nama Barang</th>
-                            <th>Kemasan</th>
-                            <th>Harga (HNA)</th>
-                            <th>Harga (H.Askes)</th>
-                            <th>Harga Master</th>
-                            <th>Gol</th>
-                            <th>Gol1</th>
-                            <th>Antibiotik</th>
-                            <th>Brg Baru</th>
-                            <th>Brg Ask</th>
-                            <th>New CN</th>
-                            <th>CN New Brg (%)</th>
-                            <th>Start Regular</th>
-                            <th>Brg Master</th>
-                            <th>Disc</th>
-                            <th>Region</th>
-                            <th>Ket. Region</th>
-                            <th>Segmen</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        <?php foreach ($produk['data']->result() as $value): ?>
-                        <tr>
-                          <td><?php echo strtoupper($value->id); ?></td>
-                          <td><?php echo strtoupper($value->nama); ?></td>
-                          <td><?php echo strtoupper($value->kemasan); ?></td>
-                          <td>Rp <?php echo $value->harga_hna; ?></td>
-                          <td>Rp <?php echo $value->harga_h_askes; ?></td>
-                          <td>Rp <?php echo $value->harga_master; ?></td>
-                          <td><?php echo $value->golongan; ?></td>
-                          <td><?php echo $value->golongan1; ?></td>
-                          <td><?php echo strtoupper($value->antibiotik); ?></td>
-                          <td><?php echo strtoupper($value->barang_baru); ?></td>
-                          <td><?php echo strtoupper($value->barang_ask); ?></td>
-                          <td><?php echo strtoupper($value->new_cn); ?></td>
-                          <td><?php echo $value->cn_new_barang; ?> &#37;</td>
-                          <td><?php echo strtoupper($value->start_regular); ?></td>
-                          <td><?php echo strtoupper($value->barang_master); ?></td>
-                          <td><?php echo $value->diskon; ?> &#37;</td>
-                          <td><?php echo strtoupper($value->area); ?></td>
-                          <td><?php echo strtoupper($value->keterangan_region); ?></td>
-                          <td><?php echo strtoupper($value->segmen); ?></td>
-                        </tr>
-                        <?php endforeach ?>
-                      </tbody>
+                    <thead>
+                      <tr>
+                        <th>Kode</th>
+                        <th>Nama Barang</th>
+                        <th>Kemasan</th>
+                        <th>Harga (HNA)</th>
+                        <th>Harga (H.Askes)</th>
+                        <th>Harga Master</th>
+                        <th>Gol</th>
+                        <th>Gol1</th>
+                        <th>Antibiotik</th>
+                        <th>Brg Baru</th>
+                        <th>Brg Ask</th>
+                        <th>New CN</th>
+                        <th>CN New Brg (%)</th>
+                        <th>Start Regular</th>
+                        <th>Brg Master</th>
+                        <th>Disc</th>
+                        <th>Segmen</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach ($produk['data']->result() as $value): ?>
+                      <tr>
+                        <td><?php echo strtoupper($value->id); ?></td>
+                        <td><?php echo strtoupper($value->nama); ?></td>
+                        <td><?php echo strtoupper($value->kemasan); ?></td>
+                        <td>Rp <?php echo $value->harga_hna; ?></td>
+                        <td>Rp <?php echo $value->harga_h_askes; ?></td>
+                        <td>Rp <?php echo $value->harga_master; ?></td>
+                        <td><?php echo $value->golongan; ?></td>
+                        <td><?php echo $value->golongan1; ?></td>
+                        <td><?php echo strtoupper($value->antibiotik); ?></td>
+                        <td><?php echo strtoupper($value->barang_baru); ?></td>
+                        <td><?php echo strtoupper($value->barang_ask); ?></td>
+                        <td><?php echo strtoupper($value->new_cn); ?></td>
+                        <td><?php echo $value->cn_new_barang; ?> &#37;</td>
+                        <td><?php echo strtoupper($value->start_regular); ?></td>
+                        <td><?php echo strtoupper($value->barang_master); ?></td>
+                        <td><?php echo $value->diskon; ?> &#37;</td>
+                        <td><?php echo strtoupper($value->segmen); ?></td>
+                      </tr>
+                      <?php endforeach ?>
+                    </tbody>
                   </table>
                 </div>
                 <!-- End of Tabel -->
@@ -82,7 +101,7 @@
             </div>
             <div class="card-body">
               <div class="card-block">
-                <form class="form" action="<?php echo site_url() ?>/store-produk/store" method="post">
+                <form class="form" action="<?php echo site_url() ?>/store-produk/store" method="POST">
                   <div class="form-body">
                     <div class="row">
                       <div class="col-sm-6 col-xs-12">
@@ -172,6 +191,46 @@
                           </div>
                         </div>
                         <!-- /barang-baru /barang-askes /fokus -->
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h4 class="form-section">Data Area</h4>
+                            <div class="bs-callout-info callout-border-left callout-bordered mt-1 p-1">
+                              <h4 class="info">Perhatian!</h4>
+                              <p>Anda dapat memilih lebih dari 1 region untuk setiap barang.</p>
+                            </div><br />
+                          </div>
+                          <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label class="label-control">Region</label>
+                              <select name="id_region[]" id="region-list" class="form-control select2">
+                                <option value="" selected disabled>Area / Region</option>
+                                <?php if ($area['data']->num_rows() < 1): ?>
+                                  <option value="">Area / Region belum tersedia</option>
+                                <?php else: ?>
+                                <?php foreach ($area['data']->result() as $value): ?>
+                                <option value="<?php echo $value->id; ?>">(<?php echo $value->id; ?>) - <?php echo strtoupper($value->area); ?></option>
+                                <?php endforeach ?>
+                                <?php endif; ?>
+                              </select>
+                            </div>
+                            <!-- /region -->
+                          </div>
+                          <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label class="label-control">Keterangan Region</label>
+                              <textarea class="form-control" name="keterangan_region[]"></textarea>
+                            </div>
+                            <!-- /keterangan-region -->
+                          </div>
+                        </div>
+                        <div id="region-out"></div>
+                        <div class="row">
+                          <div class="col-sm-3 xol-xs-6">
+                            <div class="form-grup">
+                              <button class="btn btn-primary btn-block" id="add-region" type="button"><i class="fa fa-plus"></i>&nbsp;Tambah Region</button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <!-- /left-col -->
                       <div class="col-sm-6 col-xs-12">
@@ -280,26 +339,6 @@
                           </div>
                         </div>
                         <!-- /brg-master -->
-                        <div class="form-group row">
-                          <label class="label-control col-sm-6">Region</label>
-                          <label class="label-control col-sm-6">Keterangan Region</label>
-                          <div class="col-sm-6">
-                            <select name="region" class="form-control select2">
-                              <option value="" selected disabled>Area / Region</option>
-                              <?php if ($area['data']->num_rows() < 1): ?>
-                                <option value="">Area / Region belum tersedia</option>
-                              <?php else: ?>
-                              <?php foreach ($area['data']->result() as $value): ?>
-                              <option value="<?php echo $value->id; ?>">(<?php echo $value->id; ?>) - <?php echo strtoupper($value->area); ?></option>
-                              <?php endforeach ?>
-                              <?php endif; ?>
-                            </select>
-                          </div>
-                          <div class="col-sm-6">
-                            <textarea class="form-control" name="keterangan_region"></textarea>
-                          </div>
-                        </div>
-                        <!-- /region /keterangan-region-->
                         <div class="form-group">
                           <label class="label-control">Segmen</label>
                           <select name="segmen" class="form-control">
@@ -370,9 +409,9 @@
                       <!-- /right-col -->
                     </div>
                   </div>
-                  <div class="form-group pull-right">
+                  <div class="form-actions center">
                     <input type="submit" class="btn btn-success" name="">
-                    <input type="button" class="btn btn-warning" name="" value="Batal">
+                    <input type="reset" class="btn btn-warning" name="" value="Batal">
                   </div>
                 </form>
               </div>
@@ -387,6 +426,46 @@
   $(document).ready(function(){
     $('[name=harga_master]').keyup(function() {
       $('[name=harga_hna]').val($(this).val());
+    });
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#add-region').click(function(event) {
+      console.log('clicked');
+      var target_selector = $('#region-out');
+
+      var region_list = $('#region-list > option').map(function(){
+        var id = $(this).val();
+        var text = $(this).text();
+        return '<option value="' + id + '">' + text + '</option>';
+      }).get();
+
+      // jangan lupa nanti tambahin nama variabelnya, pake array lho!!!
+      var element = '<div class="row">' +
+          '<div class="col-sm-6 col-xs-12">' +
+            '<div class="form-group">' +
+              '<label class="label-control">Region</label>' +
+              '<select name="id_region[]" class="form-control select2-single">' +
+                region_list +
+              '</select>' +
+            '</div>' +
+          '</div>' +
+          '<div class="col-sm-4 col-xs-10">' +
+            '<div class="form-group">' +
+              '<label class="label-control">Keterangan Region</label>' +
+              '<textarea class="form-control border-primary" name="keterangan_region[]"></textarea>' +
+            '</div>' +
+          '</div>' +
+          '<div class="col-xs-2">' +
+            '<div class="form-group">' +
+              '<label class="label-control">&nbsp;</label>' +
+              '<button class="btn btn-block btn-danger" type="button" onclick="$(this).parent().parent().parent().remove()"><i class="fa fa-times"></button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      $(target_selector).append(element);
+      $('.select2-single').select2();
     });
   });
 </script>

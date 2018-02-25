@@ -187,9 +187,9 @@ class Master extends CI_Controller {
    */
   public function master_produk()
   {
-    $data['produk'] = $this->Produk->get_data('a.id, a.nama, a.kemasan, a.harga_hna, a.harga_h_askes, a.harga_master, a.golongan, a.golongan1, COALESCE(a.antibiotik, \'n\') as antibiotik, COALESCE(a.barang_baru, \'N\') as barang_baru, COALESCE(a.barang_ask, \'n\') as barang_ask, coalesce(a.new_cn, \'n\') as new_cn, a.cn_new_barang, coalesce(a.start_regular, \'-\') as start_regular, coalesce(a.barang_master, \'n\') as barang_master, coalesce(a.diskon, \'0\') as diskon, b.area, coalesce(a.keterangan_region, \'-\') as keterangan_region, coalesce(a.segmen, \'-\') as segmen');
+    $data['produk'] = $this->Produk->get_data('id, nama, kemasan, harga_hna, harga_h_askes, harga_master, golongan, golongan1, COALESCE(antibiotik, \'n\') as antibiotik, COALESCE(barang_baru, \'N\') as barang_baru, COALESCE(barang_ask, \'n\') as barang_ask, coalesce(new_cn, \'n\') as new_cn, cn_new_barang, coalesce(start_regular, \'-\') as start_regular, coalesce(barang_master, \'n\') as barang_master, coalesce(diskon, \'0\') as diskon,  coalesce(segmen, \'-\') as segmen');
     $data['area'] = $this->Area->get_data();
-    $data['barang_master'] = $this->Produk->get_data('a.id, a.nama');
+    $data['barang_master'] = $this->Produk->get_data('id, nama');
     $data['id_produk'] = $this->nsu->digit_id_generator(5);
 
     if ($data['produk']['status'] == 'error') {
@@ -210,21 +210,34 @@ class Master extends CI_Controller {
       // init var
       $input_var = $this->input->post();
       $input_var['id'] = $this->session->flashdata('id_produk');
-      
+
+      $produk = array();
+      $produk_area = array();
+
+      $produk = $input_var;
+      unset($produk['id_region']);
+      unset($produk['keterangan_region']);
+      $this->Produk->store($produk);
+
+      foreach ($input_var['id_region'] as $key => $value) {
+        $produk_area['id_produk'] = $input_var['id'];
+        $produk_area['id_region'] = $value;
+        $produk_area['keterangan_region'] = $input_var['keterangan_region'][$key];
+        $this->Produk->store_produk_area($produk_area);
+      }
+
       // store data
-      $this->Produk->store($input_var);
       if ($this->db->trans_status() === FALSE) {
         $this->db->trans_rollback();
         $this->session->set_flashdata('error_msg', 'Penambahan data produk <strong>gagal</strong>.');
-        redirect('master-produk');
       } else {
         $this->db->trans_commit();
         $this->session->set_flashdata('success_msg', 'Data produk baru <strong>berhasil</strong> disimpan.');
-        redirect('master-produk');
       }
     } else {
-      redirect('master-produk');
+      // 
     }
+    redirect('/master-produk');
   }
 
   //////////
@@ -233,7 +246,7 @@ class Master extends CI_Controller {
 
   public function master_stok($kode_produk = null)
   {
-    $data['stok'] = $this->Produk->get_data_stok('a.id, a.nama, a.kemasan, a.harga_hna, a.harga_h_askes, a.harga_master, coalesce(b.stok, 0) as stok');
+    $data['stok'] = $this->Produk->get_data_stok('id, nama, kemasan, harga_hna, harga_h_askes, harga_master, coalesce(stok, 0) as stok');
 
     if ($kode_produk !== null) {
       $data['tambah_stok'] = $this->Produk->show_stok($kode_produk, 'a.id, a.kemasan, coalesce(b.stok, 0) as stok');

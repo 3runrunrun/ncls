@@ -1,6 +1,6 @@
 <?php 
 
-class Status_Permohonan_Produk_Nucleus extends CI_Model {
+class Permohonan_Produk_Outlet_Status extends CI_Model {
 
   function __construct()
   {
@@ -12,7 +12,7 @@ class Status_Permohonan_Produk_Nucleus extends CI_Model {
   {
     $this->db->select($column);
     $this->db->where('hapus', null);
-    $result = $this->db->get('status_permohonan_produk_nucleus');
+    $result = $this->db->get('permohonan_produk_outlet_status');
     if ( ! $result) {
       $ret_val = array(
         'status' => 'error',
@@ -29,7 +29,7 @@ class Status_Permohonan_Produk_Nucleus extends CI_Model {
 
   public function store($data = array())
   {
-    $query = $this->db->set($data)->get_compiled_insert('status_permohonan_produk_nucleus');
+    $query = $this->db->set($data)->get_compiled_insert('permohonan_produk_outlet_status');
     $this->db->query($query);
   }
 }

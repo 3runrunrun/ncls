@@ -136,6 +136,16 @@ $route['permohonan-barang-nucleus'] = 'Transaction/permohonan_barang_nucleus';
 $route['simpan-permohonan-barang-nucleus'] = 'Transaction/store_permohonan_barang_nucleus';
 $route['simpan-permohonan-barang-nucleus/(:any)'] = 'Transaction/store_permohonan_barang_nucleus/$1';
 
+$route['permohonan-barang-distributor'] = 'Transaction/permohonan_barang_distributor';
+$route['simpan-permohonan-barang-distributor'] = 'Transaction/store_permohonan_barang_distributor';
+$route['simpan-permohonan-barang-distributor/(:any)'] = 'Transaction/store_permohonan_barang_distributor/$1';
+
+$route['permohonan-barang-outlet'] = 'Transaction/permohonan_barang_outlet';
+$route['show-area-by-outlet'] = 'Transaction/show_area_by_outlet';
+$route['show-distributor-by-area'] = 'Transaction/show_distributor_by_area';
+$route['simpan-permohonan-barang-outlet'] = 'Transaction/store_permohonan_barang_outlet';
+$route['simpan-permohonan-barang-outlet/(:any)'] = 'Transaction/store_permohonan_barang_outlet/$1';
+
 
 // REPORT
 $route['analisis-sales-general'] = 'Report/analisis_sales_general';

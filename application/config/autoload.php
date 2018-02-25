@@ -164,8 +164,6 @@ $autoload['model'] = array(
   'Barang_Keluar',
   'Barang_Stok',
   'Barang_Stok_Bulanan',
-  'Permohonan_Produk_Nucleus',
-  'Status_Permohonan_Produk_Nucleus',
   // TRANSACTION
   'Subdist_Permintaan_Produk',
   'Subdist_Permintaan_Produk_Detail',
@@ -175,4 +173,15 @@ $autoload['model'] = array(
   'Promo_Trial',
   'Promo_Trial_Detail',
   'Promo_Trial_Status',
+  // -- permohonan produk
+  'Permohonan_Produk_Nucleus' => 'ppn',
+  'Permohonan_Produk_Nucleus_Detail' => 'ppnd',
+  'Permohonan_Produk_Nucleus_Status' => 'ppns',
+  'Permohonan_Produk_Distributor' => 'ppd',
+  'Permohonan_Produk_Distributor_Detail' => 'ppdd',
+  'Permohonan_Produk_Distributor_Status' => 'ppds',
+  'Stok_Nucleus' => 'sn',
+  'Permohonan_Produk_Outlet' => 'ppo',
+  'Permohonan_Produk_Outlet_Detail' => 'ppod',
+  'Permohonan_Produk_Outlet_Status' => 'ppos',
 );

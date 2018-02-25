@@ -13,58 +13,6 @@
             </div>
             <div class="card-body">
               <div class="card-block">
-                <!-- Tabel -->
-                <div class="table-responsive height-350 border-top-red">
-                  <table class="table table-hover mb-0">
-                      <thead>
-                          <tr>
-                            <th>Nomor<br />Surat</th>
-                            <th>Tanggal<br />Permohonan</th>
-                            <th>Tanggal<br />Target</th>
-                            <th>Status</th>
-                            <th>Tools</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        <?php foreach ($permohonan['data']->result() as $value): ?>  
-                        <tr>
-                          <td><?php echo $value->id; ?></td>
-                          <td><?php echo $value->tanggal_permohonan; ?></td>
-                          <td><?php echo $value->tanggal_target; ?></td>
-                          <td>
-                            <?php if ($value->status == 'waiting'): ?>
-                            <span class="tag tag-pill tag-warning">Waiting</span>
-                              <?php else: ?>
-                            <span class="tag tag-pill tag-success">Masuk Stok</span>
-                              <?php endif ?>  
-                          </td>
-                          <td>
-                            <div class="btn-group">
-                              <a href="#" class="btn btn-primary">Detail</a>
-                            </div>
-                          </td>
-                        </tr>
-                        <?php endforeach; ?>
-                      </tbody>
-                  </table>
-                </div>
-                <!-- End of Tabel -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /tabel-permohonan -->
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="card border-top-blue">
-            <div class="card-header no-border-bottom">
-              <h4 class="card-title">Surat Permohonan Barang</h4>
-              <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-              <div class="heading-elements"></div>
-            </div>
-            <div class="card-body">
-              <div class="card-block">
                 <?php if ( ! is_null($this->session->flashdata())): ?>
                 <?php if ( ! is_null($this->session->flashdata('error_msg'))): ?>  
                 <div class="alert alert-danger alert-dismissible fade in mb-2" role="alert">
@@ -88,26 +36,85 @@
                 <?php endif; ?>
                 <?php endif; ?>
                 <!-- /alert -->
-                <form class="form" action="<?php echo site_url() ?>/simpan-permohonan-barang-nucleus" method="post">
-                  <h4 class="form-section"><i class="fa fa-clipboard"></i>Nomor Surat Permohonan: <span class="tag tag-pill tag-primary"><?php echo $no_surat; ?></span></h4>
+                <!-- Tabel -->
+                <div class="table-responsive height-350 border-top-red">
+                  <table class="table table-hover mb-0">
+                    <thead>
+                      <tr>
+                        <th>Nomor<br />Surat</th>
+                        <th>Tanggal<br />Permohonan</th>
+                        <th>Status</th>
+                        <th>Tools</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach ($permohonan['data']->result() as $value): ?>  
+                      <tr>
+                        <td><?php echo str_replace('-', '/', $value->id); ?></td>
+                        <?php $tanggal = date('d-M-Y', strtotime($value->tanggal)); ?>
+                        <td><?php echo $tanggal; ?></td>
+                        <td>
+                          <?php if ($value->status == 'waiting'): ?>
+                          <span class="tag tag-pill tag-warning">Waiting</span>
+                            <?php else: ?>
+                          <span class="tag tag-pill tag-success">Masuk Stok</span>
+                            <?php endif ?>  
+                        </td>
+                        <td>
+                          <div class="btn-group">
+                            <a href="#" class="btn btn-primary">Detail</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- End of Tabel -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /tabel-permohonan -->
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="card border-top-blue">
+            <div class="card-header no-border-bottom">
+              <h4 class="card-title">Surat Permohonan Barang</h4>
+              <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+              <div class="heading-elements"></div>
+            </div>
+            <div class="card-body">
+              <div class="card-block">
+                <form class="form" action="<?php echo site_url() ?>/simpan-permohonan-barang-distributor" method="post">
+                  <h4 class="form-section"><i class="fa fa-clipboard"></i>Nomor Surat Permohonan: <span class="tag tag-pill tag-primary"><?php echo str_replace('-', '/', $no_surat); ?></span></h4>
                   <?php $this->session->set_flashdata('no_surat', $no_surat); ?>
                   <div class="form-body">
                     <div class="row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-6 col-xs-12">
+                        <div class="form-group">
+                          <label class="label-control">Distributor</label>
+                          <select name="id_distributor" class="form-control select2">
+                            <option value="" selected disabled>Pilih Distributor</option>
+                            <?php if ($distributor['data']->num_rows() < 1): ?>
+                            <option value="" disabled>Distributor belum tersedia</option>
+                            <?php else: ?>
+                            <?php foreach ($distributor['data']->result() as $value): ?>
+                            <option value="<?php echo $value->id; ?>">(<?php echo $value->alias_area; ?>) - <?php echo strtoupper($value->id); ?> - <?php echo $value->nama; ?> - (<?php echo $value->alias_distributor; ?>)</option>
+                            <?php endforeach; ?>
+                            <?php endif; ?>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- /id_distributor -->
+                      <div class="col-sm-6 col-xs-12">
                         <div class="form-group">
                           <label class="label-control">Tanggal Permohonan</label>
-                          <input type="date" name="tanggal_permohonan" class="form-control border-primary" value="<?php echo date('Y-m-d'); ?>">
+                          <input type="date" name="tanggal" class="form-control border-primary" value="<?php echo date('Y-m-d'); ?>">
                         </div>
                       </div>
                       <!-- /tanggal-permohonan -->
-                      <div class="col-sm-6">
-                        <div class="form-group">
-                          <label class="label-control">Tanggal Target</label>
-                          <input type="date" name="tanggal_target" class="form-control border-primary">
-                          <p>*) Isi dengan tanggal target pengiriman barang dari pabrik ke Nucleus</p>
-                        </div>
-                      </div>
-                      <!-- /tanggal-target -->
                     </div>
                     <!-- /row-1 -->
                   </div>
@@ -117,7 +124,7 @@
                       <div class="col-sm-6 col-xs-12">
                         <div class="form-group">
                           <label class="label-control">Produk</label>
-                          <select name="id_barang[]" id="produk-list" class="form-control select2">
+                          <select name="id_produk[]" id="produk-list" class="form-control select2">
                             <option value="" selected disabled>Pilih Produk</option>
                             <?php if ($produk['data']->num_rows() < 1): ?>
                             <option value="">Produk belum tersedia</option>
@@ -128,6 +135,7 @@
                             <?php endif; ?>
                           </select>
                         </div>
+                        <!-- /id-produk -->
                       </div>
                       <!-- /left-col -->
                       <div class="col-sm-6 col-xs-12">
@@ -142,7 +150,7 @@
                     <div id="produk-out"></div>
                     <!-- #/produk-out -->
                     <div class="row">
-                      <div class="col-sm-6 offset-sm-6 col-xs-12">
+                      <div class="col-sm-3 col-xs-12">
                         <div class="form-group">
                           <button type="button" class="btn btn-primary btn-block" id="add-produk"><i class="fa fa-plus"></i>&nbsp;Tambah Produk</button>
                         </div>
@@ -150,7 +158,7 @@
                     </div>
                     <!-- /button-row -->
                   </div>
-                  <div class="form-action" align="center">
+                  <div class="form-actions" align="center">
                     <input type="submit" class="btn btn-success" name="" value="Simpan">
                     <input type="button" class="btn btn-warning mr-1" name="" value="Batal">
                   </div>
@@ -180,7 +188,7 @@
           '<div class="col-sm-6 col-xs-12">' +
             '<div class="form-group">' +
               '<label class="label-control">Produk</label>' +
-              '<select name="id_barang[]" class="form-control select2-single">' +
+              '<select name="id_produk[]" class="form-control select2-single">' +
                 produk_list +
               '</select>' +
             '</div>' +

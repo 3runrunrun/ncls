@@ -11,9 +11,8 @@ class Produk extends CI_Model {
   public function get_data($column = '*')
   {
     $this->db->select($column, FALSE);
-    $this->db->from('produk a');
-    $this->db->join('area b', 'a.region = b.id');
-    $this->db->where('a.hapus', null);
+    $this->db->from('produk');
+    $this->db->where('hapus', null);
     $result = $this->db->get();
     if ( ! $result) {
       $ret_val = array(
@@ -81,6 +80,48 @@ class Produk extends CI_Model {
   public function store($data = array())
   {
     $query = $this->db->set($data)->get_compiled_insert('produk');
+    $this->db->query($query);
+  }
+
+  /**
+   * Produk_Area
+   */
+  
+  public function show_by_produk_area($id_produk, $id_region, $column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('produk_area');
+    $this->db->where('id_produk', $id_produk);
+    $this->db->where('id_region', $id_region);
+    $this->db->where('hapus', null);
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
+  public function store_produk_area($data = array())
+  {
+    $query = $this->db->set($data)->get_compiled_insert('produk_area');
+    $this->db->query($query);
+  }
+
+  /**
+   * Produk_Distributor
+   */
+  
+  public function store_produk_distributor($data = array())
+  {
+    $query = $this->db->set($data)->get_compiled_insert('produk_distributor');
     $this->db->query($query);
   }
 }

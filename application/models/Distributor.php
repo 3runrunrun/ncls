@@ -84,3 +84,4 @@ class Distributor extends CI_Model {
     $this->db->query($query);
   }
 }
+

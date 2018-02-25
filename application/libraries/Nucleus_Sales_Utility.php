@@ -80,4 +80,16 @@ class Nucleus_Sales_Utility
 
     return $id;
   }
+
+  public function zerofill_generator($max_digit = 4, $value)
+  {
+    $incremented_val = $value + 1;
+    $val_length = strlen($incremented_val);
+    $allowed_digits = $max_digit - $val_length;
+    for ($i=0; $i < $allowed_digits; $i++) { 
+      $zerofill .= '0';
+    }
+
+    return $zerofill . $incremented_val;
+  }
 }

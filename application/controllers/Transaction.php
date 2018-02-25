@@ -30,7 +30,7 @@ class Transaction extends CI_Controller {
     $data['distributor'] = $this->Distributor->get_data('a.id, upper(a.nama) as nama, upper(c.alias_area) as alias_area, upper(c.area) as area, upper(b.alias_distributor) as alias_distributor');
     $data['subdist'] = $this->Subdist->get_data('a.id, upper(a.nama) as nama, upper(b.alias_area) as alias_area');
     $data['area'] = $this->Area->get_data('id, upper(area) as area, upper(alias_area) as alias_area');
-    $data['produk'] = $this->Produk->get_data('a.id, upper(a.nama) as nama');
+    $data['produk'] = $this->Produk->get_data('id, upper(nama) as nama');
 
     if ($data['subdist_report']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['subdist_report']['data']);
@@ -294,7 +294,7 @@ class Transaction extends CI_Controller {
 
     $data['user_customer'] = $this->Customer->get_data_user('a.id, upper(a.nama) as nama, upper(b.alias_area) as alias_area');
     $data['detailer'] = $this->Detailer->get_data('a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama');
-    $data['produk'] = $this->Produk->get_data('a.id, upper(a.nama) as nama');
+    $data['produk'] = $this->Produk->get_data('id, upper(nama) as nama');
 
     $this->load->view('head');
     $this->load->view('navbar');
@@ -410,9 +410,14 @@ class Transaction extends CI_Controller {
    */
   public function factur_discount_general()
   {
+    $rows = 99;
+    $data['q_faktur'] = $this->nsu->zerofill_generator('4', "$rows");
+    $data['detailer'] = $this->Detailer->get_data('a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama');
+    $data['distributor'] = $this->Distributor->get_data('a.id, upper(a.nama) as nama, upper(c.alias_area) as alias_area, upper(c.area) as area, upper(b.alias_distributor) as alias_distributor');
+    // die();
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('transaction/factur/general');
+    $this->load->view('transaction/factur/general', $data);
     $this->load->view('footer-js');
   }
 
@@ -444,11 +449,15 @@ class Transaction extends CI_Controller {
   // PERMOHONAN BARANG //
   ///////////////////////
 
+  /**
+   * Nucleus
+   */
+
   public function permohonan_barang_nucleus()
   {
-    $data['no_surat'] = $this->nsu->letter_number_generator('SPB');
-    $data['produk'] = $this->Produk->get_data('a.id, a.nama');
-    $data['permohonan'] = $this->Permohonan_Produk_Nucleus->get_data('id, tanggal_permohonan, tanggal_target, status');
+    $data['no_surat'] = $this->nsu->letter_number_generator('NPB');
+    $data['produk'] = $this->Produk->get_data('id, nama');
+    $data['permohonan'] = $this->ppn->get_data('id, tanggal_permohonan, tanggal_target, status');
 
     if ($data['permohonan']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['permohonan']['data']);
@@ -456,7 +465,7 @@ class Transaction extends CI_Controller {
 
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('transaction/permintaan-barang/nucleus-pabrik', $data);
+    $this->load->view('transaction/permintaan-barang/nucleus/nucleus-pabrik', $data);
     $this->load->view('footer-js');
   }
 
@@ -471,26 +480,31 @@ class Transaction extends CI_Controller {
     } else {
       $input_var = $this->input->post();
       $input_var['id'] = $this->session->flashdata('no_surat');
-      $input_var['status'] = strtolower('waiting');
-      $permohonan = array();
-      $status_permohonan = array();
+
+      $pmh = array();
+      $pmh_detail = array();
+      $pmh_status = array();
+      $status = strtolower('waiting');
+
+      $pmh = $input_var;
+      $pmh['status'] = $status;
+      $pmh['tahun'] = date('Y');
+      unset($pmh['id_produk']);
+      unset($pmh['jumlah']);
+      $this->ppn->store($pmh);
 
       // repopulate and store data permohonan
-      foreach ($input_var['id_barang'] as $key => $value) {
-        $permohonan['id'] = $input_var['id'];
-        $permohonan['id_barang'] = $value;
-        $permohonan['tanggal_permohonan'] = $input_var['tanggal_permohonan'];
-        $permohonan['tanggal_target'] = $input_var['tanggal_target'];
-        $permohonan['status'] = $input_var['status'];
-        $permohonan['jumlah'] = $input_var['jumlah'][$key];
-
-        $status_permohonan['id_permohonan'] = $permohonan['id'];
-        $status_permohonan['id_barang'] = $permohonan['id_barang'];
-        $status_permohonan['status'] = $input_var['status'];
-
-        $this->Permohonan_Produk_Nucleus->store($permohonan);
-        $this->Status_Permohonan_Produk_Nucleus->store($status_permohonan);
+      foreach ($input_var['id_produk'] as $key => $value) {
+        $pmh_detail['id_permohonan'] = $input_var['id'];
+        $pmh_detail['id_produk'] = $value;
+        $pmh_detail['jumlah'] = $input_var['jumlah'][$key];
+        $this->ppnd->store($pmh_detail);
       }
+
+      $pmh_status['id_permohonan'] = $input_var['id'];
+      $pmh_status['status'] = $status;
+      $pmh_status['tanggal'] = date('Y-m-d H:i:s');
+      $this->ppns->store($pmh_status);
 
       // var_dump($input_var);
       // die();
@@ -504,5 +518,201 @@ class Transaction extends CI_Controller {
       }
     }
     redirect('/permohonan-barang-nucleus');
+  }
+
+  /**
+   * Distributor
+   */
+
+  public function permohonan_barang_distributor()
+  {
+    $data['no_surat'] = $this->nsu->letter_number_generator('DPB');
+    $data['produk'] = $this->Produk->get_data('id, nama');
+    $data['permohonan'] = $this->ppd->get_data('id, tanggal, status');
+    $data['distributor'] = $this->Distributor->get_data('a.id, upper(a.nama) as nama, upper(c.alias_area) as alias_area, upper(c.area) as area, upper(b.alias_distributor) as alias_distributor');
+
+    if ($data['permohonan']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['permohonan']['data']);
+    }
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/permintaan-barang/distributor/distributor-nucleus', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function store_permohonan_barang_distributor($key = NULL)
+  {
+    // begin transaction
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      # code...
+    } else {
+      $input_var = $this->input->post();
+      $input_var['id'] = $this->session->flashdata('no_surat');
+
+      $pmh = array();
+      $pmh_detail = array();
+      $pmh_status = array();
+      $produk_area = array();
+      $produk_distributor = array();
+
+      $status = strtolower('waiting');
+      $result_area = $this->Distributor->show($input_var['id_distributor'], 'id_area');
+      $id_area = $result_area['data']->result();
+
+      $pmh = $input_var;
+      $pmh['status'] = $status;
+      $pmh['tahun'] = date('Y');
+      unset($pmh['id_produk']);
+      unset($pmh['jumlah']);
+      $this->ppd->store($pmh);
+
+      // repopulate and store data permohonan
+      foreach ($input_var['id_produk'] as $key => $value) {
+        $pmh_detail['id_permohonan'] = $input_var['id'];
+        $pmh_detail['id_produk'] = $value;
+        $pmh_detail['jumlah'] = $input_var['jumlah'][$key];
+        $this->ppdd->store($pmh_detail);
+
+        // check if any produk-area
+        // then store data to produk_area
+        if ($this->check_if_any_produk_area($value, $id_area[0]->id_area) === FALSE) {
+          $produk_area['id_produk'] = $value;
+          $produk_area['id_region'] =  $id_area[0]->id_area;
+          // var_dump($id_area[0]->id_area);
+          // $this->db->trans_rollback();
+          // die();
+          $this->Produk->store_produk_area($produk_area);
+        }
+        
+        // then store data to produk_distributor
+        $produk_distributor['id_distributor'] = $input_var['id_distributor'];
+        $produk_distributor['id_produk'] = $value;
+        $this->Produk->store_produk_distributor($produk_distributor);
+      }
+
+      $pmh_status['id_permohonan'] = $input_var['id'];
+      $pmh_status['status'] = $status;
+      $pmh_status['tanggal'] = date('Y-m-d H:i:s');
+      $this->ppds->store($pmh_status);
+
+      // var_dump($input_var);
+      // die();
+
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Penambahan data permohonan barang <strong>gagal</strong>.');
+      } else {
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data permohonan barang <strong>berhasil</strong> disimpan.');
+      }
+    }
+    redirect('/permohonan-barang-distributor');
+  }
+
+  public function check_if_any_produk_area($id_produk, $id_area)
+  {
+    $flag = TRUE;
+    $result = $this->Produk->show_by_produk_area($id_produk, $id_area);
+    $row = $result['data']->num_rows();
+
+    if ($row == 0) {
+      $flag = FALSE;
+    } 
+
+    return $flag;
+  }
+  
+  /**
+   * Outlet
+   */
+  
+  public function permohonan_barang_outlet()
+  {
+    $data['no_surat'] = $this->nsu->letter_number_generator('OPB');
+    $data['produk'] = $this->Produk->get_data('id, nama');
+    $data['distributor'] = $this->Distributor->get_data('a.id, upper(a.nama) as nama, upper(c.alias_area) as alias_area, upper(c.area) as area, upper(b.alias_distributor) as alias_distributor');
+    $data['outlet'] = $this->Outlet->get_data('a.id, upper(a.nama) as nama, upper(d.alias_area) as alias_area');
+    $data['permohonan'] = $this->ppo->get_data('id, tanggal, status');
+
+    if ($data['permohonan']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['permohonan']['data']);
+    }
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/permintaan-barang/outlet/outlet-dist', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function show_area_by_outlet()
+  {
+    $id = $this->input->post('id');
+    $data = $this->Outlet->get_data_area($id, 'a.id_area, upper(b.alias_area) as alias_area, upper(b.area) as area');
+    echo json_encode($data['data']->result_array());
+  }
+
+  public function show_distributor_by_area()
+  {
+    $id = $this->input->post('id');
+    $data = $this->Distributor->show_by_area($id, 'a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama, upper(b.alias_distributor) as alias_distributor');
+    echo json_encode($data['data']->result_array());
+  }
+
+  public function store_permohonan_barang_outlet($key = NULL)
+  {
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      # code...
+    } else {
+      $input_var = $this->input->post();
+      $input_var['id'] = $this->session->userdata('no_surat');
+      $this->session->unset_userdata('no_surat');
+
+      // var_dump($input_var);
+      // die();
+
+      $pmh = array();
+      $pmh_detail = array();
+      $pmh_status = array();
+
+      $status = strtolower('waiting');
+
+      $pmh['id'] = $input_var['id'];
+      $pmh['id_outlet'] = $input_var['id_outlet'];
+      $pmh['id_area'] = $input_var['id_area'];
+      $pmh['tahun'] = date('Y');
+      $pmh['tanggal'] = $input_var['tanggal'];
+      $pmh['status'] = $status;
+      $this->ppo->store($pmh);
+
+      foreach ($input_var['id_distributor'] as $key => $value) {
+        $pmh_detail['id_permohonan'] = $pmh['id'];
+        $pmh_detail['id_distributor'] = $value;
+        $pmh_detail['id_produk'] = $input_var['id_produk'][$key];
+        $pmh_detail['jumlah'] = $input_var['jumlah'][$key];
+        $this->ppod->store($pmh_detail);
+      }
+
+      $pmh_status['id_permohonan'] = $pmh['id'];
+      $pmh_status['status'] = $status;
+      $pmh_status['tanggal'] = date('Y-m-d H:i:s');
+      $this->ppos->store($pmh_status);
+
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Permohonan barang <strong>gagal</strong>.');
+      } else {
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Permohonan barang <strong>berhasil</strong> disimpan.');
+      }
+    }
+    
+    redirect('/permohonan-barang-outlet');
   }
 }

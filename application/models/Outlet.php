@@ -34,6 +34,28 @@ class Outlet extends CI_Model {
     return $ret_val;
   }
 
+  public function get_data_area($id, $column='*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('outlet a');
+    $this->db->join('area b', 'a.id_area = b.id');
+    $this->db->where('a.id', $id);
+    $this->db->where('a.hapus', null);
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
   public function show_by_dist_area($id_area, $distributor = 'all', $column = '*')
   {
     $this->db->select($column, FALSE);
