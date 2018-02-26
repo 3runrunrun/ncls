@@ -27,6 +27,11 @@ class Report extends CI_Controller {
   {
     $data['outlet'] = $this->Outlet->get_data('a.id, upper(a.nama) as nama, upper(d.alias_area) as alias_area');
     $data['produk'] = $this->Produk->get_data('id, nama');
+    $data['dsales_produk'] = $this->salo->get_data_daily_produk('a.id_produk, upper(c.nama) as nama_produk, d.total, d.target, SUM(a.jumlah) as penjualan, a.tanggal');
+
+    if ($data['dsales_produk']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['dsales_produk']['data']);
+    }
 
     $this->load->view('head');
     $this->load->view('navbar');

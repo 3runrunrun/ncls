@@ -69,81 +69,25 @@
                 <div class="table-responsive height-600 border-top-red">
                   <table class="table table-hover mb-0">
                       <thead>
-                          <tr>
-                              <th>Kode Barang</th>
-                              <th>Nama Barang</th>
-                              <th>Januari</th>
-                              <th>Februari</th>
-                              <th>Maret</th>
-                              <th>April</th>
-                              <th>Mei</th>
-                              <th>Juni</th>
-                              <th>Juli</th>
-                              <th>Agustus</th>
-                              <th>September</th>
-                              <th>Oktober</th>
-                              <th>November</th>
-                              <th>Desember</th>
-                              <th>YTD</th>
-                          </tr>
+                        <tr>
+                          <th>Nama Produk</th>
+                          <th>Tanggal</th>
+                          <th>Target</th>
+                          <th>Total</th>
+                          <th>Penjualan</th>
+                        </tr>
                       </thead>
                       <tbody>
-                        <?php for ($i=0; $i < 5; $i++) { 
-                          # code...
-                         ?>
-                          <tr class="bg-table-red">
-                              <td class="text-truncate">007</td>
-                              <td class="text-truncate">Oniwa</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                          </tr>
-                          <tr>
-                              <td class="text-truncate">007</td>
-                              <td class="text-truncate">Oniwa</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                          </tr>
-                          <?php }?>
-                           <tr class="border-top-green bg-table-blue">
-                              <td class="text-truncate">-</td>
-                              <td class="text-truncate">Total</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              <td class="text-truncate">200</td>
-                              
-                          </tr>
+                        <?php foreach ($dsales_produk['data']->result() as $value): ?>
+                        <tr class="bg-table-red">
+                          <td class="text-truncate"><?php echo $value->nama_produk; ?></td>
+                          <?php $tanggal = date('d-M-Y', strtotime($value->tanggal)); ?>
+                          <td class="text-truncate"><?php echo $tanggal; ?></td>
+                          <td class="text-truncate"><?php echo $value->target; ?></td>
+                          <td class="text-truncate"><?php echo $value->total; ?></td>
+                          <td class="text-truncate"><?php echo $value->penjualan; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
                       </tbody>
                   </table>
                 </div>
