@@ -7,7 +7,7 @@
               <div class="col-xs-12">
                   <div class="card border-top-tosca">
                       <div class="card-header no-border-bottom">
-                          <h4 class="card-title">Daily Sales Product</h4>
+                          <h4 class="card-title">Actual Sales</h4>
                           <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                           <div class="heading-elements">
                               
@@ -15,32 +15,14 @@
                       </div>
                       <div class="card-body collapse in">
                           <div class="col-xs-12 center-block " align="center">
-                            <form method="post">
-                              <div class="form-group centered">
-                                <label class="label-control center-block">Kode area</label>
-                                <select class="form-control" name="area" required="">
-                                  <option selected="" disabled="" value="">---Pilih Kode Area---</option>
-                                  <option value="jakarta-selatan">Jakarta Selatan</option>
-                                </select>
-                              </div>
-                              <div class="form-group centered">
-                                <label class="label-control">Outlet</label>
-                                <select class="form-control" name="outlet" required="">
-                                  <option selected="" disabled="" value="">---Pilih Outlet---</option>
-                                  <option value="jakarta-selatan">Mutiara Sehat</option>
-                                </select>
-                              </div>
-                              <div class="form-group ">
-                                <input type="submit" class="btn btn-success" name="">
-                              </div>
-                            </form>
+                            
                           </div>
-                          <div id="daily-activity" class="table-responsive height-250 ps-container ps-theme-default ps-active-y border-top-red" data-ps-id="919f8169-8f2a-e62c-bd13-883a2a99a52f">
-                              <table class="table table-hover mb-0">
+                          <div class="table-responsive height-600 border-top-red">
+                                <table class="table table-hover mb-0">
                                   <thead>
                                       <tr>
-                                          <th>Kode Barang</th>
-                                          <th>Nama Barang</th>
+                                          <th>Kode sales</th>
+                                          <th>Nama Sales</th></th>
                                           <th>Januari</th>
                                           <th>Februari</th>
                                           <th>Maret</th>
@@ -60,9 +42,9 @@
                                     <?php for ($i=0; $i < 5; $i++) { 
                                       # code...
                                      ?>
-                                      <tr>
+                                      <tr class="bg-table-blue">
                                           <td class="text-truncate">007</td>
-                                          <td class="text-truncate">Oniwa</td>
+                                          <td class="text-truncate"> Bambang</td>
                                           <td class="text-truncate">200</td>
                                           <td class="text-truncate">200</td>
                                           <td class="text-truncate">200</td>
@@ -76,10 +58,26 @@
                                           <td class="text-truncate">200</td>
                                           <td class="text-truncate">200</td>
                                           <td class="text-truncate">200</td>
-                                          
+                                      </tr>
+                                      <tr>
+                                          <td class="text-truncate">008</td>
+                                          <td class="text-truncate">Edward</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
+                                          <td class="text-truncate">200</td>
                                       </tr>
                                       <?php }?>
-                                       <tr class="border-top-green">
+                                       <tr class="border-top-orange bg-table-red">
                                           <td class="text-truncate">-</td>
                                           <td class="text-truncate">Total</td>
                                           <td class="text-truncate">200</td>
@@ -98,13 +96,49 @@
                                           
                                       </tr>
                                   </tbody>
+                                  <thbody>
+                                      
+                                  </thbody>
                                   
                               </table>
-                          <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 350px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 307px;"></div></div></div>
                       </div>
                   </div>
               </div>
-          </div>
-        </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 ">
+                    <div class="card profile-card-with-cover border-top-red">
+                        <div class="card-body collapse in">
+                            <div class="table-responsive height-500 border-top-red">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Kode Sales</th>
+                                            <th>Sales</th>
+                                            <th>Sales Reg</th>
+                                            <th>Sales Dis Prog</th>
+                                            <th>Target</th>
+                                            <th>Acheivment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      <?php for ($i=0; $i < 5; $i++) { 
+                                        # code...
+                                       ?>
+                                        <tr>
+                                            <td class="text-truncate">007</td>
+                                            <td class="text-truncate">Edward</td>
+                                            <td class="text-truncate">200.000.000</td>
+                                            <td class="text-truncate">20.000.000</td>
+                                            <td class="text-truncate">100.000.000</td>
+                                            <td class="text-truncate">50%</td>
+                                            
+                                        </tr>
+                                        <?php }?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
       </div>
     </div>

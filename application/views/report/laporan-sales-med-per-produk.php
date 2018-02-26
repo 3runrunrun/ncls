@@ -106,7 +106,7 @@
                       <thead>
                         <tr>
                           <th width="10%" style="text-align: center !important">Kode</th>
-                          <th style="text-align: center !important">Produk</th>
+                          <th>Produk</th>
                           <th width="10%" style="text-align: center !important">Jumlah<br />(Unit)</th>
                           <th width="10%" style="text-align: center !important">Value</th>
                           <th width="5%" style="text-align: center !important">Tools</th>

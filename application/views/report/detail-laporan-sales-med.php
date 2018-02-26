@@ -122,7 +122,7 @@
                 <div class="row">
                   <div class="col-sm-6 col-xs-12">
                     <div class="bs-callout-info callout-border-left mt-1 p-1">
-                      <strong><i class="fa fa-info-circle"></i>&nbsp;Data Sales per Outlet</strong>
+                      <strong><i class="fa fa-info-circle"></i>&nbsp;Data Sales per Produk</strong>
                       <p>Silahkan klik pada <strong>satu</strong> data pada tabel di bawah ini untuk mengetahui detail data yang ditampilkan pada tabel di sebelah kanan.</p>
                     </div><br />
                     <!-- Tabel -->
@@ -230,7 +230,7 @@
       }
 
       $(target).children('.id-barang-out').text(id);
-      $(target).children('.nama-barang-out').text('Eddi Junaidi - Jakarta');
+      $(target).children('.nama-barang-out').text('FARMACROL FORTE');
       $(target).children('.jumlah-barang-out').text(jumlah);
       $(target).children('.tender-out').append(centang);
     });

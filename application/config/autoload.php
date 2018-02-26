@@ -184,4 +184,7 @@ $autoload['model'] = array(
   'Permohonan_Produk_Outlet' => 'ppo',
   'Permohonan_Produk_Outlet_Detail' => 'ppod',
   'Permohonan_Produk_Outlet_Status' => 'ppos',
+  // REPORT
+  // -- daily sales
+  'sales/Sales_Outlet' => 'salo',
 );

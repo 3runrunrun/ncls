@@ -148,6 +148,11 @@ $route['simpan-permohonan-barang-outlet/(:any)'] = 'Transaction/store_permohonan
 
 
 // REPORT
+// -- daily sales
+$route['daily-sales-product'] = 'Report/daily_sales_product';
+$route['store-daily-sales'] = 'Report/store_daily_sales';
+$route['store-daily-sales/(:any)'] = 'Report/store_daily_sales/$1';
+
 $route['analisis-sales-general'] = 'Report/analisis_sales_general';
 $route['detail-analisis-sales-general'] = 'Report/detail_analisis_sales_general';
 $route['analisis-sales-per-produk'] = 'Report/analisis_sales_per_produk';

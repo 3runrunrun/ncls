@@ -124,4 +124,36 @@ class Produk extends CI_Model {
     $query = $this->db->set($data)->get_compiled_insert('produk_distributor');
     $this->db->query($query);
   }
+
+  /**
+   * Produk_Outlet
+   */
+  
+  public function show_by_produk_outlet($id_produk, $id_outlet, $column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('produk_outlet');
+    $this->db->where('id_produk', $id_produk);
+    $this->db->where('id_outlet', $id_outlet);
+    $this->db->where('hapus', null);
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
+  public function store_produk_outlet($data = array())
+  {
+    $query = $this->db->set($data)->get_compiled_insert('produk_outlet');
+    $this->db->query($query);
+  }
 }
