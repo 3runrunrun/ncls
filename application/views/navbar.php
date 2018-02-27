@@ -193,9 +193,9 @@
           <ul class="dropdown-menu">
             <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu"><a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class=" fa fa-file"></i>Daily Sales <i class="fa fa-chevron-right pull-right"></i></a>
               <ul class="dropdown-menu">
-                <li data-menu="" ><a href="<?php echo site_url() ?>/Report/daily_sales_product" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>per Product</a>
+                <li data-menu="" ><a href="<?php echo site_url() ?>/daily-sales-product" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>per Product</a>
                 </li>
-                <li data-menu=""><a href="<?php echo site_url() ?>/Report/daily_sales_outlet" data-toggle="dropdown" class="dropdown-item"><i  class="fa fa-file"></i>per Outlet</a>
+                <li data-menu=""><a href="<?php echo site_url() ?>/daily-sales-outlet" data-toggle="dropdown" class="dropdown-item"><i  class="fa fa-file"></i>per Outlet</a>
                 </li>
               </ul>
             </li>
