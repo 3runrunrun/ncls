@@ -158,21 +158,22 @@
                               <thead>
                                 <tr>
                                   <th>&nbsp;</th>
-                                  <th colspan="3" style="text-align: center !important">Kondisi On Faktur</th>
-                                  <th colspan="3" style="text-align: center !important">Kondisi Off Faktur</th>
+                                  <th colspan="3">Kondisi On Faktur</th>
+                                  <th colspan="3">Kondisi Off Faktur</th>
                                   <th>&nbsp;</th>
                                   <th>&nbsp;</th>
                                 </tr>
                                 <tr>
-                                  <th style="text-align: center !important" width="30%">Outlet</th>
-                                  <th class="distributor" style="text-align: center !important">Distributor</th>
-                                  <th style="text-align: center !important">NF</th>
-                                  <th style="text-align: center !important">Total</th>
-                                  <th class="distributor" style="text-align: center !important">Distributor</th>
-                                  <th style="text-align: center !important">NF</th>
-                                  <th style="text-align: center !important">Total</th>
-                                  <th style="text-align: center !important" width="30%">Produk</th>
-                                  <th style="text-align: center !important" width="30%" colspan="2">Keterangan</th>
+                                  <th width="30%">Outlet</th>
+                                  <th class="distributor">Distributor</th>
+                                  <th>NF</th>
+                                  <th>Total</th>
+                                  <th class="distributor">Distributor</th>
+                                  <th>NF</th>
+                                  <th>Total</th>
+                                  <th width="30%">Produk</th>
+                                  <th width="10%">Jumlah</th>
+                                  <th width="30%" colspan="2">Keterangan</th>
                                 </tr>
                               </thead>
                               <tbody id="diskon-list">
@@ -191,7 +192,7 @@
                                     </select>
                                     <!-- /id-outlet -->
                                   </td>
-                                  <td class="text-truncate">
+                                  <td>
                                     <p style="color: transparent;">Lorem ipsum dolor.</p>
                                     <fieldset>
                                       <div class="input-group">
@@ -201,7 +202,7 @@
                                     </fieldset>
                                     <!-- /on-diskon-distributor -->
                                   </td>
-                                  <td class="text-truncate">
+                                  <td>
                                     <p style="color: transparent;">Lorem ipsum dolor.</p>
                                     <fieldset>
                                       <div class="input-group">
@@ -211,7 +212,7 @@
                                     </fieldset>
                                     <!-- /on-nf -->
                                   </td>
-                                  <td class="text-truncate">
+                                  <td>
                                     <p style="color: transparent;">Lorem ipsum dolor.</p>
                                     <fieldset>
                                       <div class="input-group">
@@ -221,7 +222,7 @@
                                     </fieldset>
                                     <!-- /on-total -->
                                   </td>
-                                  <td class="text-truncate">
+                                  <td>
                                     <p style="color: transparent;">Lorem ipsum dolor.</p>
                                     <fieldset>
                                       <div class="input-group">
@@ -231,7 +232,7 @@
                                     </fieldset>
                                     <!-- /off-diskon-distributor -->
                                   </td>
-                                  <td class="text-truncate">
+                                  <td>
                                     <p style="color: transparent;">Lorem ipsum dolor.</p>
                                     <fieldset>
                                       <div class="input-group">
@@ -241,7 +242,7 @@
                                     </fieldset>
                                     <!-- /off-nf -->
                                   </td>
-                                  <td class="text-truncate">
+                                  <td>
                                     <p style="color: transparent;">Lorem ipsum dolor.</p>
                                     <fieldset>
                                       <div class="input-group">
@@ -264,7 +265,11 @@
                                       <?php endif; ?>
                                     </select>
                                   </td>
-                                  <td class="text-truncate">
+                                  <td>
+                                    <p style="color: transparent;">Lorem ipsum dolor sit.</p>
+                                    <input type="number" name="jumlah[]" class="form-control border-primary" min="1" value="0">
+                                  </td>
+                                  <td>
                                     <p style="color: transparent;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                                     <div class="form-group row remove-btn">
                                       <div class="col-xs-9">
@@ -298,18 +303,18 @@
                                 <table class="table table-xs table-hover height-200 table-bordered mb-0">
                                   <thead>
                                     <tr>
-                                      <th width="10%" style="text-align: center !important">No</th>
-                                      <th width="50%" style="text-align: center !important">CN</th>
-                                      <th width="40$" style="text-align: center !important">%</th>
+                                      <th width="10%">No</th>
+                                      <th width="50%">CN</th>
+                                      <th width="40$">%</th>
                                     </tr>
                                   </thead>
                                   <tbody id="ko-on-off">
                                     <tr>
-                                      <td class="text-truncate">1</td>
-                                      <td class="text-truncate">
+                                      <td>1</td>
+                                      <td>
                                         <input type="text" name="cn[]" class="form-control border-primary" placeholder="CN">
                                       </td>
-                                      <td class="text-truncate">
+                                      <td>
                                         <div class="form-group row remove-cn-btn">
                                           <div class="col-xs-8">
                                             <fieldset>
@@ -412,5 +417,14 @@
       var dist = $('[name=id_distributor] > option:selected').text().split('-')
       $('.distributor').text(dist[1]);
     });
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('th').css({
+      'text-align': 'center',
+    });
+    $('td').addClass('text-truncate');
   });
 </script>

@@ -402,9 +402,10 @@ class Transaction extends CI_Controller {
       UPPER(b.nama) as nama_detailer, 
       a.tanggal, 
       CASE
+      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "onoff" 
       WHEN SUM(d.on_total < 1) AND SUM(d.off_total > 0) THEN "off"
       WHEN SUM(d.on_total > 0) AND SUM(d.off_total < 1) THEN "on"
-      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "onoff" END AS jenis_ko,
+      END AS jenis_ko,
       a.tgl_spv,
       a.tgl_rm,
       a.tgl_direktur,
@@ -418,9 +419,10 @@ class Transaction extends CI_Controller {
       UPPER(b.nama) as nama_detailer, 
       a.tanggal, 
       CASE
+      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "onoff"
       WHEN SUM(d.on_total < 1) AND SUM(d.off_total > 0) THEN "off"
       WHEN SUM(d.on_total > 0) AND SUM(d.off_total < 1) THEN "on"
-      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "onoff" END AS jenis_ko,
+      END AS jenis_ko,
       a.tgl_spv,
       a.tgl_rm,
       a.tgl_direktur,
@@ -493,12 +495,12 @@ class Transaction extends CI_Controller {
         $ko_detail['id_outlet'] = $value;
         $ko_detail['on_diskon_distributor'] = $input_var['on_diskon_distributor'][$key];
         $ko_detail['on_nf'] = $input_var['on_nf'][$key];
-        $ko_detail['on_nf'] = $input_var['on_nf'][$key];
         $ko_detail['on_total'] = $input_var['on_total'][$key];
         $ko_detail['off_diskon_distributor'] = $input_var['off_diskon_distributor'][$key];
         $ko_detail['off_nf'] = $input_var['off_nf'][$key];
         $ko_detail['off_total'] = $input_var['off_total'][$key];
         $ko_detail['id_produk'] = $input_var['id_produk'][$key];
+        $ko_detail['jumlah'] = $input_var['jumlah'][$key];
         $ko_detail['keterangan'] = $input_var['keterangan'][$key];
         // var_dump($ko_detail);
         $this->kog->store_detail($ko_detail);
@@ -596,12 +598,12 @@ class Transaction extends CI_Controller {
         $ko_detail['id_outlet'] = $value;
         $ko_detail['on_diskon_distributor'] = $input_var['on_diskon_distributor'][$key];
         $ko_detail['on_nf'] = $input_var['on_nf'][$key];
-        $ko_detail['on_nf'] = $input_var['on_nf'][$key];
         $ko_detail['on_total'] = $input_var['on_total'][$key];
         $ko_detail['off_diskon_distributor'] = $input_var['off_diskon_distributor'][$key];
         $ko_detail['off_nf'] = $input_var['off_nf'][$key];
         $ko_detail['off_total'] = $input_var['off_total'][$key];
         $ko_detail['id_produk'] = $input_var['id_produk'][$key];
+        $ko_detail['jumlah'] = $input_var['jumlah'][$key];
         $ko_detail['keterangan'] = $input_var['keterangan'][$key];
         // var_dump($ko_detail);
         $this->kot->store_detail($ko_detail);
