@@ -37,7 +37,6 @@
               </div>
 
               <div class="card-block">
-                <!-- alert -->
                 <?php if ( ! is_null($this->session->flashdata())): ?>
                 <?php if ( ! is_null($this->session->flashdata('error_msg'))): ?>  
                 <div class="alert alert-danger alert-dismissible fade in mb-2" role="alert">
@@ -160,7 +159,7 @@
                             <?php endif; ?>
                           </select>
                         </div>
-                        <!-- /id-outlet -->
+                        <!-- /id-distributor -->
                         <div class="form-group">
                           <label class="label-control">Detailer</label>
                           <select name="id_detailer" class="form-control select2">
@@ -174,7 +173,7 @@
                             <?php endif; ?>
                           </select>
                         </div>
-                        <!-- /id-outlet -->
+                        <!-- /id-detailer -->
                         <div class="form-group">
                           <label class="label-control">Outlet</label>
                           <select name="id_outlet" class="form-control select2">

@@ -67,4 +67,9 @@
   </style>
   <script src="<?php echo base_url()?>/assets/js/bootstrap.min.js" type="text/javascript"></script>
   <script src="<?php echo base_url()?>/assets/js/jquery.min.js" type="text/javascript"></script>
+  <link href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css" rel="stylesheet" />
+    <script src="http://cdn.oesmith.co.uk/morris-0.5.0.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>

@@ -173,6 +173,8 @@ $autoload['model'] = array(
   'Promo_Trial',
   'Promo_Trial_Detail',
   'Promo_Trial_Status',
+  'ko/Ko_General' => 'kog',
+  'ko/Ko_Tender' => 'kot',
   // -- permohonan produk
   'Permohonan_Produk_Nucleus' => 'ppn',
   'Permohonan_Produk_Nucleus_Detail' => 'ppnd',

@@ -398,6 +398,38 @@ class Transaction extends CI_Controller {
   {
     $data['master_distributor'] = $this->Master_Distributor->get_data('id, alias_distributor');
 
+    $data['ko_general'] = $this->kog->get_data('a.id, 
+      UPPER(b.nama) as nama_detailer, 
+      a.tanggal, 
+      CASE
+      WHEN SUM(d.on_total < 1) AND SUM(d.off_total > 0) THEN "off"
+      WHEN SUM(d.on_total > 0) AND SUM(d.off_total < 1) THEN "on"
+      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "onoff" END AS jenis_ko,
+      a.tgl_spv,
+      a.tgl_rm,
+      a.tgl_direktur,
+      CASE
+      WHEN a.tgl_spv IS NULL AND a.tgl_rm IS NULL AND a.tgl_direktur IS NULL THEN "belum"
+      WHEN a.tgl_spv IS NOT NULL AND a.tgl_rm IS NULL AND a.tgl_direktur IS NULL THEN "spv"
+      WHEN a.tgl_spv IS NOT NULL AND a.tgl_rm IS NOT NULL AND a.tgl_direktur IS NULL THEN "rm"
+      WHEN a.tgl_spv IS NOT NULL AND a.tgl_rm IS NOT NULL AND a.tgl_direktur IS NOT NULL THEN "rilis" END AS status');
+    $data['ko_tender'] = $this->kot->get_data('a.id, 
+      UPPER(a.sp) as sp, 
+      UPPER(b.nama) as nama_detailer, 
+      a.tanggal, 
+      CASE
+      WHEN SUM(d.on_total < 1) AND SUM(d.off_total > 0) THEN "off"
+      WHEN SUM(d.on_total > 0) AND SUM(d.off_total < 1) THEN "on"
+      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "onoff" END AS jenis_ko,
+      a.tgl_spv,
+      a.tgl_rm,
+      a.tgl_direktur,
+      CASE
+      WHEN a.tgl_spv IS NULL AND a.tgl_rm IS NULL AND a.tgl_direktur IS NULL THEN "belum"
+      WHEN a.tgl_spv IS NOT NULL AND a.tgl_rm IS NULL AND a.tgl_direktur IS NULL THEN "spv"
+      WHEN a.tgl_spv IS NOT NULL AND a.tgl_rm IS NOT NULL AND a.tgl_direktur IS NULL THEN "rm"
+      WHEN a.tgl_spv IS NOT NULL AND a.tgl_rm IS NOT NULL AND a.tgl_direktur IS NOT NULL THEN "rilis" END AS status');
+
     $this->load->view('head');
     $this->load->view('navbar');
     $this->load->view('transaction/factur/daftar-permohonan', $data);
@@ -410,15 +442,102 @@ class Transaction extends CI_Controller {
    */
   public function factur_discount_general()
   {
-    $rows = 99;
+    $data_rows = $this->kog->get_data();
+    $rows = $data_rows['data']->num_rows();
+
     $data['q_faktur'] = $this->nsu->zerofill_generator('4', "$rows");
     $data['detailer'] = $this->Detailer->get_data('a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama');
     $data['distributor'] = $this->Distributor->get_data('a.id, upper(a.nama) as nama, upper(c.alias_area) as alias_area, upper(c.area) as area, upper(b.alias_distributor) as alias_distributor');
+    $data['outlet'] = $this->Outlet->get_data('a.id, upper(a.nama) as nama, upper(d.alias_area) as alias_area');
+    $data['produk'] = $this->Produk->get_data('id, nama');
+
     // die();
+    
     $this->load->view('head');
     $this->load->view('navbar');
     $this->load->view('transaction/factur/general', $data);
     $this->load->view('footer-js');
+  }
+
+  public function store_ko_general($key = null)
+  {
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      # code...
+    } else {
+      $input_var = $this->input->post();
+
+      $ko = array();
+      $ko_detail = array();
+      $ko_onoff = array();
+      $ko_onoff_total = array();
+      $ko_status = array();
+
+      // ko
+      $ko['id'] = $this->session->userdata('id_faktur');
+      $this->session->unset_userdata('id_faktur');
+      $ko['tahun'] = date('Y');
+      $ko['id_detailer'] = $input_var['id_detailer'];
+      $ko['tanggal'] = $input_var['tanggal'];
+      $ko['id_distributor'] = $input_var['id_distributor'];
+      $ko['id_rm'] = $input_var['id_rm'];
+      $ko['id_direktur'] = $input_var['id_direktur'];
+      // var_dump($ko);
+      $this->kog->store($ko);
+
+      // ko detail
+      foreach ($input_var['id_outlet'] as $key => $value) {
+        $ko_detail['id_ko'] = $ko['id'];
+        $ko_detail['id_outlet'] = $value;
+        $ko_detail['on_diskon_distributor'] = $input_var['on_diskon_distributor'][$key];
+        $ko_detail['on_nf'] = $input_var['on_nf'][$key];
+        $ko_detail['on_nf'] = $input_var['on_nf'][$key];
+        $ko_detail['on_total'] = $input_var['on_total'][$key];
+        $ko_detail['off_diskon_distributor'] = $input_var['off_diskon_distributor'][$key];
+        $ko_detail['off_nf'] = $input_var['off_nf'][$key];
+        $ko_detail['off_total'] = $input_var['off_total'][$key];
+        $ko_detail['id_produk'] = $input_var['id_produk'][$key];
+        $ko_detail['keterangan'] = $input_var['keterangan'][$key];
+        // var_dump($ko_detail);
+        $this->kog->store_detail($ko_detail);
+      }
+
+      // ko on off
+      foreach ($input_var['cn'] as $key => $value) {
+        $ko_onoff['id_ko'] = $ko['id'];
+        $ko_onoff['cn'] = $value;
+        $ko_onoff['diskon'] = $input_var['diskon'][$key];
+        // var_dump($ko_onoff);
+        $this->kog->store_onoff($ko_onoff);
+      }
+
+      // ko on off total
+      $ko_onoff_total['id_ko'] = $ko['id'];
+      $ko_onoff_total['total_onoff'] = $input_var['total_onoff'];
+      // var_dump($ko_onoff_total);
+      $this->kog->store_onoff_total($ko_onoff_total);
+
+      // ko status
+      $ko_status['id_ko'] = $ko['id'];
+      $ko_status['status'] = strtolower('belum');
+      $ko_status['tanggal'] = date('Y-m-d H:i:s');
+      // var_dump($ko_status);
+      $this->kog->store_status($ko_status);
+
+      // die();
+
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Permohonan diskon <strong>gagal</strong>.');
+      } else {
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Faktur KO <strong>berhasil</strong> disimpan.');
+      }
+    }
+    
+    redirect('/faktur-diskon-general');
   }
 
   /**
@@ -427,10 +546,101 @@ class Transaction extends CI_Controller {
    */
   public function factur_discount_tender()
   {
+    $data_rows = $this->kot->get_data();
+    $rows = $data_rows['data']->num_rows();
+
+    $data['q_faktur'] = $this->nsu->zerofill_generator('4', "$rows");
+    $data['detailer'] = $this->Detailer->get_data('a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama');
+    $data['distributor'] = $this->Distributor->get_data('a.id, upper(a.nama) as nama, upper(c.alias_area) as alias_area, upper(c.area) as area, upper(b.alias_distributor) as alias_distributor');
+    $data['outlet'] = $this->Outlet->get_data('a.id, upper(a.nama) as nama, upper(d.alias_area) as alias_area');
+    $data['produk'] = $this->Produk->get_data('id, nama');
+
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('transaction/factur/tender');
+    $this->load->view('transaction/factur/tender', $data);
     $this->load->view('footer-js');
+  }
+
+  public function store_ko_tender($key = null)
+  {
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      # code...
+    } else {
+      $input_var = $this->input->post();
+
+      $ko = array();
+      $ko_detail = array();
+      $ko_onoff = array();
+      $ko_onoff_total = array();
+      $ko_status = array();
+
+      // ko
+      $ko['id'] = $this->session->userdata('id_faktur_tender');
+      $this->session->unset_userdata('id_faktur_tender');
+      $ko['tahun'] = date('Y');
+      $ko['sp'] = $input_var['sp'];
+      $ko['id_detailer'] = $input_var['id_detailer'];
+      $ko['tanggal'] = $input_var['tanggal'];
+      $ko['id_distributor'] = $input_var['id_distributor'];
+      $ko['id_rm'] = $input_var['id_rm'];
+      $ko['id_direktur'] = $input_var['id_direktur'];
+      // var_dump($ko);
+      $this->kot->store($ko);
+
+      // ko detail
+      foreach ($input_var['id_outlet'] as $key => $value) {
+        $ko_detail['id_ko'] = $ko['id'];
+        $ko_detail['id_outlet'] = $value;
+        $ko_detail['on_diskon_distributor'] = $input_var['on_diskon_distributor'][$key];
+        $ko_detail['on_nf'] = $input_var['on_nf'][$key];
+        $ko_detail['on_nf'] = $input_var['on_nf'][$key];
+        $ko_detail['on_total'] = $input_var['on_total'][$key];
+        $ko_detail['off_diskon_distributor'] = $input_var['off_diskon_distributor'][$key];
+        $ko_detail['off_nf'] = $input_var['off_nf'][$key];
+        $ko_detail['off_total'] = $input_var['off_total'][$key];
+        $ko_detail['id_produk'] = $input_var['id_produk'][$key];
+        $ko_detail['keterangan'] = $input_var['keterangan'][$key];
+        // var_dump($ko_detail);
+        $this->kot->store_detail($ko_detail);
+      }
+
+      // ko on off
+      foreach ($input_var['cn'] as $key => $value) {
+        $ko_onoff['id_ko'] = $ko['id'];
+        $ko_onoff['cn'] = $value;
+        $ko_onoff['diskon'] = $input_var['diskon'][$key];
+        // var_dump($ko_onoff);
+        $this->kot->store_onoff($ko_onoff);
+      }
+
+      // ko on off total
+      $ko_onoff_total['id_ko'] = $ko['id'];
+      $ko_onoff_total['total_onoff'] = $input_var['total_onoff'];
+      // var_dump($ko_onoff_total);
+      $this->kot->store_onoff_total($ko_onoff_total);
+
+      // ko status
+      $ko_status['id_ko'] = $ko['id'];
+      $ko_status['status'] = strtolower('belum');
+      $ko_status['tanggal'] = date('Y-m-d H:i:s');
+      // var_dump($ko_status);
+      $this->kot->store_status($ko_status);
+
+      // die();
+
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Permohonan diskon <strong>gagal</strong>.');
+      } else {
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Faktur KO Tender <strong>berhasil</strong> disimpan.');
+      }
+    }
+    
+    redirect('/faktur-diskon-tender');
   }
 
   //////////////////////
