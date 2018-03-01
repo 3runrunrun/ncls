@@ -755,7 +755,7 @@ class Master extends CI_Controller {
   {
     $data['detailer'] = $this->Detailer->get_data('a.id, a.nama');
     $data['operasional'] = $this->Operasional->get_data();
-    $data['total_by_year'] = $this->Operasional->get_total_by_year(date('Y'));
+    $data['total_by_year'] = $this->Operasional->get_total_operasional('SUM(total) as total');
 
     if ($data['operasional']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['operasional']['data']);
@@ -787,6 +787,7 @@ class Master extends CI_Controller {
       // Buat masukin data baru
       $input_var = $this->input->post();
       $input_var['id'] = $this->nsu->time_id_generator();
+      $input_var['tahun'] = date('Y');
 
       $this->Operasional->store($input_var);
       if ($this->db->trans_status() === FALSE) {
@@ -805,11 +806,65 @@ class Master extends CI_Controller {
   // COGM //
   //////////
 
+  public function result_builder_cogm($result_base)
+  {
+    $month = $this->Cogm->get_data('DISTINCT DATE_FORMAT(a.tanggal, \'%M-%Y\') as bulan');
+    $placeholder = $result_base;
+    $replacement = array();
+    $result = array();
+
+    $data = $this->Cogm->get_data_total('DATE_FORMAT(a.tanggal, \'%M-%Y\') as bulan,
+      CONCAT(DATE_FORMAT(a.tanggal, \'%m%Y\'), a.id_jenis_cogm) as bulan_cogm,
+      SUM(a.biaya) as biaya');
+
+    // repopulate month
+    foreach ($month['data']->result_array() as $key => $value) {
+      $result[$key] = array('bulan' => $value['bulan']);
+    }
+    // var_dump($result);
+
+    // repopulate placeholder
+    foreach ($placeholder['data']->result_array() as $key => $value) {
+      foreach ($result as $index => $item) {
+        array_push($result[$index][$value['id_jenis_cogm']], '0');
+        if ($value['bulan'] == $result[$index]['bulan']) {
+          $result[$index][$value['id_jenis_cogm']] = $value['placeholder'];
+        }
+      }
+    }
+    // var_dump($result);
+
+    // repopulate data
+    foreach ($data['data']->result_array() as $key => $value) {
+      $replacement[$value['bulan_cogm']] = $value['biaya'];
+    }
+    // var_dump($replacement);
+
+    // repopulate result
+    foreach ($result as $key => $value) {
+      $result[$key] = str_replace(array_keys($replacement), $replacement, $result[$key]);
+    }
+    // var_dump($result);
+    // die();
+
+    return $result;
+  }
+
   public function master_cogm()
   {
     $data['jenis_cogm'] = $this->Cogm_Jenis->get_data();
+    $data['title_cogm'] = $this->Cogm_Jenis->get_data_as_title('DISTINCT UPPER(a.jenis) as jenis');
     $data['cogm'] = $this->Cogm->get_data('a.id, a.tanggal, b.jenis, a.biaya');
-    /*$data['total_by_year'] = $this->Operasional->get_total_by_year(date('Y'));*/
+
+    // repopulating data
+    $result_base = $this->Cogm->get_data_concat_total('DATE_FORMAT(a.tanggal, \'%M-%Y\') as bulan,
+      CONCAT(DATE_FORMAT(a.tanggal, \'%m%Y\'), b.id) as placeholder,
+      b.id as id_jenis_cogm');
+    $data['month_cogm'] = $this->result_builder_cogm($result_base);
+    $data['total_per_jenis'] = $this->Cogm->get_total_per_jenis('SUM(biaya) as total');
+    $data['total_cogm'] = $this->Cogm->get_total_cogm('SUM(biaya) as total');
+    // var_dump($data['month_cogm']);
+    // die();
 
     if ($data['cogm']['status'] == 'error') {
       $this->session->set_flashdata('query_msg', $data['operasional']['data']);

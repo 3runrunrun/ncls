@@ -27,13 +27,13 @@ class Operasional extends CI_Model {
     return $ret_val;
   }
 
-  public function get_total_by_year($year = NULL)
+  // by year
+  public function get_total_operasional($column = '*')
   {
-    $this->db->select('SUM(total) as total', FALSE);
-    if ($year !== NULL) {
-      $this->db->like('DATE_FORMAT(tanggal, \'%Y\')', $year);
-    }
+    $this->db->select($column, FALSE);
     $this->db->where('hapus', null);
+    $this->db->where('tahun', $this->session->userdata('tahun'));
+    $this->db->group_by('tahun');
     $result = $this->db->get('operasional');
     if ( ! $result) {
       $ret_val = array(

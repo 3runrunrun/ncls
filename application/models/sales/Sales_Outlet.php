@@ -9,6 +9,37 @@ class Sales_Outlet extends CI_Model {
   }
 
   /**
+   * per detailer
+   */
+  
+  public function get_data_per_detailer($column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('sales_outlet a');
+    $this->db->join('outlet b', 'a.id_outlet = b.id');
+    $this->db->join('detailer c', 'a.id_detailer = c.id');
+    $this->db->join('produk d', 'a.id_produk = d.id');
+    $this->db->where('a.tahun', $this->session->userdata('tahun'));
+    $this->db->where('a.hapus', null);
+    $this->db->group_by('a.id_detailer');
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    // echo $this->db->last_query();
+    // die();
+    return $ret_val;
+  }
+
+  /**
    * per produk
    */
   

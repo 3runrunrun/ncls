@@ -74,41 +74,59 @@
         </div>
       </div>
       <!-- /tabel-cogm-harian -->
+
       <div class="row">
         <div class="col-xs-12">
           <div class="card border-top-blue">
             <div class="card-body">
               <div class="card-block">
                 <!-- Tabel -->
-                <div class="table-responsive height-250 border-top-red">
-                  <table class="table table-hover mb-0">
+                <div class="table-responsive border-top-red">
+                  <table class="table table-xs table-hover mb-0">
                     <thead>
                       <tr>
                         <th width="10%">Tanggal</th>
-                        <?php foreach ($jenis_cogm['data']->result() as $value): ?>
-                        <th><?php echo ucwords($value->jenis); ?><br />(Rp)</th>                          
+                        <?php foreach ($title_cogm['data']->result() as $value): ?>
+                        <th><?php echo ucwords($value->jenis); ?><br />(Rp)</th>
                         <?php endforeach; ?>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="month-cogm">
+                      <?php foreach ($month_cogm as $value): ?>
+                        <tr>
+                          <?php foreach ($value as $index => $item): ?>
+                            <?php if ($index != 'bulan'): ?>
+                            <?php $value[$index] = number_format($value[$index], 0, ',', '.'); ?>
+                            <?php $value[$index] = (is_null($value[$index])) ? '0' : $value[$index] ; ?>
+                            <?php endif; ?>
+                            <td><?php echo $value[$index]; ?></td>
+                          <?php endforeach ?>
+                        </tr>
+                      <?php endforeach; ?>
                       <!-- disini isinya -->
                     </tbody>
+                    <tfoot id="cogm-per-jenis" class="border-top-blue">
+                      <th width="10%">Total</th>
+                      <?php foreach ($total_per_jenis['data']->result() as $value): ?>  
+                      <th><?php echo number_format($value->total, 0, ',', '.'); ?></th>
+                      <?php endforeach ?>
+                    </tfoot>
                   </table>
-                </div>
-                <!-- End of Tabel -->
+                </div><br />
+                <!-- /tabel-cogm -->
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="table-responsive border-top-red">
-                      <table class="table table-hover mb-0">
-                        <thead>
-                          <?php //foreach ($total_by_year['data']->result() as $value): ?>  
+                      <table class="table table-bordered table-xs table-hover mb-0">
+                        <thead id="cogm-grand-total">
+                          <?php foreach ($total_cogm['data']->result() as $value): ?>  
                           <tr class="bg-table-red">
-                            <th width="10%">Total</th>
-                            <th width="20%" align="right">
-                              <h4>Rp <?php //echo number_format($value->total, 2, ',', '.'); ?></h4>
+                            <th width="10%">Grand Total</th>
+                            <th width="80%">
+                              <h4>Rp <?php echo number_format($value->total, 0, ',', '.'); ?></h4>
                             </th>
                           </tr>
-                          <?php //endforeach ?>
+                          <?php endforeach ?>
                         </thead>
                       </table>
                     </div>
@@ -121,6 +139,7 @@
         </div>
       </div>
       <!-- /tabel-cogm-total -->
+
       <div class="row">
         <div class="col-xs-12">
           <div class="card border-top-blue">
@@ -191,6 +210,13 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function(){
+    $('td').addClass('text-truncate');
+    $('th, td').css({
+      'text-align': 'center',
+    });
+    $('#month-cogm tr td:not(:first-child), #cogm-per-jenis tr th:not(:first-child)').css({
+      'text-align': 'right',
+    });
     $('#add-cogm').click(function(event) {
       console.log('clicked');
       var target_selector = $('#cogm-out');

@@ -131,6 +131,7 @@ class Transaction extends CI_Controller {
   {
     $data['promosi'] = $this->Wpr_Detail->get_promosi('sum(a.dana) as promosi');
     $data['cogm'] = $this->Cogm->get_total_cogm('sum(biaya) as cogm');
+    $data['operasional'] = $this->Operasional->get_total_operasional('sum(total) as total');
 
     $this->load->view('head');
     $this->load->view('navbar');

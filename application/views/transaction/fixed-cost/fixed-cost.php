@@ -413,7 +413,6 @@
       </div>
       <!-- /rasio-dana -->
 
-
       <!-- fixed-cost -->
       <div class="row">
         <div class="col-xs-12">
@@ -441,38 +440,42 @@
                           <td>Promosi</td>
                           <td>Rupiah (Rp)</td>
                           <?php $pr = $promosi['data']->result_array()[0]['promosi']; ?>
-                          <td align="right">Rp <?php echo number_format($pr, 0, ',', '.'); ?></td>
+                          <td align="right"><?php echo number_format($pr, 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                         <tr>
                           <td>COGM</td>
                           <td>Rupiah (Rp)</td>
                           <?php $co = $cogm['data']->result_array()[0]['cogm']; ?>
-                          <td align="right">Rp <?php echo number_format($co, 0, ',', '.'); ?></td>
+                          <td align="right"><?php echo number_format($co, 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                         <tr>
                           <td>Karyawan</td>
                           <td>Rupiah (Rp)</td>
-                          <td align="right">Rp <?php echo number_format($cost[2], 0, ',', '.'); ?></td>
+                          <?php $kr = 0; ?>
+                          <td align="right"><?php echo number_format($kr, 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                         <tr>
                           <td>Inventaris</td>
                           <td>Rupiah (Rp)</td>
-                          <td align="right">Rp <?php echo number_format($cost[3], 0, ',', '.'); ?></td>
+                          <?php $iv = 0; ?>
+                          <td align="right"><?php echo number_format($iv, 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                         <tr>
                           <td>Operasional</td>
                           <td>Rupiah (Rp)</td>
-                          <td align="right">Rp <?php echo number_format($cost[4], 0, ',', '.'); ?></td>
+                          <?php $op = $operasional['data']->result_array()[0]['total']; ?>
+                          <td align="right"><?php echo number_format($op, 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                         <tr>
                           <td>Insentif</td>
                           <td>Rupiah (Rp)</td>
-                          <td align="right">Rp <?php echo number_format($cost[5], 0, ',', '.'); ?></td>
+                          <?php $is = 0; ?>
+                          <td align="right"><?php echo number_format($is, 0, ',', '.'); ?></td>
                           <td>&nbsp;</td>
                         </tr>
                       </tbody>
@@ -487,6 +490,7 @@
                           <tr class="bg-table-red">
                             <th width="80%"><h4>Total ('000)</h4></th>
                             <th width="20%" align="right">
+                              <?php $total = $pr + $co + $kr + $iv + $op + $is; ?>
                               <h4>Rp <?php echo number_format($total, 0, ',', '.'); ?></h4>
                             </th>
                           </tr>

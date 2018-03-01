@@ -12,7 +12,30 @@ class Cogm_Jenis extends CI_Model {
   {
     $this->db->select($column);
     $this->db->where('hapus', null);
+    $this->db->order_by('id', 'asc');
     $result = $this->db->get('cogm_jenis');
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
+  public function get_data_as_title($column = '*')
+  {
+    $this->db->select($column);
+    $this->db->from('cogm_jenis a');
+    $this->db->join('cogm b', 'a.id = b.id_jenis_cogm');
+    $this->db->where('a.hapus', null);
+    $this->db->order_by('a.id', 'asc');
+    $result = $this->db->get();
     if ( ! $result) {
       $ret_val = array(
         'status' => 'error',
