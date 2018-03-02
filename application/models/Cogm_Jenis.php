@@ -34,6 +34,7 @@ class Cogm_Jenis extends CI_Model {
     $this->db->from('cogm_jenis a');
     $this->db->join('cogm b', 'a.id = b.id_jenis_cogm');
     $this->db->where('a.hapus', null);
+    $this->db->where('b.hapus', null);
     $this->db->order_by('a.id', 'asc');
     $result = $this->db->get();
     if ( ! $result) {

@@ -1,6 +1,6 @@
 <?php 
 
-class Barang_Keluar extends CI_Model {
+class Barang_Masuk_Nucleus extends CI_Model {
 
   function __construct()
   {
@@ -10,7 +10,7 @@ class Barang_Keluar extends CI_Model {
 
   public function store($data = array())
   {
-    $query = $this->db->set($data)->get_compiled_insert('barang_keluar');
+    $query = $this->db->set($data)->get_compiled_insert('barang_masuk_nucleus');
     $this->db->query($query);
   }
 }

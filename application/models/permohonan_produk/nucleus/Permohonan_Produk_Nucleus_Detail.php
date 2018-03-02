@@ -27,6 +27,30 @@ class Permohonan_Produk_Nucleus_Detail extends CI_Model {
     return $ret_val;
   }
 
+  public function show($id, $column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('permohonan_produk_nucleus a');
+    $this->db->join('permohonan_produk_nucleus_detail b', 'a.id = b.id_permohonan');
+    $this->db->join('produk c', 'b.id_produk = c.id');
+    $this->db->where('a.id', $id);
+    $this->db->where('a.hapus', null);
+    $this->db->where('b.hapus', null);
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
   public function store($data = array())
   {
     $query = $this->db->set($data)->get_compiled_insert('permohonan_produk_nucleus_detail');

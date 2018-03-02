@@ -1,5 +1,5 @@
-<footer class="footer undefined footer-dark">
-      <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  © 2017 <a href="#" target="_blank" class="text-bold-800 grey darken-2">Nucleus Farma </a>, All rights reserved. </span></p>
+    <footer class="footer undefined footer-dark">
+      <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  © <?php echo date('Y'); ?> <a href="#" target="_blank" class="text-bold-800 grey darken-2">Nucleus Farma </a>, All rights reserved. </span></p>
     </footer>
 
     <!-- BEGIN VENDOR JS-->

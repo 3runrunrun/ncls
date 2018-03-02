@@ -130,8 +130,8 @@
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/master-produk" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-medkit"></i>Master Produk</a>
             </li>
-            <li data-menu=""><a href="<?php echo site_url() ?>/master-stok" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-tablet"></i>Master Stok</a>
-            </li>
+            <!-- <li data-menu=""><a href="<?php echo site_url() ?>/master-stok" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-tablet"></i>Master Stok</a>
+            </li> -->
           </ul>
         </li>
         <li data-menu="dropdown" class="dropdown nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link"><i class="fa fa-money"></i><span data-i18n="nav.layouts.temp">Transaction</span></a>
@@ -168,8 +168,6 @@
             <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu">
               <a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class="fa fa-money"></i>Permohonan Barang<i class="fa fa-chevron-right pull-right"></i></a>
               <ul class="dropdown-menu">
-                <li data-menu=""><a href="<?php echo site_url(); ?>/permohonan-barang-nucleus" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Permohonan Barang Nucleus</a>
-                </li>
                 <li data-menu=""><a href="<?php echo site_url(); ?>/permohonan-barang-distributor" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Permohonan Barang Distributor</a>
                 </li>
                 <li data-menu=""><a href="<?php echo site_url(); ?>/permohonan-barang-outlet" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-money"></i>Permohonan Barang Outlet</a>
@@ -201,9 +199,9 @@
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/Report/data_sales_distributor_jenis_product" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Sales distributor dan jenis product (all area per year)</a>
             </li>
-            <li data-menu=""><a href="<?php echo site_url() ?>/Report/stock_produk_pabrik" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Stock Product (Pabrik ke nucleus)</a>
+            <li data-menu=""><a href="<?php echo site_url() ?>/stock-produk-nucleus" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Stock Product (Nucleus)</a>
             </li>
-            <li data-menu=""><a href="<?php echo site_url() ?>/Report/stock_produk_nucleus" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Stock Product (Nucleus ke distributor)</a>
+            <li data-menu=""><a href="<?php echo site_url() ?>/stock-produk-distributor" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Stock Product (Distributor)</a>
             </li>
             <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu"><a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class="fa fa-file"></i>Entry Breakdown Analisa Sales<i class="fa fa-chevron-right pull-right"></i></a>
               <ul class="dropdown-menu">

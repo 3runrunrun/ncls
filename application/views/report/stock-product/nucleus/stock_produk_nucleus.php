@@ -45,6 +45,7 @@
    });
  }
 </script>
+
 <div class="app-content content container-fluid">
   <div class="content-wrapper">
     <div class="content-header row">
@@ -54,7 +55,57 @@
         <div class="col-xs-12">
           <div class="card border-top-tosca">
             <div class="card-header no-border-bottom">
-              <h4 class="card-title">Daftar Permohonan Barang</h4>
+              <h4 class="card-title">Stok Produk (Nucleus)</h4>
+              <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+              <div class="heading-elements"></div>
+            </div>
+            <div class="card-body collapse in">
+              <div class="card-block">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="alert alert-success alert-dismissible fade in" id="alert" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                      <strong>Informasi!</strong> Tabel di bawah ini berisi informasi stok barang <strong>terkini</strong>. Informasi mengenai permintaan barang untuk keperluan pengisian stok produk Nucleus dapat dilihat pada tabel lain di halaman ini. Anda dapat menambah permintaan stok produk dengan menekan tautan <a href="#page-form" class="alert-link">ini</a>.
+                    </div>
+                    <div class="table-responsive height-300 border-top-red">
+                      <table class="table table-xs table-hover mb-0">
+                        <thead>
+                          <tr>
+                            <th width="10%">Kode Produk</th>
+                            <th>Nama Produk</th>
+                            <th>Kemasan</th>
+                            <th width="15%">Quantity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php foreach ($stok_nucleus['data']->result() as $value): ?>
+                          <tr>
+                            <td><?php echo strtoupper($value->id); ?></td>
+                            <td><?php echo $value->nama; ?></td>
+                            <td><?php echo $value->kemasan; ?></td>
+                            <td><?php echo $value->jumlah; ?></td>
+                          </tr>
+                          <?php endforeach ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /stok-saat-ini -->
+        </div>
+      </div>
+      <!-- /tabel-stok -->
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="card border-top-tosca">
+            <div class="card-header no-border-bottom">
+              <h4 class="card-title">Daftar Permohonan Barang (Delivered)</h4>
               <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
               <div class="heading-elements"></div>
             </div>
@@ -96,6 +147,54 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <?php foreach ($permohonan_delivered['data']->result() as $value): ?>  
+                      <tr>
+                        <td><?php echo str_replace('-', '/', $value->id); ?></td>
+                        <?php $tanggal_permohonan = date('d-M-Y', strtotime($value->tanggal_permohonan)); ?>
+                        <td><?php echo $tanggal_permohonan; ?></td>
+                        <?php $tanggal_target = date('d-M-Y', strtotime($value->tanggal_target)); ?>
+                        <td><?php echo $tanggal_target; ?></td>
+                        <td><?php echo str_replace(array_keys($status), $status, $value->status) ?></td>
+                        <td>
+                          <div class="btn-group-vertical">
+                            <a href="<?php echo site_url() ?>/detail-permohonan-barang-nucleus/<?php echo $value->id; ?>" class="btn btn-primary">Detail</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- End of Tabel -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /tabel-permohonan-delivered -->
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="card border-top-tosca">
+            <div class="card-header no-border-bottom">
+              <h4 class="card-title">Daftar Permohonan Barang</h4>
+              <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+              <div class="heading-elements"></div>
+            </div>
+            <div class="card-body">
+              <div class="card-block">
+                <!-- Tabel -->
+                <div class="table-responsive height-350 border-top-red">
+                  <table class="table table-xs table-hover mb-0">
+                    <thead>
+                      <tr>
+                        <th>Nomor Surat</th>
+                        <th>Tanggal Permohonan</th>
+                        <th>Tanggal Target</th>
+                        <th>Status</th>
+                        <th>Tools</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                       <?php foreach ($permohonan['data']->result() as $value): ?>  
                       <tr>
                         <td><?php echo str_replace('-', '/', $value->id); ?></td>
@@ -106,7 +205,9 @@
                         <td><?php echo str_replace(array_keys($status), $status, $value->status) ?></td>
                         <td>
                           <div class="btn-group-vertical">
+                            <?php if ($value->status !== 'delivered'): ?> 
                             <button type="button" class="btn btn-warning block" data-toggle="modal" data-backdrop="false" data-target="#verifikasi" onclick="verifikasi_pbn('<?php echo $value->id; ?>')">Verifikasi</button>
+                            <?php endif; ?>
                             <a href="<?php echo site_url() ?>/detail-permohonan-barang-nucleus/<?php echo $value->id; ?>" class="btn btn-primary">Detail</a>
                           </div>
                         </td>
@@ -122,7 +223,8 @@
         </div>
       </div>
       <!-- /tabel-permohonan -->
-      <div class="row">
+
+      <div id="page-form" class="row">
         <div class="col-xs-12">
           <div class="card border-top-blue">
             <div class="card-header no-border-bottom">
@@ -211,6 +313,7 @@
 </div>
 
 
+
 <!-- modal-verifikasi -->
 <div class="modal fade" id="verifikasi" role="dialog" aria-labelledby="verifikasi" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -270,6 +373,16 @@
   </div>
 </div>
 <!-- /modal-verifikasi -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('tbody > tr:odd').addClass('bg-table-blue');
+    $('th, td').css({
+      'text-align': 'center',
+    });
+  });
+</script>
+
 <script type="text/javascript">
   $(document).ready(function(){
     $('#add-produk').click(function(event) {

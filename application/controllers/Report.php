@@ -321,10 +321,7 @@ class Report extends CI_Controller {
     $this->load->view('footer-js');
   }
 
-  ///////////////
-  // BATAS CUY //
-  ///////////////
-
+  // sales dist
   public function data_sales_distributor_jenis_product()
   {
     $this->load->view('head');
@@ -332,7 +329,11 @@ class Report extends CI_Controller {
     $this->load->view('report/data-sales-distributor-jenis-product');
     $this->load->view('footer-js');
   }
-  
+
+  //////////////////
+  // STOCK PRODUK //
+  //////////////////
+
   public function stock_produk_pabrik()
   {
     $this->load->view('head');
@@ -340,13 +341,199 @@ class Report extends CI_Controller {
     $this->load->view('report/stock-produk/stock_produk_pabrik');
     $this->load->view('footer-js');
   }
+
+  // stok nucleus
   public function stock_produk_nucleus()
+  {
+    $data['stok_nucleus'] = $this->stokn->get_data('b.id, UPPER(b.nama) as nama, UPPER(b.kemasan) as kemasan, a.stok as jumlah');
+    $data['no_surat'] = $this->nsu->letter_number_generator('NPB');
+    $data['produk'] = $this->Produk->get_data('id, nama');
+    $data['permohonan'] = $this->ppn->get_data_non_delivered('a.id, a.tanggal_permohonan, a.tanggal_target, a.status');
+    $data['permohonan_delivered'] = $this->ppn->get_data_delivered('a.id, a.tanggal_permohonan, a.tanggal_target, a.status');
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('report/stock-product/nucleus/stock_produk_nucleus', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function detail_permohonan_barang_nucleus($id)
+  {
+    $data['permohonan_detail'] = $this->ppn->show($id, 'a.id, a.tanggal_permohonan, a.tanggal_target, a.status');
+    $data['permohonan'] = $this->ppnd->show($id, 'a.id as id_permohonan, c.id as id_produk, UPPER(c.nama) as nama_produk, UPPER(c.kemasan) as kemasan, b.jumlah');
+
+    if ($data['permohonan']['status'] == 'error') {
+      $this->session->set_flashdata('query_msg', $data['permohonan']['data']);
+    }
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('report/stock-product/nucleus/detail-nucleus-pabrik', $data);
+    $this->load->view('footer-js');
+  }
+
+  public function store_permohonan_barang_nucleus($key = NULL)
+  {
+    // begin transaction
+    $this->db->trans_begin();
+    if ($key == 'delete') {
+      # code...
+    } elseif ($key == 'edit') {
+      # code...
+    } else {
+      $input_var = $this->input->post();
+      $input_var['id'] = $this->session->flashdata('no_surat');
+
+      $pmh = array();
+      $pmh_detail = array();
+      $pmh_status = array();
+      $status = strtolower('waiting');
+
+      $pmh = $input_var;
+      $pmh['status'] = $status;
+      $pmh['tahun'] = date('Y');
+      unset($pmh['id_produk']);
+      unset($pmh['jumlah']);
+      $this->ppn->store($pmh);
+
+      // repopulate and store data permohonan
+      foreach ($input_var['id_produk'] as $key => $value) {
+        $pmh_detail['id_permohonan'] = $input_var['id'];
+        $pmh_detail['id_produk'] = $value;
+        $pmh_detail['jumlah'] = $input_var['jumlah'][$key];
+        $this->ppnd->store($pmh_detail);
+      }
+
+      $pmh_status['id_permohonan'] = $input_var['id'];
+      $pmh_status['status'] = $status;
+      $pmh_status['tanggal'] = date('Y-m-d H:i:s');
+      $this->ppns->store($pmh_status);
+
+      // var_dump($input_var);
+      // die();
+
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error_msg', 'Penambahan data permohonan barang <strong>gagal</strong>.');
+      } else {
+        $this->db->trans_commit();
+        $this->session->set_flashdata('success_msg', 'Data permohonan barang <strong>berhasil</strong> disimpan.');
+      }
+    }
+    redirect('/stock-produk-nucleus');
+  }
+
+  public function show_verifikasi_pbn()
+  {
+    $id = $this->input->post('id');
+    $result = $this->ppnd->show($id, 'c.id as id_produk, UPPER(c.nama) as nama_produk, UPPER(c.kemasan) as kemasan, b.jumlah');
+    echo json_encode($result['data']->result_array());
+  }
+
+  public function store_verifikasi_barang_nucleus()
+  {
+    $input_var = $this->input->post();
+    $ppn = array();
+    $ppns = array();
+
+    $this->db->trans_begin();
+
+    // permohonan produk nucleus status
+    $ppns['id_permohonan'] = $input_var['kode_permohonan'];
+    $ppns['tanggal'] = date('Y-m-d H:i:s');
+    $ppns['status'] = $input_var['status'];
+    // var_dump($ppns);
+    $this->ppns->store($ppns);
+
+    // permohonan produk nucleus
+    $ppn['status'] = $input_var['status'];
+    // var_dump($ppn);
+    $this->ppn->update($input_var['kode_permohonan'], $ppn);
+
+    if ($input_var['status'] == 'delivered') {
+      $data = $this->ppnd->show($input_var['kode_permohonan'], 'b.id_produk, b.jumlah');
+      $this->store_barang_masuk($data['data']->result_array());
+    }
+
+    // check transaction status
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata('error_msg', 'Verifikasi status permohonan barang <strong>gagal</strong>.');
+    } else {
+      // $this->db->trans_rollback();
+      $this->db->trans_commit();
+      $this->session->set_flashdata('success_msg', 'Status permohonan barang <strong>berhasil</strong> disimpan.');
+    }
+
+    redirect('/stock-produk-nucleus');
+  }
+
+  public function store_barang_masuk($data = array())
+  {
+    $barang_masuk = array();
+    $barang_stok_bulanan = array();
+    $barang_stok = array();
+
+    foreach ($data as $key => $value) {
+      $barang_masuk['id_barang'] = $value['id_produk'];
+      $barang_masuk['tahun'] = date('Y');
+      $barang_masuk['tanggal_masuk'] = date('Y-m-d H:i:s');
+      $barang_masuk['jumlah_masuk'] = $value['jumlah'];
+      $this->stokmn->store($barang_masuk);
+
+      $barang_stok_bulanan['id_barang'] = $value['id_produk'];
+      $barang_stok_bulanan['jumlah_masuk'] = $value['jumlah'];
+      $this->store_stok_bulanan($barang_stok_bulanan, 'masuk');
+
+      $barang_stok['id_barang'] = $value['id_produk'];
+      $barang_stok['tahun'] = date('Y');
+      $barang_stok['stok'] = $value['jumlah'];
+      $this->store_stok($barang_stok, 'masuk');
+    }
+  }
+
+  public function store_stok_bulanan($data = array(), $flag)
+  {
+    if ($this->cek_laporan_by_tahun_bulan($data['id_barang']) === false) {
+      $data['bulan'] = date('m');
+      $data['tahun'] = date('Y');
+      $data['sisa'] = $data['jumlah_masuk'];
+      $this->stokbn->store($data);
+    } else {
+      $this->stokbn->update_laporan($data['id_barang'], date('m'), date('Y'), $data['jumlah_masuk'], $flag);
+    }
+  }
+
+  public function cek_laporan_by_tahun_bulan($id_barang)
+  {
+    return $this->stokbn->cek_laporan_by_tahun_bulan($id_barang, date('Y'), date('m'));
+  }
+
+  public function store_stok($data = array(), $flag)
+  {
+    if ($this->cek_stok($data['id_barang']) === false) {
+      $this->stokn->store($data);
+    } else {
+      $this->stokn->update_stok($data['id_barang'], $data['stok'], $flag);
+    }
+  }
+
+  private function cek_stok($id_barang)
+  {
+    return $this->stokn->cek_stok($id_barang);
+  }
+
+
+
+  // stok distributor
+  public function stock_produk_distributor()
   {
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('report/stock-produk/stock_produk_nucleus');
+    $this->load->view('report/stock-product/stock_produk_nucleus');
     $this->load->view('footer-js');
   }
+
   public function analisa_sales($key= null)
   {
     if($key== null){
@@ -362,6 +549,7 @@ class Report extends CI_Controller {
 
     }
   }
+
   public function pemindahan_sales()
   {
     $this->load->view('head');

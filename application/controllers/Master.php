@@ -244,7 +244,7 @@ class Master extends CI_Controller {
   // STOK //
   //////////
 
-  public function master_stok($kode_produk = null)
+  /*public function master_stok($kode_produk = null)
   {
     $data['stok'] = $this->Produk->get_data_stok('id, nama, kemasan, harga_hna, harga_h_askes, harga_master, coalesce(stok, 0) as stok');
 
@@ -332,7 +332,7 @@ class Master extends CI_Controller {
   private function cek_stok($id_barang)
   {
     return $this->Barang_Stok->cek_stok($id_barang);
-  }
+  }*/
 
   ////////////
   // OUTLET //

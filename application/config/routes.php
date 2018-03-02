@@ -136,9 +136,12 @@ $route['store-ko-tender/(:any)'] = 'Transaction/store_ko_tender/$1';
 
 $route['pemindahan-sales'] = 'Transaction/pemindahan_sales';
 
-$route['permohonan-barang-nucleus'] = 'Transaction/permohonan_barang_nucleus';
+/*$route['permohonan-barang-nucleus'] = 'Transaction/permohonan_barang_nucleus';
+$route['detail-permohonan-barang-nucleus/(:any)'] = 'Transaction/detail_permohonan_barang_nucleus/$1';
 $route['simpan-permohonan-barang-nucleus'] = 'Transaction/store_permohonan_barang_nucleus';
 $route['simpan-permohonan-barang-nucleus/(:any)'] = 'Transaction/store_permohonan_barang_nucleus/$1';
+$route['show-verifikasi-pbn'] = 'Transaction/show_verifikasi_pbn';
+$route['verifikasi-pbn'] = 'Transaction/store_verifikasi_barang_nucleus';*/
 
 $route['permohonan-barang-distributor'] = 'Transaction/permohonan_barang_distributor';
 $route['simpan-permohonan-barang-distributor'] = 'Transaction/store_permohonan_barang_distributor';
@@ -159,6 +162,16 @@ $route['store-daily-sales/(:any)'] = 'Report/store_daily_sales/$1';
 
 $route['daily-sales-outlet'] = 'Report/daily_sales_outlet';
 $route['daily-sales-outlet-product/(:any)'] = 'Report/daily_sales_outlet_produk/$1';
+
+// -- stok
+$route['stock-produk-nucleus'] = 'Report/stock_produk_nucleus';
+$route['detail-permohonan-barang-nucleus/(:any)'] = 'Report/detail_permohonan_barang_nucleus/$1';
+$route['simpan-permohonan-barang-nucleus'] = 'Report/store_permohonan_barang_nucleus';
+$route['simpan-permohonan-barang-nucleus/(:any)'] = 'Report/store_permohonan_barang_nucleus/$1';
+$route['show-verifikasi-pbn'] = 'Report/show_verifikasi_pbn';
+$route['verifikasi-pbn'] = 'Report/store_verifikasi_barang_nucleus';
+
+$route['stock-produk-distributor'] = 'Report/stock_produk_distributor';
 
 $route['analisis-sales-general'] = 'Report/analisis_sales_general';
 $route['detail-analisis-sales-general'] = 'Report/detail_analisis_sales_general';

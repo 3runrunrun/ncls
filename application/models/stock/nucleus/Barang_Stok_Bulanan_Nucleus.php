@@ -1,6 +1,6 @@
 <?php 
 
-class Barang_Stok_Bulanan extends CI_Model {
+class Barang_Stok_Bulanan_Nucleus extends CI_Model {
 
   function __construct()
   {
@@ -15,7 +15,7 @@ class Barang_Stok_Bulanan extends CI_Model {
     $this->db->where('id_barang', $id_barang);
     $this->db->where('tahun', $tahun);
     $this->db->where('bulan', $bulan);
-    $result = $this->db->get('barang_stok_bulanan');
+    $result = $this->db->get('barang_stok_bulanan_nucleus');
 
     // jika ada laporan tahun dan bulan ini, maka set return value menjadi true
     if ($result->num_rows() > 0) {
@@ -27,7 +27,7 @@ class Barang_Stok_Bulanan extends CI_Model {
 
   public function store($data = array())
   {
-    $query = $this->db->set($data)->get_compiled_insert('barang_stok_bulanan');
+    $query = $this->db->set($data)->get_compiled_insert('barang_stok_bulanan_nucleus');
     $this->db->query($query);
   }
 
@@ -43,7 +43,7 @@ class Barang_Stok_Bulanan extends CI_Model {
     $this->db->where('id_barang', $id_barang);
     $this->db->where('bulan', $bulan);
     $this->db->where('tahun', $tahun);
-    $query = $this->db->get_compiled_update('barang_stok_bulanan');
+    $query = $this->db->get_compiled_update('barang_stok_bulanan_nucleus');
     $this->db->query($query);
   }
 
@@ -59,7 +59,7 @@ class Barang_Stok_Bulanan extends CI_Model {
     $this->db->where('id_barang', $id_barang);
     $this->db->where('bulan', $bulan);
     $this->db->where('tahun', $tahun);
-    $query = $this->db->get_compiled_update('barang_stok_bulanan');
+    $query = $this->db->get_compiled_update('barang_stok_bulanan_nucleus');
     $this->db->query($query);
   }
 }
