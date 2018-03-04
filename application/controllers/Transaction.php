@@ -403,7 +403,7 @@ class Transaction extends CI_Controller {
       UPPER(b.nama) as nama_detailer, 
       a.tanggal, 
       CASE
-      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "onoff" 
+      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "both" 
       WHEN SUM(d.on_total < 1) AND SUM(d.off_total > 0) THEN "off"
       WHEN SUM(d.on_total > 0) AND SUM(d.off_total < 1) THEN "on"
       END AS jenis_ko,
@@ -420,7 +420,7 @@ class Transaction extends CI_Controller {
       UPPER(b.nama) as nama_detailer, 
       a.tanggal, 
       CASE
-      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "onoff"
+      WHEN SUM(d.on_total > 0) AND SUM(d.off_total > 0) THEN "both"
       WHEN SUM(d.on_total < 1) AND SUM(d.off_total > 0) THEN "off"
       WHEN SUM(d.on_total > 0) AND SUM(d.off_total < 1) THEN "on"
       END AS jenis_ko,
@@ -438,6 +438,255 @@ class Transaction extends CI_Controller {
     $this->load->view('transaction/factur/daftar-permohonan', $data);
     $this->load->view('footer-js');
   }
+
+  public function detail_permohonan_factur_general($id_faktur)
+  {
+    $data['detail'] = $this->kog->show($id_faktur, 'a.id, UPPER(b.nama) as nama_detailer, a.tanggal, UPPER(c.nama) as nama_distributor, UPPER(g.alias_distributor) as alias_distributor, UPPER(e.nama) as nama_rm, UPPER(f.nama) as nama_direktur, a.status');
+    $data['permohonan'] = $this->kog->show_detail($id_faktur, 'UPPER(c.nama) as nama_outlet, b.on_diskon_distributor, b.on_nf, b.on_total, b.off_diskon_distributor, b.off_nf, b.off_total, UPPER(d.nama) as nama_produk, b.jumlah, b.keterangan');
+    $data['onoff'] = $this->kog->show_onoff($id_faktur, 'UPPER(b.cn) as cn, b.diskon');
+    $data['onoff_total'] = $this->kog->show_onoff_total($id_faktur, 'b.total_onoff');
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/factur/detail-permohonan-general', $data);
+    $this->load->view('footer-js');
+  }
+
+  // verifikasi faktur general
+  public function store_verifikasi_faktur_general()
+  {
+    $input_var = $this->input->post();
+    $ko_general = array();
+    $ko_general_status = array();
+
+    $this->db->trans_begin();
+
+    // ko general
+    $ko_general['status'] = $input_var['status'];
+    if ($input_var['status'] == 'spv') {
+      $ko_general['tgl_spv'] = date('Y-m-d H:i:s');
+    } elseif ($input_var['status'] == 'rm') {
+      $ko_general['tgl_spv'] = date('Y-m-d H:i:s');
+      $ko_general['tgl_rm'] = date('Y-m-d H:i:s');
+    } elseif ($input_var['status'] == 'rilis') {
+      $ko_general['tgl_spv'] = date('Y-m-d H:i:s');
+      $ko_general['tgl_rm'] = date('Y-m-d H:i:s');
+      $ko_general['tgl_direktur'] = date('Y-m-d H:i:s');
+    }
+    // var_dump($ko_general);
+    $this->kog->update($input_var['id'], $ko_general);
+
+    // ko general status
+    $ko_general_status['id_ko'] = $input_var['id'];
+    $ko_general_status['status'] = $input_var['status'];
+    $ko_general_status['tanggal'] = $input_var['tanggal'] . ' ' . date('H:i:s');
+    // var_dump($ko_general_status);
+    $this->kog->store_status($ko_general_status);
+
+    if ($input_var['status'] == 'rilis') {
+      $data = $this->kog->show_detail($input_var['id'], 'a.id_distributor, b.id_produk, b.jumlah');
+      // var_dump($data['data']->result_array());
+      $this->store_barang_masuk($data['data']->result_array());
+    }
+
+    // check transaction status
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata('error_msg', 'Verifikasi faktur KO general <strong>gagal</strong>.');
+    } else {
+      // $this->db->trans_rollback();
+      $this->db->trans_commit();
+      $this->session->set_flashdata('success_msg', 'Verifikasi faktur KO general <strong>berhasil</strong> disimpan.');
+    }
+
+    redirect('/daftar-faktur');
+  }
+
+  public function store_barang_masuk($data = array())
+  {
+    $barang_masuk = array();
+    $barang_stok_bulanan = array();
+    $barang_stok = array();
+
+    foreach ($data as $key => $value) {
+      $barang_masuk['id_barang'] = $value['id_produk'];
+      $barang_masuk['id_distributor'] = $value['id_distributor'];
+      $barang_masuk['tahun'] = date('Y');
+      $barang_masuk['tanggal_masuk'] = date('Y-m-d H:i:s');
+      $barang_masuk['jumlah_masuk'] = $value['jumlah'];
+      // var_dump($barang_masuk);
+      $this->stokmd->store($barang_masuk);
+
+      $barang_stok_bulanan['id_barang'] = $value['id_produk'];
+      $barang_stok_bulanan['id_distributor'] = $value['id_distributor'];
+      $barang_stok_bulanan['jumlah_masuk'] = $value['jumlah'];
+      // var_dump($barang_stok_bulanan);
+      $this->store_stok_bulanan($barang_stok_bulanan, 'masuk');
+
+      $barang_stok['id_barang'] = $value['id_produk'];
+      $barang_stok['id_distributor'] = $value['id_distributor'];
+      $barang_stok['tahun'] = date('Y');
+      $barang_stok['stok'] = $value['jumlah'];
+      // var_dump($barang_stok);
+      $this->store_stok($barang_stok, 'masuk');
+    }
+  }
+
+  public function store_stok_bulanan($data = array(), $flag)
+  {
+    if ($this->cek_laporan_by_tahun_bulan($data['id_barang'], $data['id_distributor']) === false) {
+      $data['bulan'] = date('m');
+      $data['tahun'] = date('Y');
+      $data['sisa'] = $data['jumlah_masuk'];
+      $this->stokbd->store($data);
+    } else {
+      $this->stokbd->update_laporan($data['id_barang'], $data['id_distributor'], date('m'), date('Y'), $data['jumlah_masuk'], $flag);
+    }
+  }
+
+  public function cek_laporan_by_tahun_bulan($id_barang, $id_distributor)
+  {
+    return $this->stokbd->cek_laporan_by_tahun_bulan($id_barang, $id_distributor, date('Y'), date('m'));
+  }
+
+  public function store_stok($data = array(), $flag)
+  {
+    if ($this->cek_stok($data['id_barang'], $data['id_distributor']) === false) {
+      $this->stokd->store($data);
+    } else {
+      $this->stokd->update_stok($data['id_barang'], $data['id_distributor'], $data['stok'], $flag);
+    }
+  }
+
+  private function cek_stok($id_barang, $id_distributor)
+  {
+    return $this->stokd->cek_stok($id_barang, $id_distributor);
+  }
+  // END OF - verifikasi faktur general
+
+  public function detail_permohonan_factur_tender($id_faktur)
+  {
+    $data['detail'] = $this->kot->show($id_faktur, 'a.sp, a.id, UPPER(b.nama) as nama_detailer, a.tanggal, UPPER(c.nama) as nama_distributor, UPPER(g.alias_distributor) as alias_distributor, UPPER(e.nama) as nama_rm, UPPER(f.nama) as nama_direktur, a.status');
+    $data['permohonan'] = $this->kot->show_detail($id_faktur, 'UPPER(c.nama) as nama_outlet, b.on_diskon_distributor, b.on_nf, b.on_total, b.off_diskon_distributor, b.off_nf, b.off_total, UPPER(d.nama) as nama_produk, b.jumlah, b.keterangan');
+    $data['onoff'] = $this->kot->show_onoff($id_faktur, 'UPPER(b.cn) as cn, b.diskon');
+    $data['onoff_total'] = $this->kot->show_onoff_total($id_faktur, 'b.total_onoff');
+
+    $this->load->view('head');
+    $this->load->view('navbar');
+    $this->load->view('transaction/factur/detail-permohonan-tender', $data);
+    $this->load->view('footer-js');
+  }
+
+  // verifikasi faktur tender  
+  public function store_verifikasi_faktur_tender()
+  {
+    $input_var = $this->input->post();
+    $ko_tender = array();
+    $ko_tender_status = array();
+
+    $this->db->trans_begin();
+
+    // ko general
+    $ko_tender['status'] = $input_var['status'];
+    if ($input_var['status'] == 'spv') {
+      $ko_tender['tgl_spv'] = date('Y-m-d H:i:s');
+    } elseif ($input_var['status'] == 'rm') {
+      $ko_tender['tgl_spv'] = date('Y-m-d H:i:s');
+      $ko_tender['tgl_rm'] = date('Y-m-d H:i:s');
+    } elseif ($input_var['status'] == 'rilis') {
+      $ko_tender['tgl_spv'] = date('Y-m-d H:i:s');
+      $ko_tender['tgl_rm'] = date('Y-m-d H:i:s');
+      $ko_tender['tgl_direktur'] = date('Y-m-d H:i:s');
+    }
+    // var_dump($ko_tender);
+    $this->kot->update($input_var['id'], $ko_tender);
+
+    // ko general status
+    $ko_tender_status['id_ko'] = $input_var['id'];
+    $ko_tender_status['status'] = $input_var['status'];
+    $ko_tender_status['tanggal'] = $input_var['tanggal'] . ' ' . date('H:i:s');
+    // var_dump($ko_tender_status);
+    $this->kot->store_status($ko_tender_status);
+
+    if ($input_var['status'] == 'rilis') {
+      $data = $this->kot->show_detail($input_var['id'], 'a.id_distributor, b.id_produk, b.jumlah');
+      $this->store_barang_masuk_tender($data['data']->result_array());
+    }
+
+    // check transaction status
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata('error_msg', 'Verifikasi faktur KO tender <strong>gagal</strong>.');
+    } else {
+      // $this->db->trans_rollback();
+      $this->db->trans_commit();
+      $this->session->set_flashdata('success_msg', 'Verifikasi faktur KO tender <strong>berhasil</strong> disimpan.');
+    }
+
+    redirect('/daftar-faktur');
+  }
+
+  public function store_barang_masuk_tender($data = array())
+  {
+    $barang_masuk = array();
+    $barang_stok_bulanan = array();
+    $barang_stok = array();
+
+    foreach ($data as $key => $value) {
+      $barang_masuk['id_barang'] = $value['id_produk'];
+      $barang_masuk['id_distributor'] = $value['id_distributor'];
+      $barang_masuk['tahun'] = date('Y');
+      $barang_masuk['tanggal_masuk'] = date('Y-m-d H:i:s');
+      $barang_masuk['jumlah_masuk'] = $value['jumlah'];
+      // var_dump($barang_masuk);
+      $this->stokmd->store($barang_masuk);
+
+      $barang_stok_bulanan['id_distributor'] = $value['id_distributor'];
+      $barang_stok_bulanan['id_barang'] = $value['id_produk'];
+      $barang_stok_bulanan['jumlah_masuk'] = $value['jumlah'];
+      // var_dump($barang_stok_bulanan);
+      $this->store_stok_bulanan($barang_stok_bulanan, 'masuk');
+
+      $barang_stok['id_barang'] = $value['id_produk'];
+      $barang_stok['id_distributor'] = $value['id_distributor'];
+      $barang_stok['tahun'] = date('Y');
+      $barang_stok['stok'] = $value['jumlah'];
+      // var_dump($barang_stok);
+      $this->store_stok($barang_stok, 'masuk');
+    }
+  }
+
+  public function store_stok_bulanan_tender($data = array(), $flag)
+  {
+    if ($this->cek_laporan_by_tahun_bulan_tender($data['id_barang'], $data['id_distributor']) === false) {
+      $data['bulan'] = date('m');
+      $data['tahun'] = date('Y');
+      $data['sisa'] = $data['jumlah_masuk'];
+      $this->stokbd->store($data);
+    } else {
+      $this->stokbd->update_laporan($data['id_barang'], $data['id_distributor'], date('m'), date('Y'), $data['jumlah_masuk'], $flag);
+    }
+  }
+
+  public function cek_laporan_by_tahun_bulan_tender($id_barang, $id_distributor)
+  {
+    return $this->stokbd->cek_laporan_by_tahun_bulan($id_barang, $id_distributor, date('Y'), date('m'));
+  }
+
+  public function store_stok_tender($data = array(), $flag)
+  {
+    if ($this->cek_stok_tender($data['id_barang'], $data['id_distributor']) === false) {
+      $this->stokd->store($data);
+    } else {
+      $this->stokd->update_stok($data['id_barang'], $data['id_distributor'], $data['stok'], $flag);
+    }
+  }
+
+  private function cek_stok_tender($id_barang, $id_distributor)
+  {
+    return $this->stokd->cek_stok($id_barang, $id_distributor);
+  }
+  // END OF - verifikasi faktur tender
 
   /**
    * Fungsi untuk menampilkan tabel dan form permohonan faktur diskon general
@@ -477,6 +726,7 @@ class Transaction extends CI_Controller {
       $ko_onoff = array();
       $ko_onoff_total = array();
       $ko_status = array();
+      $status = strtolower('belum');
 
       // ko
       $ko['id'] = $this->session->userdata('id_faktur');
@@ -487,6 +737,7 @@ class Transaction extends CI_Controller {
       $ko['id_distributor'] = $input_var['id_distributor'];
       $ko['id_rm'] = $input_var['id_rm'];
       $ko['id_direktur'] = $input_var['id_direktur'];
+      $ko['status'] = $status;
       // var_dump($ko);
       $this->kog->store($ko);
 
@@ -524,7 +775,7 @@ class Transaction extends CI_Controller {
 
       // ko status
       $ko_status['id_ko'] = $ko['id'];
-      $ko_status['status'] = strtolower('belum');
+      $ko_status['status'] = $status;
       $ko_status['tanggal'] = date('Y-m-d H:i:s');
       // var_dump($ko_status);
       $this->kog->store_status($ko_status);
@@ -579,6 +830,7 @@ class Transaction extends CI_Controller {
       $ko_onoff = array();
       $ko_onoff_total = array();
       $ko_status = array();
+      $status = strtolower('belum');
 
       // ko
       $ko['id'] = $this->session->userdata('id_faktur_tender');
@@ -590,6 +842,7 @@ class Transaction extends CI_Controller {
       $ko['id_distributor'] = $input_var['id_distributor'];
       $ko['id_rm'] = $input_var['id_rm'];
       $ko['id_direktur'] = $input_var['id_direktur'];
+      $ko['status'] = $status;
       // var_dump($ko);
       $this->kot->store($ko);
 
@@ -627,7 +880,7 @@ class Transaction extends CI_Controller {
 
       // ko status
       $ko_status['id_ko'] = $ko['id'];
-      $ko_status['status'] = strtolower('belum');
+      $ko_status['status'] = $status;
       $ko_status['tanggal'] = date('Y-m-d H:i:s');
       // var_dump($ko_status);
       $this->kot->store_status($ko_status);

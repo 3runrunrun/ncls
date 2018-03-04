@@ -523,14 +523,14 @@ class Report extends CI_Controller {
     return $this->stokn->cek_stok($id_barang);
   }
 
-
-
   // stok distributor
   public function stock_produk_distributor()
   {
+    $data['stok_distributor'] = $this->stokd->get_data('a.id_distributor, UPPER(c.nama) as nama_distributor, UPPER(d.alias_distributor) as alias_distributor, b.id, UPPER(b.nama) as nama, UPPER(b.kemasan) as kemasan, a.stok as jumlah');
+
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('report/stock-product/stock_produk_nucleus');
+    $this->load->view('report/stock-product/distributor/stock_produk_distributor', $data);
     $this->load->view('footer-js');
   }
 

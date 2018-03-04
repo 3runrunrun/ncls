@@ -127,12 +127,17 @@ $route['store-pt'] = 'Transaction/store_pt';
 $route['store-pt/(:any)'] = 'Transaction/store_pt/$1';
 
 $route['daftar-faktur'] = 'Transaction/daftar_permohonan_factur';
+$route['detail-faktur-general/(:any)'] = 'Transaction/detail_permohonan_factur_general/$1';
 $route['faktur-diskon-general'] = 'Transaction/factur_discount_general';
 $route['store-ko-general'] = 'Transaction/store_ko_general';
 $route['store-ko-general/(:any)'] = 'Transaction/store_ko_general/$1';
+$route['verifikasi-ko-general'] = 'Transaction/store_verifikasi_faktur_general';
+
+$route['detail-faktur-tender/(:any)'] = 'Transaction/detail_permohonan_factur_tender/$1';
 $route['faktur-diskon-tender'] = 'Transaction/factur_discount_tender';
 $route['store-ko-tender'] = 'Transaction/store_ko_tender';
 $route['store-ko-tender/(:any)'] = 'Transaction/store_ko_tender/$1';
+$route['verifikasi-ko-tender'] = 'Transaction/store_verifikasi_faktur_tender';
 
 $route['pemindahan-sales'] = 'Transaction/pemindahan_sales';
 
@@ -152,7 +157,6 @@ $route['show-area-by-outlet'] = 'Transaction/show_area_by_outlet';
 $route['show-distributor-by-area'] = 'Transaction/show_distributor_by_area';
 $route['simpan-permohonan-barang-outlet'] = 'Transaction/store_permohonan_barang_outlet';
 $route['simpan-permohonan-barang-outlet/(:any)'] = 'Transaction/store_permohonan_barang_outlet/$1';
-
 
 // REPORT
 // -- daily sales
