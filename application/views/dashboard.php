@@ -51,57 +51,57 @@
       </div>
     </div>
   </div>
-
-<!-- friends & weather charts -->
-
-<!-- Running Routes & Daily Activities  -->
-<div class="row">
-  <div class="col-xl-12 col-lg-12">
-    <div class="card border-top-tosca">
-      <div class="card-header no-border-bottom">
-        <h4 class="card-title">Daily Sales Activity</h4>
-        <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-        <div class="heading-elements">
-          <ul class="list-inline mb-0">
-            <li><a data-action="reload"><i class="fa fa-refresh"></i></a></li>
-          </ul>
+  
+  <!-- daily sales activity  -->
+  <div class="row">
+    <div class="col-xl-12 col-lg-12">
+      <div class="card border-top-tosca">
+        <div class="card-header no-border-bottom">
+          <h4 class="card-title">Daily Sales Activity</h4>
+          <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+          <div class="heading-elements">
+            <ul class="list-inline mb-0">
+              <li><a data-action="reload"><i class="fa fa-refresh"></i></a></li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="card-body collapse in">
-        <div class="table-responsive height-250">
-          <table class="table table-hover mb-0" id="daily-sales-activity">
-            <thead>
-              <tr>
-                <th>Kode</th>
-                <th>Kota/Area</th>
-                <?php foreach ($title['data']->result() as $value): ?>
-                <th>Sales <?php echo $value->alias_distributor; ?></th>
+        <div class="card-body collapse in">
+          <div class="table-responsive height-250">
+            <table class="table table-hover mb-0" id="daily-sales-activity">
+              <thead>
+                <tr>
+                  <th>Kode Area</th>
+                  <th>Kota / Area</th>
+                  <th>Sales Reg</th>
+                  <?php foreach ($title['data']->result() as $value): ?>
+                  <th>Sales <?php echo $value->alias_distributor; ?></th>
+                  <?php endforeach; ?>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($sales as $value): ?>
+                <tr>
+                  <?php foreach ($value as $index => $item): ?>  
+                  <td>
+                    <?php 
+                      if ($index != 'id_area' && $index != 'area') {
+                        echo number_format($item, 0, ',', '.');
+                      } else {
+                        echo $item;
+                      }
+                     ?>
+                  </td>
+                  <?php endforeach; ?>
+                </tr>
                 <?php endforeach; ?>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($sales as $value): ?>
-              <tr>
-                <?php foreach ($value as $index => $item): ?>  
-                <td>
-                  <?php 
-                    if ($index != 'id_area' && $index != 'area') {
-                      echo number_format($item, 0, ',', '.');
-                    } else {
-                      echo $item;
-                    }
-                   ?>
-                </td>
-                <?php endforeach; ?>
-              </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  <!-- /daily sales activity  -->
 
 <div class="row">
   <div class="col-xs-12">
@@ -112,7 +112,7 @@
             <div class="my-1 text-xs-center">
               <div class="card-header mb-2 pt-0">
                 <span class="info">
-                  <h3 class="font-large-2 text-bold-200">Redflag</h3>
+                  <h3 class="font-large-2 text-bold-200">Under Performance</h3>
                 </span>
               </div>
               <div class="card-body">
@@ -134,7 +134,7 @@
             <div class="my-1 text-xs-center">
               <div class="card-header mb-2 pt-0">
                 <span class="deep-orange">
-                  <h3 class="font-large-2 text-bold-200">Mvc </h3>
+                  <h3 class="font-large-2 text-bold-200">MVD</h3>
                 </span>
               </div>
               <div class="card-body">

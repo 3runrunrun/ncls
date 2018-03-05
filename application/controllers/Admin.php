@@ -43,6 +43,7 @@ class Admin extends CI_Controller {
 			$result[$key] = array(
 				'id_area' => $value['id'],
 				'area' => $value['area'],
+				'sales_reg' => $sales_reg,
 			);
 		}
 		// var_dump($result);
@@ -65,9 +66,11 @@ class Admin extends CI_Controller {
 				if ($item['area_dist'] === $result[$key][$item['alias_distributor']]) {
 					$result[$key][$item['alias_distributor']] = $item['nominal_penjualan'];
 				}
+				$result[$key]['sales_reg'] += $result[$key][$item['alias_distributor']];
 			}
 		}
 		// var_dump($result);
+		// die();
 		return $result;
 	}
 
