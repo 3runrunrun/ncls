@@ -69,26 +69,32 @@
       </div>
       <div class="card-body collapse in">
         <div class="table-responsive height-250">
-          <table class="table table-hover mb-0">
+          <table class="table table-hover mb-0" id="daily-sales-activity">
             <thead>
               <tr>
                 <th>Kode</th>
                 <th>Kota/Area</th>
-                <th>Sales Reg</th>
-                <th>Sales PTKP</th>
-                <th>Sales PPG</th>
-                <th>Sales Penta</th>
+                <?php foreach ($title['data']->result() as $value): ?>
+                <th>Sales <?php echo $value->alias_distributor; ?></th>
+                <?php endforeach; ?>
               </tr>
             </thead>
             <tbody>
+              <?php foreach ($sales as $value): ?>
               <tr>
-                <td class="text-truncate">007</td>
-                <td class="text-truncate">Jakarta Selatan</td>
-                <td class="text-truncate">200.000.000</td>
-                <td class="text-truncate">200.000.000</td>
-                <td class="text-truncate">200.000.000</td>
-                <td class="text-truncate">200.000.000</td>
+                <?php foreach ($value as $index => $item): ?>  
+                <td>
+                  <?php 
+                    if ($index != 'id_area' && $index != 'area') {
+                      echo number_format($item, 0, ',', '.');
+                    } else {
+                      echo $item;
+                    }
+                   ?>
+                </td>
+                <?php endforeach; ?>
               </tr>
+              <?php endforeach; ?>
             </tbody>
           </table>
         </div>
@@ -231,6 +237,9 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $('#daily-sales-activity th, #daily-sales-activity td').css({
+      'text-align': 'center',
+    });
     $('td').addClass('text-truncate');
     $('#resume-sales .penjualan, #resume-sales .target, #resume-sales .achievement').css({
       'text-align': 'right',

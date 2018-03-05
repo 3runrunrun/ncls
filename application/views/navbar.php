@@ -187,7 +187,7 @@
             </li>
           </ul>
         </li>
-        <li data-menu="dropdown" class="dropdown nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link"><i class="fa fa-file"></i><span data-i18n="nav.category.general"> Fitur Report</span></a>
+        <li data-menu="dropdown" class="dropdown nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link"><i class="fa fa-file"></i><span data-i18n="nav.category.general">Report</span></a>
           <ul class="dropdown-menu">
             <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu"><a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle"><i class=" fa fa-file"></i>Daily Sales <i class="fa fa-chevron-right pull-right"></i></a>
               <ul class="dropdown-menu">

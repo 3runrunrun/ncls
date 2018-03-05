@@ -193,4 +193,5 @@ $autoload['model'] = array(
   // -- daily sales
   'sales/Sales_Outlet' => 'salo',
   'sales/Sales_Detailer' => 'sald',
+  'sales/Sales_Distributor' => 'saldis',
 );
