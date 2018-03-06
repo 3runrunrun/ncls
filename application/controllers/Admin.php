@@ -17,11 +17,11 @@ class Admin extends CI_Controller {
 		$data['title'] = $this->saldis->get_title('a.id_distributor, UPPER(c.alias_distributor) as alias_distributor');
 		$data['sales_area'] = $this->saldis->get_data_sales_per_area('d.id, c.alias_distributor, CONCAT(c.id, d.id) as area_dist, SUM((a.jumlah * e.harga_master)) as nominal_penjualan');
 		$data['sales'] = $this->result_builder_daily_sales($data['sales_area']);
-		
 		// var_dump($data['title']['data']->result_array());
 		// die();
 		// end of - daily sales activity
 
+		$data['best_detailer'] = $this->sald->show_best_detailer('c.nama as nama, d.area as area, (SUM(a.jumlah) / SUM(a.target)) * 100 as achievement');
 		$data['sales_per_detailer'] = $this->sald->get_data_per_detailer('a.id_detailer, UPPER(c.nama) as nama_detailer, UPPER(e.area) as area, UPPER(e.alias_area) as alias_area,  SUM(a.target * d.harga_master) as nominal_target, SUM(a.jumlah * d.harga_master) as nominal_penjualan, (SUM(a.jumlah * d.harga_master) / SUM(a.target * d.harga_master) * 100) as achievement');
 
 		$this->load->view('head');

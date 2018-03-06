@@ -179,22 +179,36 @@
   <div class="col-xl-12 col-lg-12 col-md-12">
     <div class="row">
       <div class="col-xl-4 col-lg-6 col-md-12 ">
-        <div class="card profile-card-with-cover border-top-blue">
+        <div class="card height-250 profile-card-with-cover border-top-blue">
           <div class="card-body">
             <h4 class="card-title text-xs-center mt-2">Top Sales</h4>
             <div class="profile-card-with-cover-content text-xs-center">
+              <?php if ($best_detailer['data']->num_rows() < 1): ?>
+              <div class="row">
+                <div class="col-xs-10 offset-xs-1"><br />
+                  <div class="bs-callout-info callout-border-left callout-bordered">
+                    <h4 class="info">Top Sales Belum Tersedia!</h4>
+                    <p>Top sales belum tersedia karena sistem belum menyimpan transaksi penjualan pada bulan ini. Silahkan isi transaksi penjualan pada<br /><a href="<?php echo site_url(); ?>/daily-sales-product" class="alert-link primary">halaman ini</a> atau <a href="<?php echo site_url(); ?>/daily-sales-outlet" class="alert-link primary">halaman ini</a>.</p>
+                  </div>
+                </div>
+              </div>
+              <?php else: ?>  
+              <?php foreach ($best_detailer['data']->result() as $value): ?>
               <div class="my-2">
-                <h4 class="card-title">Hillary </h4>
+                <h4 class="card-title"><?php echo $value->nama; ?> </h4>
                 <ul class="list-inline clearfix mt-2">
-                  <li class="mr-2"><h2 class="block">75 <span class="font-small-3 text-muted">%</span></h2> Acheivment</li>
-                  <li class="mr-2"><h2 class="block">Area </h2> Jakarta Selatan</li>
-                  <li><h2 class="block">Mounth</h2> Jully</li>
+                  <li class="mr-2"><h2 class="block"><?php echo $value->achievement; ?><span class="font-small-3 text-muted">%</span></h2> Achievement</li>
+                  <li class="mr-2"><h2 class="block">Area </h2><?php echo $value->area; ?></li>
+                  <li><h2 class="block">Month</h2><?php echo date('F') ?></li>
                 </ul>
               </div>
+              <?php endforeach; ?>
+              <?php endif ?>
             </div>
           </div>
         </div>
       </div>
+      <!-- /top-sales -->
       <div class="col-xl-8 col-lg-6 col-md-12 ">
         <div class="card profile-card-with-cover border-top-red">
           <div class="card-body collapse in">
