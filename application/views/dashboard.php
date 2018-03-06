@@ -174,7 +174,7 @@
 </div>
 <!--/ Running Routes & Daily Activities  -->
 
-<!-- fitness info & twitter, facebook -->
+<!-- top-sales all-time-sales -->
 <div class="row">
   <div class="col-xl-12 col-lg-12 col-md-12">
     <div class="row">
@@ -197,9 +197,9 @@
               <div class="my-2">
                 <h4 class="card-title"><?php echo $value->nama; ?> </h4>
                 <ul class="list-inline clearfix mt-2">
-                  <li class="mr-2"><h2 class="block"><?php echo $value->achievement; ?><span class="font-small-3 text-muted">%</span></h2> Achievement</li>
-                  <li class="mr-2"><h2 class="block">Area </h2><?php echo $value->area; ?></li>
-                  <li><h2 class="block">Month</h2><?php echo date('F') ?></li>
+                  <li class="mr-2">Achievement<h2 class="block"><?php echo number_format($value->achievement, 2, ',', '.'); ?><span class="font-small-3 text-muted">%</span></h2></li>
+                  <li class="mr-2">Area<h2 class="block"><?php echo ucwords($value->area); ?></h2></li>
+                  <li>Month<h2 class="block"><?php echo date('F') ?></h2></li>
                 </ul>
               </div>
               <?php endforeach; ?>
@@ -244,8 +244,8 @@
     </div>
   </div>
 </div>
-<!--/ fitness info & twitter, facebook -->
     </div>
+<!-- /top-sales /all-time-sales -->
   </div>
 </div>
 

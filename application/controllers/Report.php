@@ -70,6 +70,9 @@ class Report extends CI_Controller {
         $sal['target'] = $input_var['target'][$key];
         // var_dump($sal);
         $this->salo->store($sal);
+
+        // barang keluar -- kurangi stok
+        $this->store_barang_keluar($sal);
       }
 
       // var_dump($input_var);
@@ -79,12 +82,68 @@ class Report extends CI_Controller {
         $this->db->trans_rollback();
         $this->session->set_flashdata('error_msg', 'Penambahan daily sales <strong>gagal</strong>.');
       } else {
+        // $this->db->trans_rollback();
         $this->db->trans_commit();
         $this->session->set_flashdata('success_msg', 'Daily sales <strong>berhasil</strong> disimpan.');
       }
     }
     
     redirect('/daily-sales-product');
+  }
+
+  public function store_barang_keluar($data = array())
+  {
+    $barang_keluar = array();
+    $barang_stok_bulanan = array();
+    $barang_stok = array();
+
+    // var_dump($data);
+    $barang_keluar['id_barang'] = $data['id_produk'];
+    $barang_keluar['id_distributor'] = $data['id_distributor'];
+    $barang_keluar['tahun'] = date('Y');
+    $barang_keluar['tanggal_keluar'] = date('Y-m-d H:i:s');
+    $barang_keluar['jumlah_keluar'] = $data['jumlah'];
+    // var_dump($barang_keluar);
+    $this->stokkd->store($barang_keluar);
+
+    $barang_stok_bulanan['id_barang'] = $data['id_produk'];
+    $barang_stok_bulanan['id_distributor'] = $data['id_distributor'];
+    $barang_stok_bulanan['jumlah_keluar'] = $data['jumlah'];
+    // var_dump($barang_stok_bulanan);
+    $this->store_stok_bulanan_keluar($barang_stok_bulanan, 'keluar');
+
+    $barang_stok['id_barang'] = $data['id_produk'];
+    $barang_stok['id_distributor'] = $data['id_distributor'];
+    $barang_stok['tahun'] = date('Y');
+    $barang_stok['stok'] = $data['jumlah'];
+    // var_dump($barang_stok);
+    $this->store_stok_keluar($barang_stok, 'keluar');
+  }
+
+  public function store_stok_bulanan_keluar($data = array(), $flag)
+  {
+    if ($this->cek_laporan_by_tahun_bulan_keluar($data['id_barang'], $data['id_distributor']) === false) {
+      $data['bulan'] = date('m');
+      $data['tahun'] = date('Y');
+      $data['sisa'] = $data['jumlah_keluar'];
+      $this->stokbd->store($data);
+    } else {
+      $this->stokbd->update_laporan($data['id_barang'], $data['id_distributor'], date('m'), date('Y'), $data['jumlah_keluar'], $flag);
+    }
+  }
+
+  public function cek_laporan_by_tahun_bulan_keluar($id_barang, $id_distributor)
+  {
+    return $this->stokbd->cek_laporan_by_tahun_bulan($id_barang, $id_distributor, date('Y'), date('m'));
+  }
+
+  public function store_stok_keluar($data = array(), $flag)
+  {
+    if ($this->cek_stok($data['id_barang'], $data['id_distributor']) === false) {
+      $this->stokd->store($data);
+    } else {
+      $this->stokd->update_stok($data['id_barang'], $data['id_distributor'], $data['stok'], $flag);
+    }
   }
 
   // PER PRODUCT

@@ -31,10 +31,9 @@
                         </select>
                       </div>
                       <div class="col-sm-2">
-                         <buttom class="btn btn-primary"><i class="fa fa-search"></i>  Cari</buttom>
+                         <button class="btn btn-primary"><i class="fa fa-search"></i>  Cari</button>
                       </div>
                     </div>
-                    
                   </form>
                 </div>
               </div>
@@ -67,48 +66,48 @@
 
                 <!-- table -->
                 <div class="table-responsive height-400 border-top-red">
-                  <table class="table table-xs table-hover mb-0">
+                  <table class="table table-xs table-bordered table-hover mb-0" id="sales-produk">
                       <thead>
                         <tr>
-                          <th style="text-align: center !important; vertical-align: text-top !important">Kode<br />Produk</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">Nama Produk</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">Area</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">Target<br />(Rp)</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">Total Sales Aktual<br />(Rp)</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">January</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">February</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">March</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">April</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">May</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">June</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">July</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">August</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">September</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">October</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">November</th>
-                          <th style="text-align: center !important; vertical-align: text-top !important">December</th>
+                          <th>Kode<br />Produk</th>
+                          <th>Nama Produk</th>
+                          <th>Area</th>
+                          <th>Target<br />(Rp)</th>
+                          <th>Total Sales Aktual<br />(Rp)</th>
+                          <th>January</th>
+                          <th>February</th>
+                          <th>March</th>
+                          <th>April</th>
+                          <th>May</th>
+                          <th>June</th>
+                          <th>July</th>
+                          <th>August</th>
+                          <th>September</th>
+                          <th>October</th>
+                          <th>November</th>
+                          <th>December</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php foreach ($dsales_produk as $value): ?>
                         <tr>
-                          <td class="text-truncate"><?php echo $value['id_produk']; ?></td>
-                          <td class="text-truncate"><?php echo $value['nama_produk']; ?></td>
-                          <td class="text-truncate">(<?php echo $value['alias_area']; ?>) <?php echo $value['area']; ?></td>
-                          <td class="text-truncate" align="right"><?php echo number_format($value['nominal_target'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['nominal_penjualan'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['jan'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['feb'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['mar'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['apr'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['may'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['jun'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['jul'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['aug'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['sep'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['oct'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['nov'], 0, ',', '.'); ?></td>
-                          <td class="text-truncate"  align="right"><?php echo number_format($value['des'], 0, ',', '.'); ?></td>
+                          <td><?php echo $value['id_produk']; ?></td>
+                          <td><?php echo $value['nama_produk']; ?></td>
+                          <td>(<?php echo $value['alias_area']; ?>) <?php echo $value['area']; ?></td>
+                          <td align="right"><?php echo number_format($value['nominal_target'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['nominal_penjualan'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['jan'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['feb'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['mar'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['apr'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['may'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['jun'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['jul'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['aug'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['sep'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['oct'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['nov'], 0, ',', '.'); ?></td>
+                          <td  align="right"><?php echo number_format($value['des'], 0, ',', '.'); ?></td>
                         </tr>
                         <?php endforeach ?>
                       </tbody>
@@ -255,6 +254,11 @@
     $('tbody > tr:odd').attr({
       class: 'bg-table-blue',
     });
+    $('#sales-produk th').css({
+      'text-align': 'center',
+      'vertical-align': 'text-top',
+    });
+    $('#sales-produk th').addClass('text-truncate');
   });
 </script>
 <script type="text/javascript">
