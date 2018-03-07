@@ -132,6 +132,7 @@ class Transaction extends CI_Controller {
     $data['promosi'] = $this->Wpr_Detail->get_promosi('sum(a.dana) as promosi');
     $data['cogm'] = $this->Cogm->get_total_cogm('sum(biaya) as cogm');
     $data['operasional'] = $this->Operasional->get_total_operasional('sum(total) as total');
+    $data['detailer_performance'] = $this->sald->get_data_per_detailer('a.id_detailer, UPPER(c.nama) as nama_detailer, UPPER(e.area) as area, UPPER(e.alias_area) as alias_area,  SUM(a.target * d.harga_master) as nominal_target, SUM(a.jumlah * d.harga_master) as nominal_penjualan, (SUM(a.jumlah * d.harga_master) / SUM(a.target * d.harga_master) * 100) as achievement');
 
     $this->load->view('head');
     $this->load->view('navbar');

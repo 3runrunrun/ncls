@@ -197,7 +197,7 @@
               <div class="my-2">
                 <h4 class="card-title"><?php echo $value->nama; ?> </h4>
                 <ul class="list-inline clearfix mt-2">
-                  <li class="mr-2">Achievement<h2 class="block"><?php echo number_format($value->achievement, 2, ',', '.'); ?><span class="font-small-3 text-muted">%</span></h2></li>
+                  <li class="mr-2">Achievement<h2 class="block"><?php echo number_format($value->achievement, 0, ',', '.'); ?><span class="font-small-3 text-muted">%</span></h2></li>
                   <li class="mr-2">Area<h2 class="block"><?php echo ucwords($value->area); ?></h2></li>
                   <li>Month<h2 class="block"><?php echo date('F') ?></h2></li>
                 </ul>
