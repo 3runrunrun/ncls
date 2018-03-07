@@ -488,6 +488,7 @@ class Transaction extends CI_Controller {
       $data = $this->kog->show_detail($input_var['id'], 'a.id_distributor, b.id_produk, b.jumlah');
       // var_dump($data['data']->result_array());
       $this->store_barang_masuk($data['data']->result_array());
+      $this->store_barang_keluar($data['data']->result_array());
     }
 
     // check transaction status
@@ -612,6 +613,7 @@ class Transaction extends CI_Controller {
     if ($input_var['status'] == 'rilis') {
       $data = $this->kot->show_detail($input_var['id'], 'a.id_distributor, b.id_produk, b.jumlah');
       $this->store_barang_masuk_tender($data['data']->result_array());
+      $this->store_barang_keluar($data['data']->result_array());
     }
 
     // check transaction status
@@ -688,6 +690,68 @@ class Transaction extends CI_Controller {
     return $this->stokd->cek_stok($id_barang, $id_distributor);
   }
   // END OF - verifikasi faktur tender
+
+  // pengurangan stok nucleus berdasarkan KO
+  public function store_barang_keluar($data = array())
+  {
+    $barang_keluar = array();
+    $barang_stok_bulanan = array();
+    $barang_stok = array();
+
+    // var_dump($data);
+    foreach ($data as $key => $value) {
+      $barang_keluar['id_barang'] = $value['id_produk'];
+      $barang_keluar['tahun'] = date('Y');
+      $barang_keluar['tanggal_keluar'] = date('Y-m-d H:i:s');
+      $barang_keluar['jumlah_keluar'] = $value['jumlah'];
+      // var_dump($barang_keluar);
+      $this->stokkn->store($barang_keluar);
+
+      $barang_stok_bulanan['id_barang'] = $value['id_produk'];
+      $barang_stok_bulanan['jumlah_keluar'] = $value['jumlah'];
+      // var_dump($barang_stok_bulanan);
+      $this->store_stok_bulanan_keluar($barang_stok_bulanan, 'keluar');
+
+      $barang_stok['id_barang'] = $value['id_produk'];
+      $barang_stok['tahun'] = date('Y');
+      $barang_stok['stok'] = $value['jumlah'];
+      // var_dump($barang_stok);
+      $this->store_stok_keluar($barang_stok, 'keluar');
+    }
+  }
+
+  public function store_stok_bulanan_keluar($data = array(), $flag)
+  {
+    if ($this->cek_laporan_by_tahun_bulan_keluar($data['id_barang']) === false) {
+      $data['bulan'] = date('m');
+      $data['tahun'] = date('Y');
+      $data['sisa'] = $data['jumlah_keluar'];
+      $this->stokbn->store($data);
+    } else {
+      $this->stokbn->update_laporan($data['id_barang'], date('m'), date('Y'), $data['jumlah_keluar'], $flag);
+    }
+  }
+
+  public function cek_laporan_by_tahun_bulan_keluar($id_barang)
+  {
+    return $this->stokbn->cek_laporan_by_tahun_bulan($id_barang, date('Y'), date('m'));
+  }
+
+  public function store_stok_keluar($data = array(), $flag)
+  {
+    if ($this->cek_stok_keluar($data['id_barang']) === false) {
+      $this->stokn->store($data);
+    } else {
+      $this->stokn->update_stok($data['id_barang'], $data['stok'], $flag);
+    }
+  }
+
+  private function cek_stok_keluar($id_barang)
+  {
+    return $this->stokn->cek_stok($id_barang);
+  }
+  // end of - pengurangan stok nucleus berdasarkan KO
+
 
   /**
    * Fungsi untuk menampilkan tabel dan form permohonan faktur diskon general

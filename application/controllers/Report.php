@@ -139,11 +139,16 @@ class Report extends CI_Controller {
 
   public function store_stok_keluar($data = array(), $flag)
   {
-    if ($this->cek_stok($data['id_barang'], $data['id_distributor']) === false) {
+    if ($this->cek_stok_keluar($data['id_barang'], $data['id_distributor']) === false) {
       $this->stokd->store($data);
     } else {
       $this->stokd->update_stok($data['id_barang'], $data['id_distributor'], $data['stok'], $flag);
     }
+  }
+
+  private function cek_stok_keluar($id_barang, $id_distributor)
+  {
+    return $this->stokd->cek_stok($id_barang, $id_distributor);
   }
 
   // PER PRODUCT
