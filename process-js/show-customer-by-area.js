@@ -3,8 +3,14 @@ $(document).ready(function() {
     var id_area = $('#src-id-area').val();
     var hostname = window.location.origin;
     var path_array = window.location.pathname.split( '/' );
-    var def_path = hostname + '/' + path_array[1] + '/' + path_array[2];
-    // console.log(hostname + '/' + path_array[1] + '/' + path_array[2]);
+    var def_path = hostname;
+    if (~hostname.indexOf('localhost')) {
+     def_path = hostname + '/' + path_array[1];    
+     console.log(def_path);
+    } else {
+     def_path = hostname + '/' + path_array[1] + '/' + path_array[2];
+     console.log(def_path);
+    }
     
     $.ajax({
       url: def_path + '/show-customer-by-area',

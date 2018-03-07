@@ -1,8 +1,14 @@
 function show_distributor_by_area(selector) {
   var hostname = window.location.origin;
   var path_array = window.location.pathname.split( '/' );
-  var def_path = hostname + '/' + path_array[1] + '/' + path_array[2];
-  // console.log(hostname + '/' + path_array[1] + '/' + path_array[2]);
+  var def_path = hostname;
+  if (~hostname.indexOf('localhost')) {
+   def_path = hostname + '/' + path_array[1];    
+   console.log(def_path);
+  } else {
+   def_path = hostname + '/' + path_array[1] + '/' + path_array[2];
+   console.log(def_path);
+  }
 
   var id_area = $(selector).val();
 
