@@ -51,7 +51,6 @@
                             <th width="20%">Nama<br />Lokasi Praktek</th>
                             <th width="30%">Alamat</th>
                             <th width="10%">Area</th>
-                            <th width="10%">Tools</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -63,12 +62,6 @@
                           <td><?php echo ucwords($value->nama_lokasi_praktik); ?></td>
                           <td><?php echo ucwords($value->alamat); ?></td>
                           <td><?php echo ucwords($value->area); ?> (<?php echo strtoupper($value->alias_area); ?>)</td>
-                          <td>
-                            <div class="btn-group-vertical" role="group">
-                              <a href="<?php echo site_url() ?>/master-customer-non/<?php echo $value->id ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                              <button type="button" onclick="delete_customer_non('<?php echo $value->id ?>')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
-                            </div>
-                          </td>
                         </tr>
                         <?php endforeach ?>
                       </tbody>

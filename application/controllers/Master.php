@@ -362,9 +362,9 @@ class Master extends CI_Controller {
 
   public function show_distributor_by_area()
   {
-    $input_var = $this->input->post();
-    $data['distributor'] = $this->Distributor->show_by_area($input_var['id_area'], 'a.id, upper(b.alias_distributor) as alias_distributor');
-    echo json_encode($data['distributor']['data']->result_array());
+    $id = $this->input->post('id');
+    $data = $this->Distributor->show_by_area($id, 'a.id, b.alias_distributor');
+    echo json_encode($data['data']->result_array());
   }
 
   public function show_detailer_by_area()

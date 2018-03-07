@@ -33,11 +33,11 @@ class Distributor extends CI_Model {
 
   public function show_by_area($id_area, $column = '*')
   {
-    $this->db->select($column, false);
+    $this->db->select($column);
     $this->db->from('distributor a');
     $this->db->join('master_distributor b', 'a.id_distributor = b.id');
     $this->db->join('area c', 'a.id_area = c.id');
-    $this->db->where('id_area', $id_area);
+    $this->db->where('a.id_area', $id_area);
     $this->db->where('a.hapus', null);
     $result = $this->db->get();
     if ( ! $result) {
@@ -51,6 +51,8 @@ class Distributor extends CI_Model {
         'data' => $result
         );
     }
+    // echo $this->db->last_query();
+    // die();
     return $ret_val;
   }
 

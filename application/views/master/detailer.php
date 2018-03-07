@@ -425,7 +425,6 @@
                           <td><?php echo $value->nama_rm_old; ?></td>
                           <td>
                             <div class="btn-group-vertical">
-                              <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i></a>
                               <a href="<?php echo site_url() ?>/master-detailer/<?php echo $value->id; ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                             </div>
                           </td>

@@ -39,29 +39,22 @@
                 <!-- Tabel -->
                 <div class="table-responsive height-250 border-top-red">
                   <table class="table table-hover mb-0">
-                      <thead>
-                          <tr>
-                              <th width="5%">Kode</th>
-                              <th width="50%">Nama Subdistributor</th>
-                              <th width="30%">Area</th>
-                              <th width="15%">Tools</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        <?php foreach ($subdist['data']->result() as $value): ?>
-                        <tr>
-                          <td><?php echo strtoupper($value->id); ?></td>
-                          <td><?php echo strtoupper($value->nama); ?></td>
-                          <td><?php echo strtoupper($value->area); ?> (<?php echo strtoupper($value->alias_area); ?>)</td>
-                          <td>
-                            <div class="btn-group-vertical" role="group">
-                              <a href="<?php echo site_url() ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                              <button type="button" onclick="" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
-                            </div>
-                          </td>
-                        </tr>
-                        <?php endforeach; ?>
-                      </tbody>
+                    <thead>
+                      <tr>
+                        <th width="5%">Kode</th>
+                        <th width="50%">Nama Subdistributor</th>
+                        <th width="30%">Area</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach ($subdist['data']->result() as $value): ?>
+                      <tr>
+                        <td><?php echo strtoupper($value->id); ?></td>
+                        <td><?php echo strtoupper($value->nama); ?></td>
+                        <td><?php echo strtoupper($value->area); ?> (<?php echo strtoupper($value->alias_area); ?>)</td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
                   </table>
                 </div>
                 <!-- End of Tabel -->

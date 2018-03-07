@@ -4,7 +4,7 @@ $(document).ready(function() {
     var hostname = window.location.origin;
     var path_array = window.location.pathname.split( '/' );
     var def_path = hostname;
-    if (~hostname.indexOf('localhost')) {
+    if (hostname.indexOf('localhost') == -1) {
      def_path = hostname + '/' + path_array[1];    
      console.log(def_path);
     } else {
@@ -33,15 +33,15 @@ $(document).ready(function() {
           // console.log(url_edit);
           
           $.each(rows, function(rindex, rvalue) {
-            if (rindex == rows.length-1) {
-              var tools = '<td>'+
-                '<div class="btn-group" role="group">' +
-                  '<a href="' + url_edit + '" class="btn btn-warning"><i class="fa fa-pencil"></i></a>' +
-                  '<button type="button" onclick="delete_customer(\'' + index.id + '\')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>' +
-                '</div>' +
-              '</td>';
-              rows.push(tools);
-            }
+            // if (rindex == rows.length-1) {
+            //   var tools = '<td>'+
+            //     '<div class="btn-group" role="group">' +
+            //       '<a href="' + url_edit + '" class="btn btn-warning"><i class="fa fa-pencil"></i></a>' +
+            //       '<button type="button" onclick="delete_customer(\'' + index.id + '\')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>' +
+            //     '</div>' +
+            //   '</td>';
+            //   rows.push(tools);
+            // }
           });
 
           console.log(rows);

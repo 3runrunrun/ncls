@@ -72,7 +72,6 @@
                         <td align="right"><?php echo number_format($value->total, 2, ',', '.'); ?></td>
                         <td>
                           <div class="btn-group-vertical" role="group">
-                            <a href="<?php echo site_url() ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                             <button type="button" onclick="delete_operasional('<?php echo $value->id ?>')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
                           </div>
                         </td>

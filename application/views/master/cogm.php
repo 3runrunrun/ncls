@@ -58,7 +58,6 @@
                         <td><?php echo number_format($value->biaya, '2', ',', '.'); ?></td>
                         <td>
                           <div class="btn-group" role="group">
-                            <a href="<?php echo site_url() ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                             <button type="button" onclick="delete_cogm('<?php echo $value->id ?>')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
                           </div>
                         </td>

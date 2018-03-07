@@ -4,14 +4,14 @@ $(document).ready(function() {
     var id_area = $('#src-id-area').val();
     var hostname = window.location.origin;
     var path_array = window.location.pathname.split( '/' );
-     var def_path = hostname;
-     if (~hostname.indexOf('localhost')) {
-       def_path = hostname + '/' + path_array[1];    
-       console.log(def_path);
-     } else {
-       def_path = hostname + '/' + path_array[1] + '/' + path_array[2];
-       console.log(def_path);
-     }
+    var def_path = hostname;
+    if (hostname.indexOf('localhost') == -1) {
+     def_path = hostname + '/' + path_array[1];    
+     console.log(def_path);
+    } else {
+     def_path = hostname + '/' + path_array[1] + '/' + path_array[2];
+     console.log(def_path);
+    }
     
     $.ajax({
       url: def_path + '/show-outlet-by-dist-area',
@@ -35,15 +35,15 @@ $(document).ready(function() {
           // console.log(url_edit);
 
           $.each(rows, function(rindex, rvalue) {
-            if (rindex == rows.length-1) {
-              var tools = '<td>'+
-                '<div class="btn-group-vertical" role="group">' +
-                  '<a href="' + url_edit + '" class="btn btn-warning"><i class="fa fa-pencil"></i></a>' +
-                  '<button type="button" onclick="delete_outlet(\'' + index.id + '\')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>' +
-                '</div>' +
-              '</td>';
-              rows.push(tools);
-            }
+            // if (rindex == rows.length-1) {
+            //   var tools = '<td>'+
+            //     '<div class="btn-group-vertical" role="group">' +
+            //       '<a href="' + url_edit + '" class="btn btn-warning"><i class="fa fa-pencil"></i></a>' +
+            //       '<button type="button" onclick="delete_outlet(\'' + index.id + '\')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>' +
+            //     '</div>' +
+            //   '</td>';
+            //   rows.push(tools);
+            // }
           });
           return '<tr>' + rows + '</tr>';
         });

@@ -62,7 +62,6 @@
                         <td><?php echo number_format($value->penyusutan, 0, ',', '.'); ?>%</td>
                         <td>
                           <div class="btn-group-vertical" role="group">
-                            <a href="<?php echo site_url() ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                             <button type="button" onclick="delete_aset('<?php echo $value->id ?>')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
                           </div>
                         </td>

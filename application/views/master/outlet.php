@@ -101,11 +101,10 @@
                             <th>Kota</th>
                             <th>Distributor</th>
                             <th>Area Distributor</th>
-                            <th>Kode Lam</th>
+                            <th>Kode Lama</th>
                             <th>Detailer</th>
                             <th>Periode</th>
                             <th>Dispensing</th>
-                            <th>Tools</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -122,12 +121,6 @@
                           <td><?php $nama_detailer = ( ! isset($value->nama_detailer)) ? '-' : $value->nama_detailer; echo ucwords($nama_detailer); ?></td>
                           <td><?php $periode = ( ! isset($value->periode)) ? '-' : $value->periode; echo ucwords($periode); ?></td>
                           <td><?php $dispensing = ( ! isset($value->dispensing)) ? '-' : $value->dispensing; echo strtoupper($dispensing); ?></td>
-                          <td>
-                            <div class="btn-group-vertical" role="group" >
-                              <a href="<?php echo site_url() ?>/master-outlet/<?php echo $value->id ?>" class="btn btn-warning"><span class="ladda-label"><i class="fa fa-pencil"></i></span></a>
-                              <button type="button" onclick="delete_outlet('<?php echo $value->id ?>')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
-                            </div>
-                          </td>
                         </tr>
                         <?php endforeach ?>
                       </tbody>
@@ -163,7 +156,7 @@
                       <div class="form-group row">
                         <label class="label-control col-sm-2">Area Distributor</label>
                         <div class="col-sm-4">
-                          <select name="id_area" class="form-control select2" onchange="show_distributor_by_area(this); show_detailer_by_area(this)">
+                          <select name="id_area" class="form-control select2" onchange="show_distributor_by_area(this); show_detailer_by_area(this);">
                             <option value="" selected disabled>Pilih Area</option>
                             <?php if ($area['data']->num_rows() < 1): ?>
                             <option value="">Area belum tersedia</option>
