@@ -15,30 +15,6 @@
             </div>
             <div class="card-body collapse in">
               <div class="card-block">
-                <div class="col-xs-12 center">
-                  <form method="post" style="padding-bottom: 30px;">
-                    <div class="form-group centered">
-                      <div class="col-sm-5">
-                        <select class="form-control" name="area" required="">
-                          <option selected="" disabled="" value="">---Pilih Area---</option>
-                          <option value="jakarta-selatan">Jakarta Selatan</option>
-                        </select>
-                      </div>
-                      <div class="col-sm-5">
-                        <select class="form-control" name="outlet" required="">
-                          <option selected="" disabled="" value="">---Pilih Outlet---</option>
-                          <option value="jakarta-selatan">Mutiara Sehat</option>
-                        </select>
-                      </div>
-                      <div class="col-sm-2">
-                         <button class="btn btn-primary"><i class="fa fa-search"></i>  Cari</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-
-              <div class="card-block">
                 <!-- alert -->
                 <?php if ( ! is_null($this->session->flashdata())): ?>
                 <?php if ( ! is_null($this->session->flashdata('error_msg'))): ?>  
@@ -65,52 +41,52 @@
                 <!-- /alert -->
 
                 <!-- table -->
-                <div class="table-responsive height-400 border-top-red">
-                  <table class="table table-xs table-bordered table-hover mb-0" id="sales-produk">
-                      <thead>
-                        <tr>
-                          <th>Kode<br />Produk</th>
-                          <th>Nama Produk</th>
-                          <th>Area</th>
-                          <th>Target<br />(Rp)</th>
-                          <th>Total Sales Aktual<br />(Rp)</th>
-                          <th>January</th>
-                          <th>February</th>
-                          <th>March</th>
-                          <th>April</th>
-                          <th>May</th>
-                          <th>June</th>
-                          <th>July</th>
-                          <th>August</th>
-                          <th>September</th>
-                          <th>October</th>
-                          <th>November</th>
-                          <th>December</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php foreach ($dsales_produk as $value): ?>
-                        <tr>
-                          <td><?php echo $value['id_produk']; ?></td>
-                          <td><?php echo $value['nama_produk']; ?></td>
-                          <td>(<?php echo $value['alias_area']; ?>) <?php echo $value['area']; ?></td>
-                          <td align="right"><?php echo number_format($value['nominal_target'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['nominal_penjualan'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['jan'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['feb'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['mar'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['apr'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['may'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['jun'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['jul'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['aug'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['sep'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['oct'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['nov'], 0, ',', '.'); ?></td>
-                          <td  align="right"><?php echo number_format($value['des'], 0, ',', '.'); ?></td>
-                        </tr>
-                        <?php endforeach ?>
-                      </tbody>
+                <div class="table-responsive height-400">
+                  <table class="table table-xs table-bordered table-hover display nowrap  scroll-horizontal-vertical border-top-red" id="sales-produk">
+                    <thead>
+                      <tr>
+                        <th>Kode<br />Produk</th>
+                        <th>Nama Produk</th>
+                        <th>Area</th>
+                        <th>Target<br />(Rp)</th>
+                        <th>Total Sales Aktual<br />(Rp)</th>
+                        <th>January</th>
+                        <th>February</th>
+                        <th>March</th>
+                        <th>April</th>
+                        <th>May</th>
+                        <th>June</th>
+                        <th>July</th>
+                        <th>August</th>
+                        <th>September</th>
+                        <th>October</th>
+                        <th>November</th>
+                        <th>December</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach ($dsales_produk as $value): ?>
+                      <tr>
+                        <td><?php echo $value['id_produk']; ?></td>
+                        <td><?php echo $value['nama_produk']; ?></td>
+                        <td>(<?php echo $value['alias_area']; ?>) <?php echo $value['area']; ?></td>
+                        <td align="right"><?php echo number_format($value['nominal_target'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['nominal_penjualan'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['jan'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['feb'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['mar'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['apr'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['may'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['jun'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['jul'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['aug'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['sep'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['oct'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['nov'], 0, ',', '.'); ?></td>
+                        <td align="right"><?php echo number_format($value['des'], 0, ',', '.'); ?></td>
+                      </tr>
+                      <?php endforeach ?>
+                    </tbody>
                   </table>
                 </div>
                 <!-- /table -->
@@ -188,52 +164,110 @@
                     <!-- /row-1 -->
                   </div>
                   <div class="form-body">
-                    <h4 class="form-section"><i class="fa fa-medkit"></i>Produk</h4>
                     <div class="row">
-                      <div class="col-sm-4 col-xs-12">
-                        <div class="form-group">
-                          <label class="label-control">Produk</label>
-                          <select name="id_produk[]" id="produk-list" class="form-control select2">
-                            <option value="" selected disabled>Pilih Produk</option>
-                            <?php if ($produk['data']->num_rows() < 1): ?>
-                            <option value="">Produk belum tersedia</option>
-                            <?php else: ?>
-                            <?php foreach ($produk['data']->result() as $value): ?>
-                            <option value="<?php echo $value->id; ?>"><?php echo strtoupper($value->nama); ?></option>
-                            <?php endforeach; ?>
-                            <?php endif; ?>
-                          </select>
+                      <div class="col-sm-6 col-xs-12">
+                        <h4 class="form-section"><i class="fa fa-medkit"></i>Produk</h4>
+                        <div class="row">
+                          <div class="col-sm-8 col-xs-12">
+                            <div class="form-group">
+                              <label class="label-control">Produk</label>
+                              <select name="id_produk[]" id="produk-list" class="form-control select2 id-produk" onchange="recall_show_ko($('[name=id_distributor]').val(), $('[name=id_detailer]').val(), $('[name=id_outlet]').val(), $(this).val(), $(this).parent().parent().next().next().children().children('.id-ko').val()); show_stok($('[name=id_distributor]').val(), $(this).val());">
+                                <option value="" selected disabled>Pilih Produk</option>
+                                <?php if ($produk['data']->num_rows() < 1): ?>
+                                <option value="">Produk belum tersedia</option>
+                                <?php else: ?>
+                                <?php foreach ($produk['data']->result() as $value): ?>
+                                <option value="<?php echo $value->id; ?>"><?php echo strtoupper($value->nama); ?></option>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                              </select>
+                            </div>
+                            <!-- /id-produk -->
+                          </div>
+                          <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
+                              <label class="label-control">Stok Distributor</label>
+                              <input type="number" id="stok-sisa" class="form-control border-primary" disabled>
+                              <span id="stok-alert" class="danger"></span>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                              <label class="label-control">Faktur KO</label>
+                              <select name="id_ko[]" id="faktur-list" class="form-control select2 id-ko" onchange="show_ko($('[name=id_distributor]').val(), $('[name=id_detailer]').val(), $('[name=id_outlet]').val(), $(this).parent().parent().prev().prev().children().children('.id-produk').val(), $(this).val())">
+                                <option value="" selected disabled>Pilih Faktur KO</option>
+                                <?php if ($diskon['data']->num_rows() < 1): ?>
+                                <option value="" disabled>Faktur KO belum tersedia</option>
+                                <?php else: ?>
+                                <?php foreach ($diskon['data']->result() as $value): ?>
+                                <option value="<?php echo $value->id_ko; ?>"><?php echo $value->jenis; ?> - <?php echo str_replace('-', '/', $value->id_ko); ?></option>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                              </select>
+                            </div>
+                            <!-- /jumlah -->
+                          </div>
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                              <label class="label-control">Target (per Unit)</label>
+                              <input type="number" name="target[]" class="form-control border-primary">
+                            </div>
+                            <!-- /jumlah -->
+                          </div>
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                              <label class="label-control">Jumlah Terjual</label>
+                              <input type="number" name="jumlah[]" class="form-control border-primary">
+                            </div>
+                            <!-- /jumlah -->
+                          </div>
+                          <div class="col-xs-6">
+                            <div class="form-group">
+                              <label class="label-control">Diskon On</label>
+                              <input type="number" name="diskon_on[]" class="form-control border-primary diskon-on" value="0">
+                            </div>
+                            <!-- /diskon-on -->
+                          </div>
+                          <div class="col-xs-6">
+                            <div class="form-group">
+                              <label class="label-control">Diskon Off</label>
+                              <input type="number" name="diskon_off[]" class="form-control border-primary diskon-off" value="0">
+                            </div>
+                            <!-- /diskon-off -->
+                          </div>
                         </div>
-                        <!-- /id-produk -->
+                        <div id="produk-out"></div>
+                        <!-- #/produk-out -->
+                        <!-- <div class="row">
+                          <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
+                              <button type="button" class="btn btn-primary btn-block" id="add-produk"><i class="fa fa-plus"></i>&nbsp;Tambah Produk</button>
+                            </div>
+                          </div>
+                        </div> -->
+                        <!-- /button-row -->
                       </div>
                       <!-- /left-col -->
-                      <div class="col-sm-4 col-xs-12">
-                        <div class="form-group">
-                          <label class="label-control">Target (per Unit)</label>
-                          <input type="number" name="target[]" class="form-control border-primary">
-                        </div>
-                        <!-- /jumlah -->
-                      </div>
-                      <!-- /mid-col -->
-                      <div class="col-sm-4 col-xs-12">
-                        <div class="form-group">
-                          <label class="label-control">Jumlah Terjual</label>
-                          <input type="number" name="jumlah[]" class="form-control border-primary">
-                        </div>
-                        <!-- /jumlah -->
-                      </div>
-                      <!-- /right-col -->
-                    </div>
-                    <div id="produk-out"></div>
-                    <!-- #/produk-out -->
-                    <div class="row">
-                      <div class="col-sm-3 col-xs-12">
-                        <div class="form-group">
-                          <button type="button" class="btn btn-primary btn-block" id="add-produk"><i class="fa fa-plus"></i>&nbsp;Tambah Produk</button>
+                      <div class="col-sm-6 col-xs-12">
+                        <h4 class="form-section"><i class="fa fa-wpforms"></i>Informasi Faktur (jika ada)</h4>
+                        <div class="table-responsive height-200 border-top-blue">
+                          <table class="table table-xs table-bordered table-hover mb-0" id="sales-produk">
+                            <thead>
+                              <tr>
+                                <th>No. Faktur</th>
+                                <th>Barang</th>
+                                <th>Jumlah</th>
+                                <th>Total On<br />(%)</th>
+                                <th>Total Off<br />(%)</th>
+                              </tr>
+                            </thead>
+                            <tbody id="info-faktur">
+                              
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
-                    <!-- /button-row -->
                   </div>
                   <div class="form-actions" align="center">
                     <input type="submit" class="btn btn-success" name="" value="Simpan">
@@ -271,32 +305,74 @@
         var nama = $(this).text();
         return '<option value="' + id + '">' + nama + '</option>';
       }).get();
+      var faktur_list = $('#faktur-list > option').map(function(){
+        var id = $(this).val();
+        var nama = $(this).text();
+        return '<option value="' + id + '">' + nama + '</option>';
+      }).get();
 
       // jangan lupa nanti tambahin nama variabelnya, pake array lho!!!
-      var element = '<div class="row">' +
-          '<div class="col-sm-4 col-xs-12">' +
+      var element = '<br /><br /><hr><div class="row">' +
+          '<div class="col-sm-3 col-xs-12">' +
             '<div class="form-group">' +
               '<label class="label-control">Produk</label>' +
-              '<select name="id_produk[]" class="form-control select2-single">' +
+              '<select name="id_produk[]" class="form-control select2-single id-produk" onchange="recall_show_ko($(\'[name=id_distributor]\').val(), $(\'[name=id_detailer]\').val(), $(\'[name=id_outlet]\').val(), $(this).val(), $(this).parent().parent().next().children().children(\'.id-ko\').val())">' +
                 produk_list +
               '</select>' +
             '</div>' +
           '</div>' +
-          '<div class="col-sm-4 col-xs-12">' +
+          '<div class="col-sm-3 col-xs-12">' +
+            '<div class="form-group">' +
+              '<label class="label-control">Faktur KO</label>' +
+              '<select name="id_ko[]" class="form-control select2 id-ko" onchange="show_ko($(\'[name=id_distributor]\').val(), $(\'[name=id_detailer]\').val(), $(\'[name=id_outlet]\').val(), $(this).parent().parent().prev().children().children(\'.id-produk\').val(), $(this).val())">' +
+                faktur_list +
+              '</select>' +
+            '</div>' +
+          '</div>' +
+          '<div class="col-sm-3 col-xs-12">' +
             '<div class="form-group">' +
               '<label class="label-control">Target (per Unit)</label>' +
               '<input type="number" name="target[]" class="form-control border-primary">' +
             '</div>' +
           '</div>' +
-          '<div class="col-sm-4 col-xs-12">' +
+          '<div class="col-sm-3 col-xs-12">' +
             '<div class="form-group row">' +
               '<label class="label-control col-sm-12">Jumlah Terjual</label>' +
-              '<div class="col-sm-10">' +
+              '<div class="col-sm-8">' +
                 '<input type="number" name="jumlah[]" class="form-control border-primary">' +
               '</div>' +
-              '<div class="col-sm-2">' +
-                '<button type="button" class="btn btn-block btn-danger" onclick="$(this).parent().parent().parent().parent().remove()"><i class="fa fa-times"></i></button>' +
+              '<div class="col-sm-4">' +
+                '<button type="button" class="btn btn-block btn-danger" onclick="$(this).parent().parent().parent().parent().prev(\'hr\').remove(); $(this).parent().parent().parent().parent().next().remove(); $(this).parent().parent().parent().parent().remove();"><i class="fa fa-times"></i></button>' +
               '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="row">' +
+          '<div class="col-xs-12">' +
+            '<h6 class="form-section">Faktur KO (Jika Ada)</h6>' +
+          '</div>' +
+          '<div class="col-sm-3 col-xs-12 faktur-barang">' +
+            '<div class="form-group">' +
+              '<label class="label-control">Produk</label>' +
+              '<input type="text" class="form-control border-primary" disabled>' +
+            '</div>' +
+          '</div>' +
+          '<div class="col-sm-2 col-xs-12 faktur-barang">' +
+            '<div class="form-group">' +
+              '<label class="label-control">Jumlah</label>' +
+              '<input type="text" class="form-control border-primary" disabled>' +
+            '</div>' +
+          '</div>' +
+          '<div class="col-sm-2 col-xs-12 faktur-on-total">' +
+            '<div class="form-group">' +
+              '<label class="label-control">Total On</label>' +
+              '<input type="number" name="diskon_on[]" class="form-control border-primary" readonly>' +
+            '</div>' +
+          '</div>' +
+          '<div class="col-sm-2 col-xs-12 faktur-off-total">' +
+            '<div class="form-group">' +
+              '<label class="label-control">Total Off</label>' +
+              '<input type="number" name="diskon_off[]" class="form-control border-primary" readonly>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -305,4 +381,21 @@
     });
   });
 </script>
-
+<script type="text/javascript" src="<?php echo base_url() ?>/process-js/report/daily-sales/show-ko.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>/process-js/report/daily-sales/show-stok.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('#sales-produk').DataTable({
+        "paging": false,
+      });
+      $('#sales-produk_wrapper > .row:last').remove();
+      $('#sales-produk_filter').css({
+        'text-align': 'center',
+      });
+      $('#sales-produk_wrapper > .row:first').children(':first').remove();
+      $('#sales-produk_filter').parent().addClass('col-xs-12').removeClass('col-md-6');
+      $('#sales-produk_filter > label > input').addClass('input-md').removeClass('input-sm').attr({
+        placeholder: 'Keyword',
+      });
+  });
+</script>

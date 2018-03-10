@@ -30,6 +30,7 @@ class Sales_Detailer extends CI_Model {
     $this->db->join("($detailer) c", 'a.id_detailer = c.id', FALSE);
     $this->db->join('produk d', 'a.id_produk = d.id');
     $this->db->join('area e', 'c.id_area = e.id');
+    $this->db->join('sales_outlet_diskon f', 'a.id = f.id_sales_outlet', 'left');
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
     $this->db->group_by('a.id_detailer');

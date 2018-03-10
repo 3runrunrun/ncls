@@ -23,6 +23,25 @@ class Report extends CI_Controller {
   // DAILY SALES //
   /////////////////
 
+  public function show_ko()
+  {
+    $id_distributor = $this->input->post('id_distributor');
+    $id_detailer = $this->input->post('id_detailer');
+    $id_outlet = $this->input->post('id_outlet');
+    $id_produk = $this->input->post('id_produk');
+    $id_ko = $this->input->post('id_ko');
+    $data = $this->ako->get_data_by_sales($id_distributor, $id_detailer, $id_outlet, $id_produk, $id_ko, 'a.id_ko, UPPER(b.nama) as nama_produk, a.jumlah, a.on_total, a.off_total');
+    echo json_encode($data['data']->result_array());
+  }
+
+  public function show_stok()
+  {
+    $id_distributor = $this->input->post('id_distributor');
+    $id_produk = $this->input->post('id_produk');
+    $data = $this->stokd->show($id_distributor, $id_produk, 'stok');
+    echo json_encode($data['data']->result_array());
+  }
+
   private function check_if_any_produk_outlet($id_produk, $id_outlet)
   {
     $flag = TRUE;
@@ -47,6 +66,7 @@ class Report extends CI_Controller {
       $input_var = $this->input->post();
 
       $sal = array();
+      $saldo = array();
       $produk_outlet = array();
 
       foreach ($input_var['id_produk'] as $key => $value) {
@@ -70,6 +90,18 @@ class Report extends CI_Controller {
         $sal['target'] = $input_var['target'][$key];
         // var_dump($sal);
         $this->salo->store($sal);
+
+        if ($input_var['id_ko'][$key] !== '') {
+          $cek_ako = $this->ako->get_data_by_sales($sal['id_distributor'], $sal['id_detailer'], $sal['id_outlet'], $sal['id_produk'], $input_var['id_ko'][$key]);
+          if ($cek_ako['data']->num_rows() > 0) {
+            $saldo['id_sales_outlet'] = $sal['id'];
+            $saldo['id_ko'] = $input_var['id_ko'][$key];
+            $saldo['diskon_on'] = $input_var['diskon_on'][$key];
+            $saldo['diskon_off'] = $input_var['diskon_off'][$key];
+            // var_dump($saldo);
+            $this->salo->store_diskon($saldo);
+          }
+        }
 
         // barang keluar -- kurangi stok
         $this->store_barang_keluar($sal);
@@ -162,7 +194,7 @@ class Report extends CI_Controller {
     $data = $this->salo->get_data_per_produk('a.id_produk,
       a.tanggal,
       CONCAT(a.id_produk, d.alias_area, DATE_FORMAT(a.tanggal, \'%m\')) as produk_month,
-      SUM((a.jumlah * c.harga_master)) as nominal_penjualan');
+      SUM((a.jumlah * c.harga_master)) - SUM((a.jumlah * c.harga_master) * ((COALESCE(e.diskon_on, 0) + COALESCE(e.diskon_off, 0)) / 100)) as nominal_penjualan');
 
     foreach ($data['data']->result_array() as $key => $value) {
       $replacement[$value['produk_month']] = $value['nominal_penjualan'];
@@ -188,6 +220,7 @@ class Report extends CI_Controller {
     $data['detailer'] = $this->Detailer->get_data('a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama');
     $data['outlet'] = $this->Outlet->get_data('a.id, upper(a.nama) as nama, upper(d.alias_area) as alias_area');
     $data['produk'] = $this->Produk->get_data('id, nama');
+    $data['diskon'] = $this->ako->get_data(' DISTINCT a.id_ko, UPPER(a.jenis) as jenis');
 
     /**
      * Result builder for daily sales product
@@ -196,8 +229,8 @@ class Report extends CI_Controller {
         upper(c.nama) as nama_produk,
         upper(d.area) as area,
         upper(d.alias_area) as alias_area,
-        SUM((a.jumlah * c.harga_master)) as nominal_penjualan,
-        SUM((a.target * c.harga_master)) as nominal_target,
+        SUM((a.jumlah * c.harga_master)) - SUM((a.jumlah * c.harga_master) * ((COALESCE(e.diskon_on, 0) + COALESCE(e.diskon_off, 0)) / 100)) as nominal_penjualan,
+        SUM((a.target * c.harga_master)) - SUM((a.jumlah * c.harga_master) * ((COALESCE(e.diskon_on, 0) + COALESCE(e.diskon_off, 0)) / 100)) as nominal_target,
         CONCAT(a.id_produk, d.alias_area, "01") as jan, 
         CONCAT(a.id_produk, d.alias_area, "02") as feb, 
         CONCAT(a.id_produk, d.alias_area, "03") as mar, 
@@ -235,7 +268,7 @@ class Report extends CI_Controller {
     $data = $this->salo->get_data_per_outlet_month('a.id_outlet,
       a.tanggal,
       CONCAT(a.id_outlet, DATE_FORMAT(a.tanggal, \'%m\')) as outlet_month,
-      SUM((a.jumlah * c.harga_master)) as nominal_penjualan');
+      SUM((a.jumlah * c.harga_master)) - SUM((a.jumlah * c.harga_master) * ((COALESCE(d.diskon_on, 0) + COALESCE(d.diskon_off, 0)) / 100)) as nominal_penjualan');
 
     // var_dump($data['data']->result_array());
     // var_dump($result_base['data']->result_array());
@@ -269,6 +302,7 @@ class Report extends CI_Controller {
     $data['detailer'] = $this->Detailer->get_data('a.id, upper(c.alias_area) as alias_area, upper(a.nama) as nama');
     $data['outlet'] = $this->Outlet->get_data('a.id, upper(a.nama) as nama, upper(d.alias_area) as alias_area');
     $data['produk'] = $this->Produk->get_data('id, nama');
+    $data['diskon'] = $this->ako->get_data(' DISTINCT a.id_ko, UPPER(a.jenis) as jenis');
 
     /**
      * Result builder for daily sales outlet
@@ -278,8 +312,8 @@ class Report extends CI_Controller {
       UPPER(b.nama) as nama_outlet,
       UPPER(d.area) as area,
       UPPER(d.alias_area) as alias_area,
-      SUM((a.jumlah * c.harga_master)) as nominal_penjualan,
-      SUM((a.target * c.harga_master)) as nominal_target,
+      SUM((a.jumlah * c.harga_master)) - SUM((a.jumlah * c.harga_master) * ((COALESCE(e.diskon_on, 0) + COALESCE(e.diskon_off, 0)) / 100)) as nominal_penjualan,
+      SUM((a.target * c.harga_master)) - SUM((a.jumlah * c.harga_master) * ((COALESCE(e.diskon_on, 0) + COALESCE(e.diskon_off, 0)) / 100)) as nominal_target,
       CONCAT(a.id_outlet, "01") as jan, 
       CONCAT(a.id_outlet, "02") as feb, 
       CONCAT(a.id_outlet, "03") as mar, 
@@ -318,7 +352,7 @@ class Report extends CI_Controller {
     $data = $this->salo->get_data_produk_by_outlet($id_outlet, 'a.id_produk, 
       a.tanggal, CONCAT(a.id_produk, 
       DATE_FORMAT(a.tanggal, \'%m\')) as produk_month, 
-      SUM((a.jumlah * b.harga_master)) as nominal_penjualan');
+      SUM((a.jumlah * b.harga_master)) - SUM((a.jumlah * b.harga_master) * ((COALESCE(c.diskon_on, 0) + COALESCE(c.diskon_off, 0)) / 100)) as nominal_penjualan');
 
     // die();
 
@@ -357,10 +391,10 @@ class Report extends CI_Controller {
      */
     
     $result_base = $this->salo->get_data_concat_outlet_produk_by_outlet($id_outlet, 'a.id_produk, 
-      b.nama as nama_produk,
-      SUM((a.jumlah * b.harga_master)) as nominal_penjualan,
+      UPPER(b.nama) as nama_produk,
+      SUM((a.jumlah * b.harga_master)) - SUM((a.jumlah * b.harga_master) * ((COALESCE(c.diskon_on, 0) + COALESCE(c.diskon_off, 0)) / 100)) as nominal_penjualan,
       SUM(a.jumlah),
-      SUM((a.target * b.harga_master)) as nominal_target,
+      SUM((a.target * b.harga_master)) - SUM((a.jumlah * b.harga_master) * ((COALESCE(c.diskon_on, 0) + COALESCE(c.diskon_off, 0)) / 100)) as nominal_target,
       CONCAT(a.id_produk, "01") as jan, 
       CONCAT(a.id_produk, "02") as feb, 
       CONCAT(a.id_produk, "03") as mar, 
@@ -385,12 +419,141 @@ class Report extends CI_Controller {
     $this->load->view('footer-js');
   }
 
-  // sales dist
+  ///////////////////////
+  // SALES DISTRIBUTOR //
+  ///////////////////////
+
+  public function result_builder_sales_distributor($data = array())
+  {
+    $sales_per_area = 0;
+    $placeholder = $data;
+    $replacement = array();
+    $result = array();
+    $col = array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'des');
+    $empty_col = array('jan' => '01',
+      'feb' => '02',
+      'mar' => '03',
+      'apr' => '04',
+      'may' => '05',
+      'jun' => '06',
+      'jul' => '07',
+      'aug' => '08',
+      'sep' => '09',
+      'oct' => '10',
+      'nov' => '11',
+      'des' => '12');
+    $arld = $this->saldis->get_title('c.id as id_distributor, c.alias_distributor');
+    $list_distributor = $arld['data']->result_array();
+    $ara = $this->saldis->get_placeholder_per_month('d.id as id_area, d.alias_area, d.area');
+    $area = $ara['data']->result_array();
+
+    // var_dump($placeholder);
+    $data_r = $this->saldis->get_data_per_month('d.id as id_area,
+      d.area,
+      b.id as id_distributor,
+      c.id as alias_distributor,
+      CONCAT(c.alias_distributor, d.alias_area, DATE_FORMAT(a.tanggal, \'%m\')) as placeholder,
+      SUM((a.jumlah * e.harga_master)) - SUM((a.jumlah * e.harga_master) * ((COALESCE(f.diskon_on, 0) + COALESCE(f.diskon_off, 0)) / 100)) as nominal_penjualan,
+      SUM((a.target * e.harga_master)) - SUM((a.jumlah * e.harga_master) * ((COALESCE(f.diskon_on, 0) + COALESCE(f.diskon_off, 0)) / 100)) as nominal_target');
+    foreach ($data_r['data']->result_array() as $key => $value) {
+      $replacement[$value['placeholder']] = $value['nominal_penjualan'];
+    }
+    // var_dump($replacement);
+    // var_dump($result);
+    
+    // isi result dengan key berdasarkan id area
+    foreach ($placeholder as $key => $value) {
+      $result[$value['id_area']] = array();
+    }
+
+    // var_dump($placeholder);
+    // isi result dengan label = id area / alias distributor
+    // isi result dengan alias area = alias area
+    foreach ($result as $key => $value) {
+      foreach ($area  as $ak => $ai) {
+        if ($key == $ai['id_area']) {
+          $result[$key][0]['label'] = $ai['area'];
+          $result[$key][0]['alias_area'] = $ai['alias_area'];
+        }
+      }
+
+      foreach ($list_distributor as $ldk => $ldv) {
+          $result[$key][$ldk+1]['label'] = $ldv['alias_distributor'];
+      }
+    }
+    // var_dump($result);
+
+    // isi result dengan alias area = alias area pada key yang bukan 0
+    foreach ($result as $key => $value) {
+      foreach ($value as $vk => $vv) {
+        if ($vk != 0) {
+          foreach ($area as $ak => $av) {
+            if ($key == $av['id_area']) {
+              $result[$key][$vk]['alias_area'] = $av['alias_area'];
+            }
+          }
+        }
+      }
+    }
+
+    // isi result dengan placeholder per bulan
+    foreach ($result as $key => $value) {
+      foreach ($value as $k => $v) {
+        foreach ($empty_col as $eck => $ecv) {
+          $result[$key][$k][$eck] = $result[$key][$k]['label'].$result[$key][$k]['alias_area'].$ecv;
+        }
+      }
+    }
+    // var_dump($result);
+
+    foreach ($result as $key => $value) {
+      foreach ($value as $index => $item) {
+        foreach ($item as $k => $v) {
+          if (in_array($k, $col)) {
+            $result[$key][$index][$k] = str_replace(array_keys($replacement), $replacement, $result[$key][$index][$k], $count);
+            if ($count == 0) {
+              $result[$key][$index][$k] = 0;
+            }             
+          }
+        }
+      }
+    }
+    // var_dump($result);
+    
+    // var_dump(ksort($result));
+    // die();
+    ksort($result);
+    // var_dump($result);
+    return $result;
+  }
+
   public function data_sales_distributor_jenis_product()
   {
+    $data['thead'] = $this->saldis->get_placeholder_per_month('d.id as id_area,
+      UPPER(d.area) as area,
+      UPPER(d.alias_area) as alias_area');
+    $data['list_distributor'] = $this->saldis->get_title('UPPER(c.alias_distributor) as alias_distributor');
+    $result_builder = $this->saldis->get_data_per_month('d.id as id_area,
+      d.area,
+      b.id as id_distributor,
+      c.id as alias_distributor,
+      CONCAT(c.alias_distributor, d.alias_area, "01") as jan, 
+      CONCAT(c.alias_distributor, d.alias_area, "02") as feb, 
+      CONCAT(c.alias_distributor, d.alias_area, "03") as mar, 
+      CONCAT(c.alias_distributor, d.alias_area, "04") as apr, 
+      CONCAT(c.alias_distributor, d.alias_area, "05") as may, 
+      CONCAT(c.alias_distributor, d.alias_area, "06") as jun, 
+      CONCAT(c.alias_distributor, d.alias_area, "07") as jul, 
+      CONCAT(c.alias_distributor, d.alias_area, "08") as aug, 
+      CONCAT(c.alias_distributor, d.alias_area, "09") as sep, 
+      CONCAT(c.alias_distributor, d.alias_area, "10") as oct, 
+      CONCAT(c.alias_distributor, d.alias_area, "11") as nov, 
+      CONCAT(c.alias_distributor, d.alias_area, "12") as des');
+    $data['sales_distributor'] = $this->result_builder_sales_distributor($result_builder['data']->result_array());
+
     $this->load->view('head');
     $this->load->view('navbar');
-    $this->load->view('report/data-sales-distributor-jenis-product');
+    $this->load->view('report/sales-distributor/data-sales-distributor-jenis-product', $data);
     $this->load->view('footer-js');
   }
 
@@ -590,7 +753,7 @@ class Report extends CI_Controller {
   // stok distributor
   public function stock_produk_distributor()
   {
-    $data['stok_distributor'] = $this->stokd->get_data('a.id_distributor, UPPER(c.nama) as nama_distributor, UPPER(d.alias_distributor) as alias_distributor, b.id, UPPER(b.nama) as nama, UPPER(b.kemasan) as kemasan, a.stok as jumlah');
+    $data['stok_distributor'] = $this->stokd->get_data('a.id_distributor, UPPER(c.nama) as nama_distributor, UPPER(d.alias_distributor) as alias_distributor, UPPER(e.area) as area, b.id, UPPER(b.nama) as nama, UPPER(b.kemasan) as kemasan, a.stok as jumlah');
 
     $this->load->view('head');
     $this->load->view('navbar');

@@ -72,6 +72,7 @@ class Sales_Distributor extends CI_Model {
     $this->db->join('master_distributor c', 'b.id_distributor = c.id');
     $this->db->join('area d', 'b.id_area = d.id');
     $this->db->join('produk e', 'a.id_produk = e.id');
+    $this->db->join('sales_outlet_diskon f', 'a.id = f.id_sales_outlet', 'left');
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
     $this->db->group_by('CONCAT(c.id, d.id)', FALSE);
@@ -92,7 +93,67 @@ class Sales_Distributor extends CI_Model {
     // die();
     return $ret_val;
   }
+  // end of - kebutuhan dashboard
 
-  // End of - kebutuhan dashboard
+  // kebutuhan report > sales distributor
+  
+  public function get_placeholder_per_month($column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('sales_outlet a');
+    $this->db->join('distributor b', 'a.id_distributor = b.id');
+    $this->db->join('master_distributor c', 'b.id_distributor = c.id');
+    $this->db->join('area d', 'b.id_area = d.id');
+    $this->db->where('a.tahun', $this->session->userdata('tahun'));
+    $this->db->where('a.hapus', null);
+    $this->db->group_by('d.id');
+    $this->db->order_by('d.id');
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    // echo $this->db->last_query();
+    // die();
+    return $ret_val;
+  }
+
+  public function get_data_per_month($column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('sales_outlet a');
+    $this->db->join('distributor b', 'a.id_distributor = b.id');
+    $this->db->join('master_distributor c', 'b.id_distributor = c.id');
+    $this->db->join('area d', 'b.id_area = d.id');
+    $this->db->join('produk e', 'a.id_produk = e.id');
+    $this->db->join('sales_outlet_diskon f', 'a.id = f.id_sales_outlet', 'left');
+    $this->db->where('a.tahun', $this->session->userdata('tahun'));
+    $this->db->where('a.hapus', null);
+    $this->db->group_by('CONCAT(a.id_distributor, d.alias_area, DATE_FORMAT(a.tanggal, \'%m\'))', FALSE);
+    $this->db->order_by('c.alias_distributor');
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    // echo $this->db->last_query();
+    // die();
+    return $ret_val;
+  }
+  // end of - kebutuhan report > sales distributor
 
 }

@@ -15,9 +15,32 @@ class Barang_Stok_Distributor extends CI_Model {
     $this->db->join('produk b', 'a.id_barang = b.id');
     $this->db->join('distributor c', 'a.id_distributor = c.id');
     $this->db->join('master_distributor d', 'c.id_distributor = d.id');
+    $this->db->join('area e', 'c.id_area = e.id');
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
     $this->db->order_by('a.id_distributor, a.id_barang');
+    $result = $this->db->get();
+    if ( ! $result) {
+      $ret_val = array(
+        'status' => 'error',
+        'data' => $this->db->error()
+        );
+    } else {
+      $ret_val = array(
+        'status' => 'success',
+        'data' => $result
+        );
+    }
+    return $ret_val;
+  }
+
+  public function show($id_distributor, $id_barang, $column = '*')
+  {
+    $this->db->select($column, FALSE);
+    $this->db->from('barang_stok_distributor');
+    $this->db->where('id_distributor', $id_distributor);
+    $this->db->where('id_barang', $id_barang);
+    $this->db->where('hapus', null);
     $result = $this->db->get();
     if ( ! $result) {
       $ret_val = array(

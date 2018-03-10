@@ -51,6 +51,7 @@ class Sales_Outlet extends CI_Model {
     $this->db->join('outlet b', 'a.id_outlet = b.id');
     $this->db->join('produk c', 'a.id_produk = c.id');
     $this->db->join('area d', 'b.id_area = d.id');
+    $this->db->join('sales_outlet_diskon e', 'a.id = e.id_sales_outlet', 'left');
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
     $this->db->group_by('a.id_produk, b.id_area');
@@ -90,6 +91,7 @@ class Sales_Outlet extends CI_Model {
     $this->db->join('outlet b', 'a.id_outlet = b.id');
     $this->db->join('produk c', 'a.id_produk = c.id');
     $this->db->join('area d', 'b.id_area = d.id');
+    $this->db->join('sales_outlet_diskon e', 'a.id = e.id_sales_outlet', 'left');
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
     $this->db->group_by('CONCAT(a.id_produk, d.alias_area, DATE_FORMAT(a.tanggal, \'%m\'))', FALSE);
@@ -132,6 +134,7 @@ class Sales_Outlet extends CI_Model {
     $this->db->join('outlet b', 'a.id_outlet = b.id');
     $this->db->join('produk c', 'a.id_produk = c.id');
     $this->db->join('area d', 'b.id_area = d.id');
+    $this->db->join('sales_outlet_diskon e', 'a.id = e.id_sales_outlet', 'left');
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
     $this->db->group_by('id_outlet');
@@ -167,6 +170,7 @@ class Sales_Outlet extends CI_Model {
     $this->db->from('sales_outlet a');
     $this->db->join('outlet b', 'a.id_outlet = b.id');
     $this->db->join('produk c', 'a.id_produk = c.id');
+    $this->db->join('sales_outlet_diskon d', 'a.id = d.id_sales_outlet', 'left');
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
     $this->db->group_by('CONCAT(a.id_outlet, DATE_FORMAT(a.tanggal, \'%m\'))', FALSE);
@@ -203,6 +207,7 @@ class Sales_Outlet extends CI_Model {
     $this->db->select($column, FALSE);
     $this->db->from('sales_outlet a');
     $this->db->join('produk b', 'a.id_produk = b.id');
+    $this->db->join('sales_outlet_diskon c', 'a.id = c.id_sales_outlet', 'left');
     $this->db->where('a.id_outlet', $id_outlet);
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
@@ -238,6 +243,7 @@ class Sales_Outlet extends CI_Model {
     $this->db->select($column, FALSE);
     $this->db->from('sales_outlet a');
     $this->db->join('produk b', 'a.id_produk = b.id');
+    $this->db->join('sales_outlet_diskon c', 'a.id = c.id_sales_outlet');
     $this->db->where('a.id_outlet', $id_outlet);
     $this->db->where('a.tahun', $this->session->userdata('tahun'));
     $this->db->where('a.hapus', null);
@@ -276,6 +282,12 @@ class Sales_Outlet extends CI_Model {
   public function store($data = array())
   {
     $query = $this->db->set($data)->get_compiled_insert('sales_outlet');
+    $this->db->query($query);
+  }
+
+  public function store_diskon($data = array())
+  {
+    $query = $this->db->set($data)->get_compiled_insert('sales_outlet_diskon');
     $this->db->query($query);
   }
 }

@@ -167,6 +167,9 @@ $route['store-daily-sales/(:any)'] = 'Report/store_daily_sales/$1';
 $route['daily-sales-outlet'] = 'Report/daily_sales_outlet';
 $route['daily-sales-outlet-product/(:any)'] = 'Report/daily_sales_outlet_produk/$1';
 
+$route['show-ko'] = 'Report/show_ko';
+$route['show-stok'] = 'Report/show_stok';
+
 // -- stok
 $route['stock-produk-nucleus'] = 'Report/stock_produk_nucleus';
 $route['detail-permohonan-barang-nucleus/(:any)'] = 'Report/detail_permohonan_barang_nucleus/$1';
@@ -176,6 +179,9 @@ $route['show-verifikasi-pbn'] = 'Report/show_verifikasi_pbn';
 $route['verifikasi-pbn'] = 'Report/store_verifikasi_barang_nucleus';
 
 $route['stock-produk-distributor'] = 'Report/stock_produk_distributor';
+
+// -- sales distributor
+$route['sales-distributor'] = 'Report/data_sales_distributor_jenis_product';
 
 $route['analisis-sales-general'] = 'Report/analisis_sales_general';
 $route['detail-analisis-sales-general'] = 'Report/detail_analisis_sales_general';

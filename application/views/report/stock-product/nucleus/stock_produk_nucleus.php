@@ -76,13 +76,13 @@
                       </button>
                       <strong>Informasi!</strong> Tabel di bawah ini berisi informasi stok barang <strong>terkini</strong>. Informasi mengenai permintaan barang untuk keperluan pengisian stok produk Nucleus dapat dilihat pada tabel lain di halaman ini. Anda dapat menambah permintaan stok produk dengan menekan tautan <a href="#page-form" class="alert-link">ini</a>.
                     </div>
-                    <div class="table-responsive height-300 border-top-red">
-                      <table class="table table-xs table-hover mb-0">
+                    <div class="table-responsive height-300">
+                      <table class="table table-xs table-hover display nowrap scroll-horizontal-vertical  border-top-red" id="stok-produk">
                         <thead>
                           <tr>
                             <th width="10%">Kode Produk</th>
                             <th>Nama Produk</th>
-                            <th>Kemasan</th>
+                            <th width="15%">Kemasan</th>
                             <th width="15%">Quantity</th>
                           </tr>
                         </thead>
@@ -142,8 +142,8 @@
                 <?php endif; ?>
                 <!-- /alert -->
                 <!-- Tabel -->
-                <div class="table-responsive height-350 border-top-red">
-                  <table class="table table-xs table-hover mb-0">
+                <div class="table-responsive height-350">
+                  <table class="table table-xs table-hover display nowrap scroll-horizontal-vertical  border-top-red" id="produk-delivered">
                     <thead>
                       <tr>
                         <th>Nomor Surat</th>
@@ -191,8 +191,8 @@
             <div class="card-body">
               <div class="card-block">
                 <!-- Tabel -->
-                <div class="table-responsive height-350 border-top-red">
-                  <table class="table table-xs table-hover mb-0">
+                <div class="table-responsive height-350">
+                  <table class="table table-xs table-hover display nowrap scroll-horizontal-vertical  border-top-red" id="produk-waiting">
                     <thead>
                       <tr>
                         <th>Nomor Surat</th>
@@ -320,8 +320,6 @@
   </div>
 </div>
 
-
-
 <!-- modal-verifikasi -->
 <div class="modal fade" id="verifikasi" role="dialog" aria-labelledby="verifikasi" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -427,5 +425,22 @@
       $(target_selector).append(element);
       $('.select2-single').select2();
     });
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('#stok-produk, #produk-delivered, #produk-waiting').DataTable({
+        "paging": false,
+      });
+      $('#stok-produk_wrapper > .row:last, #produk-delivered_wrapper > .row:last, #produk-waiting_wrapper > .row:last').remove();
+      $('#stok-produk_filter, #produk-delivered_filter, #produk-waiting_filter').css({
+        'text-align': 'center',
+      });
+      $('#stok-produk_wrapper > .row:first, #produk-delivered_wrapper > .row:first, #produk-waiting_wrapper > .row:first').children(':first').remove();
+      $('#stok-produk_filter, #produk-delivered_filter, #produk-waiting_filter').parent().addClass('col-xs-12').removeClass('col-md-6');
+      $('#stok-produk_filter > label > input, #produk-delivered_filter > label > input, #produk-waiting_filter > label > input').addClass('input-md').removeClass('input-sm').attr({
+        placeholder: 'Keyword',
+      });
   });
 </script>

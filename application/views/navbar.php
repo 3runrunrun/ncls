@@ -197,7 +197,7 @@
                 </li>
               </ul>
             </li>
-            <li data-menu=""><a href="<?php echo site_url() ?>/Report/data_sales_distributor_jenis_product" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Sales distributor dan jenis product (all area per year)</a>
+            <li data-menu=""><a href="<?php echo site_url() ?>/sales-distributor" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Sales Distributor dan Jenis Product (all area per year)</a>
             </li>
             <li data-menu=""><a href="<?php echo site_url() ?>/stock-produk-nucleus" data-toggle="dropdown" class="dropdown-item"><i class="fa fa-file"></i>Data Stock Product (Nucleus)</a>
             </li>

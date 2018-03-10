@@ -13,6 +13,17 @@
     <script src="<?php echo base_url()?>/assets/assets_in/slick.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/screenfull.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/pace.min.js" type="text/javascript"></script>
+
+    <!-- datatable -->
+    <script src="<?php echo base_url()?>/assets/assets_in/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url()?>/assets/assets_in/datatable/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url()?>/assets/assets_in/datatable/dataTables.buttons.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url()?>/assets/assets_in/datatable/buttons.bootstrap4.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url()?>/assets/assets_in/datatable/buttons.colVis.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url()?>/assets/assets_in/datatable/buttons.print.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url()?>/assets/assets_in/datatable/dataTables.select.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url()?>/assets/assets_in/datatable/dataTables.select.min.js" type="text/javascript"></script>
+
     <!-- /build-->
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
@@ -27,7 +38,7 @@
     <script src="<?php echo base_url()?>/assets/assets_in/morris.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/unslider-min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>/assets/assets_in/echarts.js" type="text/javascript"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>/assets/assets_in/selective.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>/assets/assets_in/selectize.min.js"></script>
     <!-- END PAGE VENDOR JS-->
     <!-- BEGIN ROBUST JS-->
     <!-- build:js app-assets/js/app.min.js-->

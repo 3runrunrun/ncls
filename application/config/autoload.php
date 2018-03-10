@@ -179,6 +179,7 @@ $autoload['model'] = array(
   'Promo_Trial_Status',
   'ko/Ko_General' => 'kog',
   'ko/Ko_Tender' => 'kot',
+  'ko/All_Ko' => 'ako',
   // -- permohonan produk
   'permohonan_produk/nucleus/Permohonan_Produk_Nucleus' => 'ppn',
   'permohonan_produk/nucleus/Permohonan_Produk_Nucleus_Detail' => 'ppnd',

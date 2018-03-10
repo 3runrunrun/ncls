@@ -32,6 +32,7 @@
                         <thead>
                           <tr>
                             <th width="20%">Distributor</th>
+                            <th width="10%">Area</th>
                             <th width="10%">Kode Produk</th>
                             <th>Nama Produk</th>
                             <th>Kemasan</th>
@@ -42,6 +43,7 @@
                           <?php foreach ($stok_distributor['data']->result() as $value): ?>
                           <tr>
                             <td>(<?php echo $value->alias_distributor; ?>) <?php echo $value->nama_distributor; ?></td>
+                            <td><?php echo $value->area; ?></td>
                             <td><?php echo strtoupper($value->id); ?></td>
                             <td><?php echo $value->nama; ?></td>
                             <td><?php echo $value->kemasan; ?></td>

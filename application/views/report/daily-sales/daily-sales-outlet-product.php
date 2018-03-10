@@ -11,69 +11,15 @@
               <h4 class="card-title">Daily Sales (per Outlet per Product)</h4>
               <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
             </div>
-            <div class="card-body collapse in">
-              <div class="card-block">
-                <div class="col-xs-12 col-sm-4 offset-sm-4">
-                  <form method="POST" class="form" role="form">
-                    <div class="form-group row">
-                      <div class="col-xs-8">
-                        <select class="form-control select2" name="id_area">
-                          <option value="" selected disabled>Pilih Area</option>
-                          <?php if ($area['data']->num_rows() < 1): ?>
-                          <option value="">Area PPG belum tersedia</option>
-                          <?php else: ?>
-                          <?php foreach ($area['data']->result() as $value): ?>
-                          <option value="<?php echo $value->id; ?>">(<?php echo $value->alias_area; ?>) - <?php echo $value->id; ?> - <?php echo strtoupper($value->area); ?></option>
-                          <?php endforeach ?>
-                          <?php endif; ?>
-                        </select>
-                      </div>
-                      <div class="col-xs-4">
-                        <button class="btn btn-primary" type="button"><i class="fa fa-search"></i>&nbsp;Cari</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-
-              <!-- alert -->
-              <div class="card-block">
-                <?php if ( ! is_null($this->session->flashdata())): ?>
-                <?php if ( ! is_null($this->session->flashdata('error_msg'))): ?>  
-                <div class="alert alert-danger alert-dismissible fade in mb-2" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <?php echo $this->session->flashdata('error_msg'); ?>
-                </div>
-                <?php elseif ( ! is_null($this->session->flashdata('success_msg'))): ?>
-                <div class="alert alert-success alert-dismissible fade in mb-2" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <?php echo $this->session->flashdata('success_msg'); ?>
-                </div>
-                <?php elseif ( ! is_null($this->session->flashdata('query_msg'))): ?>
-                <div class="bs-callout-danger callout-border-left mt-1 p-1">
-                  <strong>Database Error!</strong>
-                  <p><?php echo $this->session->flashdata('query_msg')['message']; ?> <strong><?php echo $this->session->flashdata('query_msg')['code']; ?></strong></p>
-                </div><br />
-                <?php endif; ?>
-                <?php endif; ?>
-              </div>
-              <!-- /alert -->
-
-              <div class="card-block">
+            <div class="card-body">
+              <!-- table -->
+              <div class="card-block">
                 <?php foreach ($outlet['data']->result() as $values): ?>  
                 <h4>Nama Outlet: <span class="tag tag-primary tag-lg"><?php echo $values->nama_outlet; ?></span></h4>
                 <h4>Area: <span class="tag tag-primary tag-lg"><?php echo $values->area; ?></span></h4>
                 <?php endforeach; ?>
-              </div>
-
-              <!-- table -->
-              <div class="card-block">
-                <div class="table-responsive height-400 border-top-red">
-                  <table class="table table-xs table-bordered table-hover mb-0">
+                <div class="table-responsive height-400">
+                  <table class="table table-xs table-bordered table-hover display nowrap scroll-horizontal-vertical border-top-red" id="detail-sales-outlet">
                       <thead>
                         <tr>
                           <th style="text-align: center !important; vertical-align: text-top !important">Kode<br />Produk</th>
@@ -133,6 +79,22 @@
     $('tbody > tr:odd').attr({
       class: 'bg-table-red',
     });
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('#detail-sales-outlet').DataTable({
+        "paging": false,
+      });
+      $('#detail-sales-outlet_wrapper > .row:last').remove();
+      $('#detail-sales-outlet_filter').css({
+        'text-align': 'center',
+      });
+      $('#detail-sales-outlet_wrapper > .row:first').children(':first').remove();
+      $('#detail-sales-outlet_filter').parent().addClass('col-xs-12').removeClass('col-md-6');
+      $('#detail-sales-outlet_filter > label > input').addClass('input-md').removeClass('input-sm').attr({
+        placeholder: 'Keyword',
+      });
   });
 </script>
 

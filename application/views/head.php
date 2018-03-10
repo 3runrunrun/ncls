@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">.gm-style .gm-style-mtc label,.gm-style .gm-style-mtc div{font-weight:400}
-</style><link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>assets/assets_in/css">
+</style><link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>assets/assets/assets_in/css">
 <style type="text/css">.gm-style .gm-style-cc span,.gm-style .gm-style-cc a,.gm-style .gm-style-mtc div{font-size:10px}
 </style>
 <style type="text/css">@media print {  .gm-style .gmnoprint, .gmnoprint {    display:none  }}@media screen {  .gm-style .gmnoscreen, .gmnoscreen {    display:none  }}</style>
@@ -29,6 +29,12 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/flag-icon.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/slick.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/pace.css">
+    <!-- datatable -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>/assets/assets_in/datatable/dataTables.bootstrap4.min.css" type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>/assets/assets_in/datatable/buttons.dataTables.min.css" type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>/assets/assets_in/datatable/buttons.bootstrap4.min.css" type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>/assets/assets_in/datatable/datatable-basic.min.js" type="text/javascript">
+    <!-- datatable -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/select2.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/icheck.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/assets_in/custom.css">
@@ -68,8 +74,8 @@
   <script src="<?php echo base_url()?>/assets/js/bootstrap.min.js" type="text/javascript"></script>
   <script src="<?php echo base_url()?>/assets/js/jquery.min.js" type="text/javascript"></script>
   <link href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css" rel="stylesheet" />
-    <script src="http://cdn.oesmith.co.uk/morris-0.5.0.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="http://cdn.oesmith.co.uk/morris-0.5.0.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
